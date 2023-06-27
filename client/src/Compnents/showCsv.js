@@ -12,6 +12,9 @@ const ShowCsv = () => {
     useState(1);
   const [totalPagesFields, setTotalPagesFields] = useState(1);
   const [totalPagesGeneratedFields, setTotalPagesGeneratedFields] = useState(1);
+  const [searchTextFields, setSearchTextFields] = useState("");
+  const [searchTextGeneratedFields, setSearchTextGeneratedFields] =
+    useState("");
 
   const pageSize = 15;
   const navigate = useNavigate();
@@ -102,16 +105,49 @@ const ShowCsv = () => {
     setCurrentPageGeneratedFields(page);
   };
 
+  const handleSearchFields = (event) => {
+    setSearchTextFields(event.target.value);
+    setCurrentPageFields(1);
+  };
+
+  const handleSearchGeneratedFields = (event) => {
+    setSearchTextGeneratedFields(event.target.value);
+    setCurrentPageGeneratedFields(1);
+  };
+
   const getPaginatedData = (data, currentPage) => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     return data.slice(startIndex, endIndex);
   };
 
+  const filterData = (data, searchText) => {
+    return data.filter((item) => {
+      const studentName = item.Student_Name
+        ? item.Student_Name.toLowerCase()
+        : "";
+      const studentID = item.Student_ID ? item.Student_ID.toLowerCase() : "";
+      const search = searchText.toLowerCase();
+      return studentName.includes(search) || studentID.includes(search);
+    });
+  };
+
+  const filteredFields = filterData(fields, searchTextFields);
+  const filteredGeneratedFields = filterData(
+    generatedFields,
+    searchTextGeneratedFields
+  );
+
   return (
     <div className="row">
       <div className="col" style={{ borderRight: "1px solid #ccc" }}>
         <h1>Generate Challan</h1>
+        <input
+          type="text"
+          placeholder="Search Students..."
+          value={searchTextFields}
+          onChange={handleSearchFields}
+        />
         <table className="table">
           <thead>
             <tr>
@@ -122,21 +158,23 @@ const ShowCsv = () => {
             </tr>
           </thead>
           <tbody>
-            {getPaginatedData(fields, currentPageFields).map((field, index) => (
-              <tr key={index}>
-                <td>{field.challan_generation_id}</td>
-                <td>{field.Student_Name}</td>
-                <td>{field.Student_ID}</td>
-                <td>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handlePrintChallan(field)}
-                  >
-                    Print Challan
-                  </button>{" "}
-                </td>
-              </tr>
-            ))}
+            {getPaginatedData(filteredFields, currentPageFields).map(
+              (field, index) => (
+                <tr key={index}>
+                  <td>{field.challan_generation_id}</td>
+                  <td>{field.Student_Name}</td>
+                  <td>{field.Student_ID}</td>
+                  <td>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handlePrintChallan(field)}
+                    >
+                      Print Challan
+                    </button>{" "}
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
         <div className="pagination">
@@ -164,6 +202,12 @@ const ShowCsv = () => {
       <div className="col">
         <div className="col">
           <h1>Generated Challan</h1>
+          <input
+            type="text"
+            placeholder="Search Students..."
+            value={searchTextGeneratedFields}
+            onChange={handleSearchGeneratedFields}
+          />
           <table className="table">
             <thead>
               <tr>
@@ -175,7 +219,7 @@ const ShowCsv = () => {
             </thead>
             <tbody>
               {getPaginatedData(
-                generatedFields,
+                filteredGeneratedFields,
                 currentPageGeneratedFields
               ).map((field, index) => (
                 <tr key={index}>
