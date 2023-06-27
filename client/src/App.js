@@ -11,6 +11,7 @@ import ShowCsv from "./Compnents/showCsv";
 import Login from "./Compnents/login";
 import FeeVerification from "./Compnents/feeVerification";
 import GenrateChallan from "./Compnents/genrateChallan";
+import EmailVerification from "./Compnents/emailVerification";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function AppContent() {
         <Route path="/login" element={<Login />} />
         <Route path="/feeverification" element={<FeeVerification />} />
         <Route path="/genratechallan" element={<GenrateChallan />} />
+        <Route path="/emailverification" element={<EmailVerification />} />
       </Routes>
     </div>
   );

@@ -4,6 +4,8 @@ import UniLogo from "../images/uni_logo.png";
 import jsPDF from "jspdf";
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
+import axios from "axios";
+import { BASE_URL } from "../baseUrl";
 import { lazy, Suspense } from "react";
 
 const GenrateChallan = () => {
@@ -70,21 +72,87 @@ const GenrateChallan = () => {
         console.log("An error occurred while generating PDF: ", error);
       });
   };
+  const sendPdfToBackend = () => {
+    const divToPrint = document.getElementById("main_div");
+    setIsLoading(true);
+    divToPrint.style.width = "78%";
+    divToPrint.style.height = "100%";
+
+    html2canvas(divToPrint, { scale: 5 })
+      .then((canvas) => {
+        const contentWidth = canvas.width;
+        const contentHeight = canvas.height;
+
+        const pdf = new jsPDF("landscape", "mm", "a4");
+
+        const ratio = contentWidth / contentHeight;
+        const canvasWidth = pdf.internal.pageSize.getWidth();
+        const canvasHeight = canvasWidth / ratio;
+
+        pdf.addImage(
+          canvas.toDataURL("image/png"),
+          "PNG",
+          0,
+          0,
+          canvasWidth,
+          canvasHeight,
+          "",
+          "FAST"
+        );
+
+        const pdfData = pdf.output("blob"); // Get the PDF data as a Blob
+
+        // Create FormData object and append the PDF file
+        const formData = new FormData();
+        formData.append("pdfFile", pdfData, `${email}.pdf`);
+
+        // Make an HTTP POST request to your Laravel backend API endpoint
+        fetch(`${BASE_URL}/api/sendEmail`, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the response from the backend
+            console.log("PDF saved on the server:", data);
+            setIsLoading(false);
+            navigate("/showcsv");
+          })
+          .catch((error) => {
+            console.log(
+              "An error occurred while saving PDF on the server:",
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        console.log("An error occurred while generating PDF: ", error);
+      });
+  };
 
   return (
     <>
+      <br></br>
       <div className="d-flex justify-content-center">
         {isLoading ? (
           <div className="loading">
             <h1>Loading.....</h1>
           </div>
         ) : (
-          <button
-            className="btn btn-primary mx-auto d-block"
-            onClick={generatePDF}
-          >
-            Download Challan
-          </button>
+          <>
+            <button
+              className="btn btn-primary mx-auto d-block"
+              onClick={generatePDF}
+            >
+              Download Challan
+            </button>
+            <button
+              className="btn btn-primary mx-auto d-block"
+              onClick={sendPdfToBackend}
+            >
+              Send Email
+            </button>
+          </>
         )}
       </div>
       <div id="main_div" className="row">

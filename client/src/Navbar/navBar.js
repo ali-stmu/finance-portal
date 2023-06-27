@@ -60,19 +60,21 @@ const NavBar = () => {
               data-toggle="modal"
               data-target="#viewModal"
             >
-              View Generated Challans
+              Challans
             </Link>
           </li>
-          {/* <li className="nav-item">
-            <Link
-              className="nav-link btn btn-link"
-              to="/genratechallan"
-              data-toggle="modal"
-              data-target="#viewModal"
-            >
-              Generate Challan
-            </Link>
-          </li> */}
+          {
+            <li className="nav-item">
+              <Link
+                className="nav-link btn btn-link"
+                to="/emailverification"
+                data-toggle="modal"
+                data-target="#viewModal"
+              >
+                Email Verification
+              </Link>
+            </li>
+          }
           <li className="nav-item">
             <Link
               className="nav-link btn btn-link"
