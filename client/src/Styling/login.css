@@ -1,0 +1,46 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f2f2f2; /* Set background color to a light grey */
+}
+
+.login-card {
+  width: 400px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.5s;
+  background-color: #ffffff; /* Set card background color to white */
+}
+
+.login-card h2 {
+  color: #555555; /* Set heading color to a darker grey */
+  margin-bottom: 20px;
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #cccccc; /* Set input border color to a lighter grey */
+  border-radius: 5px;
+}
+
+.login-card button[type="submit"] {
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10000px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
