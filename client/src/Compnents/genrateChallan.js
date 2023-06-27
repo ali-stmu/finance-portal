@@ -511,7 +511,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            Admission Fee
+                            Semester Fee
                           </td>
                           <td
                             align="center"
@@ -520,7 +520,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {admission_fee}
+                            {totalAmount}
                           </td>
                           <td
                             align="center"
@@ -529,65 +529,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {admission_fee}
-                          </td>
-                        </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
-                          <td
-                            colSpan="2"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            Tuition Fee
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TuitionFee}
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TuitionFee}
-                          </td>
-                        </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
-                          <td
-                            colSpan="2"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            Discount
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TotalDiscount}
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TotalDiscount}
+                            {totalAmount}
                           </td>
                         </tr>
                         <tr>
@@ -627,6 +569,11 @@ const GenrateChallan = () => {
                         <tr>
                           <td colSpan="4" align="center">
                             <hr style={{ border: "1px solid black" }} />
+                            <p>
+                              <b>Note:</b> Security fee (Refundable) 12,000 and
+                              admission charges 32,400 (non-refundable) are the
+                              part of program fee.
+                            </p>
                           </td>
                         </tr>
                         <tr align="left" style={{ fontSize: "11px" }}>
@@ -1057,7 +1004,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            Admission Fee
+                            Semester Fee
                           </td>
                           <td
                             align="center"
@@ -1066,7 +1013,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {admission_fee}
+                            {totalAmount}
                           </td>
                           <td
                             align="center"
@@ -1075,65 +1022,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {admission_fee}
-                          </td>
-                        </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
-                          <td
-                            colSpan="2"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            Tuition Fee
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TuitionFee}
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TuitionFee}
-                          </td>
-                        </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
-                          <td
-                            colSpan="2"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            Discount
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TotalDiscount}
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TotalDiscount}
+                            {totalAmount}
                           </td>
                         </tr>
                         <tr>
@@ -1173,6 +1062,11 @@ const GenrateChallan = () => {
                         <tr>
                           <td colSpan="4" align="center">
                             <hr style={{ border: "1px solid black" }} />
+                            <p>
+                              <b>Note:</b> Security fee (Refundable) 12,000 and
+                              admission charges 32,400 (non-refundable) are the
+                              part of program fee.
+                            </p>
                           </td>
                         </tr>
                         <tr align="left" style={{ fontSize: "11px" }}>
@@ -1603,7 +1497,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            Admission Fee
+                            Semester Fee
                           </td>
                           <td
                             align="center"
@@ -1612,7 +1506,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {admission_fee}
+                            {totalAmount}
                           </td>
                           <td
                             align="center"
@@ -1621,65 +1515,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {admission_fee}
-                          </td>
-                        </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
-                          <td
-                            colSpan="2"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            Tuition Fee
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TuitionFee}
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TuitionFee}
-                          </td>
-                        </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
-                          <td
-                            colSpan="2"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            Discount
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TotalDiscount}
-                          </td>
-                          <td
-                            align="center"
-                            style={{
-                              border: "1px solid black",
-                              padding: "5px",
-                            }}
-                          >
-                            {TotalDiscount}
+                            {totalAmount}
                           </td>
                         </tr>
                         <tr>
@@ -1719,6 +1555,11 @@ const GenrateChallan = () => {
                         <tr>
                           <td colSpan="4" align="center">
                             <hr style={{ border: "1px solid black" }} />
+                            <p>
+                              <b>Note:</b> Security fee (Refundable) 12,000 and
+                              admission charges 32,400 (non-refundable) are the
+                              part of program fee.
+                            </p>
                           </td>
                         </tr>
                         <tr align="left" style={{ fontSize: "11px" }}>
