@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import NavBar from "./Navbar/navBar";
 import UploadCsv from "./Compnents/uploadCsv";
@@ -27,13 +28,20 @@ function AppContent() {
   // Check if the current location is the login route
   const isLoginRoute = location.pathname === "/login";
 
+  const loginCheck = sessionStorage.getItem("user");
+
   // Check if session data exists
-  //const isLoggedIn = /* Your session check logic */;
+  const isLoggedIn = !!loginCheck;
+
+  if (!isLoggedIn && !isLoginRoute) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="App">
       {!isLoginRoute && <NavBar />}
       {/* Render the navbar only if it's not the login route and the user is logged in */}
+
       <Routes>
         <Route path="/uploadcsv" element={<UploadCsv />} />
         <Route path="/showcsv" element={<ShowCsv />} />
