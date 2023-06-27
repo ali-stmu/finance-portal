@@ -151,7 +151,7 @@ const ShowCsv = () => {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Sr.No</th>
               <th>Student Name</th>
               <th>Student ID</th>
               <th></th>
@@ -161,7 +161,7 @@ const ShowCsv = () => {
             {getPaginatedData(filteredFields, currentPageFields).map(
               (field, index) => (
                 <tr key={index}>
-                  <td>{field.challan_generation_id}</td>
+                  <td>{(currentPageFields - 1) * pageSize + index + 1}</td>
                   <td>{field.Student_Name}</td>
                   <td>{field.Student_ID}</td>
                   <td>
@@ -211,7 +211,7 @@ const ShowCsv = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Sr.No</th>
                 <th>Student Name</th>
                 <th>Student ID</th>
                 <th></th>
@@ -223,7 +223,7 @@ const ShowCsv = () => {
                 currentPageGeneratedFields
               ).map((field, index) => (
                 <tr key={index}>
-                  <td>{field.challan_generation_id}</td>
+                  {(currentPageGeneratedFields - 1) * pageSize + index + 1}{" "}
                   <td>{field.Student_Name}</td>
                   <td>{field.Student_ID}</td>
                   <td>
