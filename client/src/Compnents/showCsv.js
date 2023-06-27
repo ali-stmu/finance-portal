@@ -16,7 +16,7 @@ const ShowCsv = () => {
   const [searchTextGeneratedFields, setSearchTextGeneratedFields] =
     useState("");
 
-  const pageSize = 15;
+  const pageSize = 12;
   const navigate = useNavigate();
 
   const fetchFields = async () => {
@@ -140,7 +140,11 @@ const ShowCsv = () => {
 
   return (
     <div className="row">
-      <div className="col" style={{ borderRight: "1px solid #ccc" }}>
+      <div
+        className="col"
+        style={{ padding: "10px 30px 20px", borderRight: "1px solid black" }}
+      >
+        {" "}
         <h1>Generate Challan</h1>
         <input
           type="text"
@@ -151,10 +155,10 @@ const ShowCsv = () => {
         <table className="table">
           <thead>
             <tr>
-              <th>Sr.No</th>
+              <th>Sr. No</th>
               <th>Student Name</th>
               <th>Student ID</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -170,102 +174,127 @@ const ShowCsv = () => {
                       onClick={() => handlePrintChallan(field)}
                     >
                       Print Challan
-                    </button>{" "}
+                    </button>
                   </td>
                 </tr>
               )
             )}
           </tbody>
         </table>
-        <div className="pagination">
-          <button
-            className="btn btn-secondary left"
-            onClick={() => handlePageChangeFields(currentPageFields - 1)}
-            disabled={currentPageFields === 1}
-          >
-            Previous
-          </button>
-          <span className="page-number">
-            <strong>
-              {currentPageFields} - {totalPagesFields}{" "}
-            </strong>
-          </span>
-          <button
-            className="btn btn-secondary right"
-            onClick={() => handlePageChangeFields(currentPageFields + 1)}
-            disabled={currentPageFields === totalPagesFields}
-          >
-            Next
-          </button>
-        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>
+                <button
+                  className="btn btn-secondary left"
+                  onClick={() => handlePageChangeFields(currentPageFields - 1)}
+                  disabled={currentPageFields === 1}
+                >
+                  Previous
+                </button>
+              </th>
+              <th>
+                <span className="page-number">
+                  <strong>
+                    {currentPageFields} - {totalPagesFields}
+                  </strong>
+                </span>
+              </th>
+              <th>
+                <button
+                  className="btn btn-secondary right"
+                  onClick={() => handlePageChangeFields(currentPageFields + 1)}
+                  disabled={currentPageFields === totalPagesFields}
+                >
+                  Next
+                </button>
+              </th>
+            </tr>
+          </thead>{" "}
+        </table>
       </div>
-      <div className="col">
-        <div className="col">
-          <h1>Generated Challan</h1>
-          <input
-            type="text"
-            placeholder="Search Students..."
-            value={searchTextGeneratedFields}
-            onChange={handleSearchGeneratedFields}
-          />
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Sr.No</th>
-                <th>Student Name</th>
-                <th>Student ID</th>
-                <th></th>
+      <div className="col" style={{ padding: "10px 30px 20px" }}>
+        <h1>Generated Challan</h1>
+        <input
+          type="text"
+          placeholder="Search Students..."
+          value={searchTextGeneratedFields}
+          onChange={handleSearchGeneratedFields}
+        />
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th>Student Name</th>
+              <th>Student ID</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {getPaginatedData(
+              filteredGeneratedFields,
+              currentPageGeneratedFields
+            ).map((field, index) => (
+              <tr key={index}>
+                <td>
+                  {(currentPageGeneratedFields - 1) * pageSize + index + 1}
+                </td>
+                <td>{field.Student_Name}</td>
+                <td>{field.Student_ID}</td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handlePrintChallan(field)}
+                  >
+                    Re-Generate Challan
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {getPaginatedData(
-                filteredGeneratedFields,
-                currentPageGeneratedFields
-              ).map((field, index) => (
-                <tr key={index}>
-                  {(currentPageGeneratedFields - 1) * pageSize + index + 1}{" "}
-                  <td>{field.Student_Name}</td>
-                  <td>{field.Student_ID}</td>
-                  <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handlePrintChallan(field)}
-                    >
-                      Re-Generate Challan
-                    </button>{" "}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="pagination">
-            <button
-              className="btn btn-secondary left"
-              onClick={() =>
-                handlePageChangeGeneratedFields(currentPageGeneratedFields - 1)
-              }
-              disabled={currentPageGeneratedFields === 1}
-            >
-              Previous
-            </button>
-            <span className="page-number">
-              <strong>
-                {currentPageGeneratedFields} - {totalPagesGeneratedFields}
-              </strong>
-            </span>
-            <button
-              className="btn btn-secondary right"
-              onClick={() =>
-                handlePageChangeGeneratedFields(currentPageGeneratedFields + 1)
-              }
-              disabled={
-                currentPageGeneratedFields === totalPagesGeneratedFields
-              }
-            >
-              Next
-            </button>
-          </div>
-        </div>
+            ))}
+          </tbody>
+        </table>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>
+                {" "}
+                <button
+                  className="btn btn-secondary left"
+                  onClick={() =>
+                    handlePageChangeGeneratedFields(
+                      currentPageGeneratedFields - 1
+                    )
+                  }
+                  disabled={currentPageGeneratedFields === 1}
+                >
+                  Previous
+                </button>
+              </th>
+              <th>
+                <span className="page-number">
+                  <strong>
+                    {currentPageGeneratedFields} - {totalPagesGeneratedFields}
+                  </strong>
+                </span>
+              </th>
+              <th>
+                <button
+                  className="btn btn-secondary right"
+                  onClick={() =>
+                    handlePageChangeGeneratedFields(
+                      currentPageGeneratedFields + 1
+                    )
+                  }
+                  disabled={
+                    currentPageGeneratedFields === totalPagesGeneratedFields
+                  }
+                >
+                  Next
+                </button>
+              </th>
+            </tr>
+          </thead>
+        </table>
       </div>
     </div>
   );
