@@ -28,7 +28,7 @@ Route::post('/uploadcsv', [UploadController::class, 'store']);
 Route::post('/feeChallanData', [fetchForChallan::class, 'feeChallanData']);
 Route::post('/feeChallanGeneratedData', [fetchForChallan::class, 'feeChallanGeneratedData']);
 Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan']);
-Route::post('/sendEmail', [fetchForChallan::class, 'sendEmail']);
+Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}', [fetchForChallan::class, 'sendEmail']);
 
 
 

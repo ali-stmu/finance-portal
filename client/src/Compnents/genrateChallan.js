@@ -33,6 +33,7 @@ const GenrateChallan = () => {
   const parts = rollNo.split("-");
   const programName = parts[0];
   const email = parsedValue.email;
+
   console.log(email);
   const generatePDF = () => {
     const divToPrint = document.getElementById("main_div");
@@ -107,10 +108,13 @@ const GenrateChallan = () => {
         formData.append("pdfFile", pdfData, `${email}.pdf`);
 
         // Make an HTTP POST request to your Laravel backend API endpoint
-        fetch(`${BASE_URL}/api/sendEmail`, {
-          method: "POST",
-          body: formData,
-        })
+        fetch(
+          `${BASE_URL}/api/sendEmail/${voucherID}/${email}/${studentName}/${rollNo}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             // Handle the response from the backend

@@ -62,8 +62,34 @@ class fetchForChallan extends Controller
             ]);
         }
 
-        public function sendEmail(Request $request){
+        public function sendEmail(Request $request,$id,$email,$studentName,$programName){
 
+            log::debug($email.$studentName.$programName.$id);
+
+            $explodedProgramName = explode("-", $programName);
+            $explodedProgramName[0];
+        
+            $pname='';
+
+            if( $explodedProgramName[0]=='BS(AI)')
+            {
+                    $pname='Artificial Intelligence BS(AI)';
+            }
+            else if( $explodedProgramName[0]=='BS(CS)')
+            {   
+                $pname='Computer Science BS(CS)';
+
+            }
+           else if( $explodedProgramName[0]=='BS(SE)')
+            {
+                $pname='Software Engineering BS(SE)';
+            }
+            if( $explodedProgramName[0]=='BS(CySec)')
+            {
+                $pname='Cyber Security BS(CySec) ';
+
+            }
+            
 
             $request->validate([
                 'pdfFile' => 'required|mimes:pdf',
@@ -76,9 +102,12 @@ class fetchForChallan extends Controller
         
             // Process and send the email using the PDF file as an attachment
             // Your email sending logic goes here
-            $userEmail ='khubaib.mis@stmu.edu.pk';
-            $message="hello jee";
-            $emailSubject="subject jee";
+            $userEmail =$email;
+            $documentCheckList = "https://drive.google.com/file/d/1TQQ3jrXrdZhRc2Tbtb9KwHcCKER-sz19/view?usp=drive_link";
+
+            //status 1 krna ha 
+          //  $message="hello jee";
+            $emailSubject="ADMISSION OFFER LETTER, SHIFA TAMEER-E-MILLAT UNIVERSITY - (STMU)";
             $emailContent = '
 <html>
 <head>
@@ -91,14 +120,14 @@ class fetchForChallan extends Controller
 </head>
 <body>
     <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5;">
-        <p>Ref No: /BS(AI)/Admission Offer/Fall/2023-500X Dated: July 01, 2023</p>
-        <p>Name: &lt;Student-Name&gt;</p>
-        <p>Admission ID: BS(AI)-500X</p>
+      
+        <p>Name: '.$studentName.'</p>
+        <p>Admission ID: '.$programName.'</p>
 
-        <h3 style="text-align: center; text-decoration: underline;"></u>PROVISIONAL ADMISSION IN Bachelor of Science Artificial Intelligence BS(AI) PROGRAM</u></h3>
-        <p>Reference: Your application regarding admission in Bachelor of Science Artificial Intelligence BS(AI) program in Fall 2023 was evaluated based on your academic record and entry test at Department of Computing.</p>
+        <h3 style="text-align: center; text-decoration: underline;"></u>PROVISIONAL ADMISSION IN Bachelor of Science '.$pname.'</u></h3>
+        <p>Reference: Your application regarding admission in Bachelor of Science '.$pname.' program in Fall 2023 was evaluated based on your academic record and entry test at Department of Computing.</p>
         <ol>
-            <li>We are pleased to offer you provisional admission in Bachelor of Science Artificial Intelligence BS(AI). This admission is being offered based on HSSC-I result. Please note, if the combined result of HSSC remains below the required eligibility, the admission will stand cancel.</li>
+            <li>We are pleased to offer you provisional admission in Bachelor of Science '.$pname.'. This admission is being offered based on HSSC-I result. Please note, if the combined result of HSSC remains below the required eligibility, the admission will stand cancel.</li>
             <li>Your registration with the university will, however, be confirmed after the receiving of following documents latest by July 15, 2023.
         
         <ol type="a">
@@ -116,8 +145,17 @@ class fetchForChallan extends Controller
         </li>
         </ol>
        
+       
         <p>We welcome you in the Department of Computing at Shifa Tameer-e-Millat University and assure you that the university, its faculty, and management will provide you excellent opportunities to grow and achieve your best as an individual as well as a professional.</p>
-    </div>
+        <p>Your Challan Form is attached herewith and Click <a href="' . $documentCheckList . '">here</a> to download the document checklist.</p>
+        <p>
+        For further queries do not hesitate to reach us at:
+        <li>Email:admissions.ssc@stmu.edu.pk</li>
+        <li>Dr. Tayyab:+92 333 599 8335 </li>
+        <li>Mr. Ghulam Mustafa:+92 313 954 1028 </li>
+        <li>Mr. Zeeshan:+92 332 565 4512 </li>
+    </p>
+        </div>
 </body>
 </html>
 ';
