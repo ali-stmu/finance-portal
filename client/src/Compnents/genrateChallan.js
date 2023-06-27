@@ -18,10 +18,11 @@ const GenrateChallan = () => {
   const [showLazyComponent, setShowLazyComponent] = useState(false);
   // Access other attributes as needed
   const collegeName = "Shifa Tameer-e-Millat University";
+  const AccountTitle = "Shifa Tameer-e-Millat University, Islamabad";
   const voucherID = parsedValue.challan_generation_id;
   const date = parsedValue.issue_date;
   const dueDate = parsedValue.Due_Date;
-  const bankAccountNumber = "1234567890";
+  const bankAccountNumber = "1161003012610002";
   const studentName = parsedValue.Student_Name;
   const rollNo = parsedValue.Student_ID;
   const session = parsedValue.session;
@@ -208,7 +209,7 @@ const GenrateChallan = () => {
                             <img
                               src={BankLogo}
                               alt="Bank Logo"
-                              style={{ width: "100px", height: "100px" }}
+                              style={{ width: "100px", height: "50px" }}
                             />
                           </td>
                         </tr>
@@ -316,7 +317,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {collegeName}
+                            {AccountTitle}
                           </td>
                         </tr>
                         <tr align="left" style={{ fontSize: "11px" }}>
@@ -754,7 +755,7 @@ const GenrateChallan = () => {
                             <img
                               src={BankLogo}
                               alt="Bank Logo"
-                              style={{ width: "100px", height: "100px" }}
+                              style={{ width: "100px", height: "50px" }}
                             />
                           </td>
                         </tr>
@@ -862,7 +863,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {collegeName}
+                            {AccountTitle}
                           </td>
                         </tr>
                         <tr align="left" style={{ fontSize: "11px" }}>
@@ -1300,7 +1301,7 @@ const GenrateChallan = () => {
                             <img
                               src={BankLogo}
                               alt="Bank Logo"
-                              style={{ width: "100px", height: "100px" }}
+                              style={{ width: "100px", height: "50px" }}
                             />
                           </td>
                         </tr>
@@ -1408,7 +1409,7 @@ const GenrateChallan = () => {
                               padding: "5px",
                             }}
                           >
-                            {collegeName}
+                            {AccountTitle}
                           </td>
                         </tr>
                         <tr align="left" style={{ fontSize: "11px" }}>
