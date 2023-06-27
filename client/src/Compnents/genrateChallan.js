@@ -570,9 +570,9 @@ const GenrateChallan = () => {
                           <td colSpan="4" align="center">
                             <hr style={{ border: "1px solid black" }} />
                             <p>
-                              <b>Note:</b> Security fee (Refundable) 12,000 and
+                              <b>Note:</b> Security fee 12,000 (Refundable) and
                               admission charges 32,400 (non-refundable) are the
-                              part of program fee.
+                              part of program fee.
                             </p>
                           </td>
                         </tr>
@@ -1063,9 +1063,9 @@ const GenrateChallan = () => {
                           <td colSpan="4" align="center">
                             <hr style={{ border: "1px solid black" }} />
                             <p>
-                              <b>Note:</b> Security fee (Refundable) 12,000 and
+                              <b>Note:</b> Security fee 12,000 (Refundable) and
                               admission charges 32,400 (non-refundable) are the
-                              part of program fee.
+                              part of program fee.
                             </p>
                           </td>
                         </tr>
@@ -1556,9 +1556,9 @@ const GenrateChallan = () => {
                           <td colSpan="4" align="center">
                             <hr style={{ border: "1px solid black" }} />
                             <p>
-                              <b>Note:</b> Security fee (Refundable) 12,000 and
+                              <b>Note:</b> Security fee 12,000 (Refundable) and
                               admission charges 32,400 (non-refundable) are the
-                              part of program fee.
+                              part of program fee.
                             </p>
                           </td>
                         </tr>
