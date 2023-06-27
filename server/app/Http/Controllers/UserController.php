@@ -17,7 +17,7 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->role = $request->input('role');
-        $user->save();
+        log::debug($user->save());
 
         return response()->json(['message' => 'Signup successful'], 201);
     }
