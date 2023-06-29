@@ -40,6 +40,17 @@ class fetchForChallan extends Controller
     
     
         }
+        public function feeChallanEmailedData(){
+            $fields = Upload::select('challan_generation_id','Challan_No', 'issue_date', 'inst_issue_date', 'inst_due_date', 'challan_status', 'Due_Date', 'installment', 'Student_ID', 'Admission_fee', 'Tuition_fee', 'Tuition_fee_Discount', 'Total_Amount', 'Student_Name', 'Semester', 'session','email')
+            ->where('email_status', 1)
+            ->get();
+        
+            return response()->json([
+                'fields' => $fields
+            ]);
+        
+        
+            }
         public function updateGenrateChallan(Request $request, $id)
         {
             // Perform any necessary validation or checks
@@ -178,8 +189,16 @@ class fetchForChallan extends Controller
                         'mime' => 'application/pdf',
                     ]);
             });
-
-        
+            $upload = Upload::find($id);
+            log::debug($upload);
+            if ($upload) {
+                $upload->email_status = 1; // Set challan_status to 1 (generated)
+                $upload->save();
+    
+                // Additional logic if needed
+            } else {
+                // Handle case when upload with $id is not found
+            }
             // Return a response indicating success
             return response()->json(['message' => 'Email sent successfully']);
             

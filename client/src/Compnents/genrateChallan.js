@@ -40,8 +40,8 @@ const GenrateChallan = () => {
     const divToPrint = document.getElementById("main_div");
     setIsLoading(true);
     //divToPrint.style.transform = "rotate(90deg)";
-    // Set the width of the div to 100% of the parent container
-    // Set the height of the div to 100% of the parent container
+    //divToPrint.style.width = "78%"; // Set the width of the div to 100% of the parent container
+    //divToPrint.style.height = "100%"; // Set the height of the div to 100% of the parent container
 
     html2canvas(divToPrint, { scale: 5 })
       .then((canvas) => {
@@ -77,6 +77,8 @@ const GenrateChallan = () => {
   const sendPdfToBackend = () => {
     const divToPrint = document.getElementById("main_div");
     setIsLoading(true);
+    //divToPrint.style.width = "78%";
+    //divToPrint.style.height = "100%";
 
     html2canvas(divToPrint, { scale: 5 })
       .then((canvas) => {
