@@ -11,7 +11,6 @@ import { lazy, Suspense } from "react";
 const GenrateChallan = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
   // console.log();
   const storedValue = localStorage.getItem("tempDataStudent");
   const parsedValue = JSON.parse(storedValue);
@@ -41,8 +40,8 @@ const GenrateChallan = () => {
     const divToPrint = document.getElementById("main_div");
     setIsLoading(true);
     //divToPrint.style.transform = "rotate(90deg)";
-    divToPrint.style.width = "78%"; // Set the width of the div to 100% of the parent container
-    divToPrint.style.height = "100%"; // Set the height of the div to 100% of the parent container
+    //divToPrint.style.width = "78%"; // Set the width of the div to 100% of the parent container
+    //divToPrint.style.height = "100%"; // Set the height of the div to 100% of the parent container
 
     html2canvas(divToPrint, { scale: 5 })
       .then((canvas) => {
@@ -78,8 +77,8 @@ const GenrateChallan = () => {
   const sendPdfToBackend = () => {
     const divToPrint = document.getElementById("main_div");
     setIsLoading(true);
-    divToPrint.style.width = "78%";
-    divToPrint.style.height = "100%";
+    //divToPrint.style.width = "78%";
+    //divToPrint.style.height = "100%";
 
     html2canvas(divToPrint, { scale: 5 })
       .then((canvas) => {
