@@ -17,7 +17,7 @@ function Login() {
       email: email,
       password: password,
     };
-
+    navigate("/uploadcsv");
     // Make the API call
     fetch(`${BASE_URL}/api/login`, {
       method: "POST",

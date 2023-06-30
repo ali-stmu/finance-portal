@@ -73,20 +73,20 @@ class fetchForChallan extends Controller
 
             if( $explodedProgramName[0]=='BS(AI)')
             {
-                    $pname='Artificial Intelligence BS(AI)';
+                    $pname='Artificial Intelligence (BSAI)';
             }
             else if( $explodedProgramName[0]=='BS(CS)')
             {   
-                $pname='Computer Science BS(CS)';
+                $pname='Computer Science (BSCS)';
 
             }
            else if( $explodedProgramName[0]=='BS(SE)')
             {
-                $pname='Software Engineering BS(SE)';
+                $pname='Software Engineering (BSSE)';
             }
             if( $explodedProgramName[0]=='BS(CySec)')
             {
-                $pname='Cyber Security BS(CySec) ';
+                $pname='Cyber Security (BSCySec) ';
 
             }
             
@@ -103,7 +103,7 @@ class fetchForChallan extends Controller
             // Process and send the email using the PDF file as an attachment
             // Your email sending logic goes here
             $userEmail =$email;
-            $documentCheckList = "https://drive.google.com/file/d/1TQQ3jrXrdZhRc2Tbtb9KwHcCKER-sz19/view?usp=drive_link";
+            $documentCheckList = "https://drive.google.com/file/d/1E5izg1RhlB-yAyCspBjQ-z_lrUugTDgg/view?usp=sharing";
 
             //status 1 krna ha 
           //  $message="hello jee";
@@ -124,11 +124,11 @@ class fetchForChallan extends Controller
         <p>Name: '.$studentName.'</p>
         <p>Admission ID: '.$programName.'</p>
 
-        <h3 style="text-align: center; text-decoration: underline;"></u>PROVISIONAL ADMISSION IN Bachelor of Science '.$pname.'</u></h3>
-        <p>Reference: Your application regarding admission in Bachelor of Science '.$pname.' program in Fall 2023 was evaluated based on your academic record and entry test at Department of Computing.</p>
+        <h3 style="text-align: center; text-decoration: underline;"></u>PROVISIONAL ADMISSION IN Bachelor of Science in '.$pname.'</u></h3>
+        <p>Reference: Your application regarding admission in Bachelor of Science in '.$pname.' program in Fall 2023 was evaluated. Based on your academic record and entry test held at Department of Computing.</p>
         <ol>
-            <li>We are pleased to offer you provisional admission in Bachelor of Science '.$pname.'. This admission is being offered based on HSSC-I result. Please note, if the combined result of HSSC remains below the required eligibility, the admission will stand cancel.</li>
-            <li>Your registration with the university will, however, be confirmed after the receiving of following documents latest by July 15, 2023.
+            <li>We are pleased to offer you provisional admission in Bachelor of Science '.$pname.'. This admission is being offered based on your attained HSSC-I result. Please note that if the combined result of HSSC remains below the required eligibility (i.e. <50% marks), the admission will stand cancelled.</li>
+            <li>Your registration with the University will, however, be confirmed after the receiving of following documents latest by July 7, 2023:
         
         <ol type="a">
             <li>Attested photocopies of SSC/Equivalent and HSSC/Equivalent documents as per attached checklist.</li>
@@ -136,8 +136,8 @@ class fetchForChallan extends Controller
             <li>Affidavit as per attached format on Rs 20/ or 50/- stamp paper.</li>
             <li> The Required documents be submitted at:
             <br>
-            Student Affair Office, Park Road Campus,
-            Shifa Tameer-e-Millat University, Park-Road campus (PRC), near Chateh Pull, Islamabad. <br>
+            Department of Computing,Park Road Campus,
+            Shifa Tameer-e-Millat University, Park-Road campus (PRC), Opposite Medikay Cardiac Centre, Park Road, Islamabad, Islamabad. <br>
             Office Hours: Monday to Friday 9:00 AM to 4:00 PM.<br>
             This admission shall be cancelled in case of any false/misinformation found at any stage.
     </li>
@@ -146,7 +146,8 @@ class fetchForChallan extends Controller
         </ol>
        
        
-        <p>We welcome you in the Department of Computing at Shifa Tameer-e-Millat University and assure you that the university, its faculty, and management will provide you excellent opportunities to grow and achieve your best as an individual as well as a professional.</p>
+        <p>We welcome you to the Department of Computing at Shifa Tameer-e-Millat University and assure you that the STMU, its faculty, and management will provide you with a dynamic learning environment effective in achieving your professional endeavors. 
+        </p>
         <p>Your Challan Form is attached herewith and Click <a href="' . $documentCheckList . '">here</a> to download the document checklist.</p>
         <p>
         For further queries do not hesitate to reach us at:
