@@ -13,6 +13,7 @@ import Login from "./Compnents/login";
 import FeeVerification from "./Compnents/feeVerification";
 import GenrateChallan from "./Compnents/genrateChallan";
 import EmailVerification from "./Compnents/emailVerification";
+import NotFound from "./Compnents/notFound";
 
 function App() {
   return (
@@ -39,8 +40,10 @@ function AppContent() {
 
   return (
     <div className="App">
-      {!isLoginRoute && <NavBar />}
-      {/* Render the navbar only if it's not the login route and the user is logged in */}
+      {!isLoginRoute && !location.pathname.startsWith("/notfound") && (
+        <NavBar />
+      )}
+      {/* Render the navbar only if it's not the login route, not the notFound route, and the user is logged in */}
 
       <Routes>
         <Route path="/uploadcsv" element={<UploadCsv />} />
@@ -49,9 +52,10 @@ function AppContent() {
         <Route path="/feeverification" element={<FeeVerification />} />
         <Route path="/genratechallan" element={<GenrateChallan />} />
         <Route path="/emailverification" element={<EmailVerification />} />
+        <Route path="/notfound" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/notfound" />} />
       </Routes>
     </div>
   );
 }
-
 export default App;
