@@ -11,7 +11,7 @@ const NotFound = () => {
         className="img-fluid mt-5"
       />
       <p className="mt-5">
-        Go back to <a href="/login">homepage</a>.
+        Go back to <a href="/">homepage</a>.
       </p>
     </div>
   );

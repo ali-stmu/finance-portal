@@ -52,6 +52,7 @@ function AppContent() {
         <Route path="/feeverification" element={<FeeVerification />} />
         <Route path="/genratechallan" element={<GenrateChallan />} />
         <Route path="/emailverification" element={<EmailVerification />} />
+        <Route path="/" element={<UploadCsv />} />
         <Route path="/notfound" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/notfound" />} />
       </Routes>
