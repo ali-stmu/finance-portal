@@ -196,7 +196,7 @@ const ShowCsv = () => {
               </button>
               <span class="page-number">
                 <strong>
-                  {currentPageFields} - {totalPagesFields}
+                  {currentPageFields} of {totalPagesFields}
                 </strong>
               </span>
               <button
@@ -271,7 +271,7 @@ const ShowCsv = () => {
               </button>
               <span class="page-number">
                 <strong>
-                  {currentPageGeneratedFields} - {totalPagesGeneratedFields}
+                  {currentPageGeneratedFields} of {totalPagesGeneratedFields}
                 </strong>
               </span>
               <button

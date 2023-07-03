@@ -170,7 +170,7 @@ const EmailVerification = () => {
                     </button>
                     <span class="page-number">
                       <strong>
-                        {currentPageGeneratedFields} -{" "}
+                        {currentPageGeneratedFields} of{" "}
                         {totalPagesGeneratedFields}
                       </strong>
                     </span>

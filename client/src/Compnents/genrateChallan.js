@@ -163,7 +163,12 @@ const GenrateChallan = () => {
       <div id="main_div" className="row">
         <div
           className="col-sm"
-          style={{ marginTop: "15px", overflow: "scroll", width: "920px" }}
+          style={{
+            marginTop: "15px",
+            overflow: "scroll",
+            width: "920px",
+            textAlign: "center",
+          }}
           id="div_print_1"
         >
           <table width="100%">
@@ -679,7 +684,12 @@ const GenrateChallan = () => {
         </div>
         <div
           className="col-sm"
-          style={{ marginTop: "15px", overflow: "scroll", width: "920px" }}
+          style={{
+            marginTop: "15px",
+            overflow: "scroll",
+            width: "920px",
+            textAlign: "center",
+          }}
           id="div_print_1"
         >
           <table width="100%">
@@ -1195,7 +1205,12 @@ const GenrateChallan = () => {
         </div>
         <div
           className="col-sm"
-          style={{ marginTop: "15px", overflow: "scroll", width: "920px" }}
+          style={{
+            marginTop: "15px",
+            overflow: "scroll",
+            width: "920px",
+            textAlign: "center",
+          }}
           id="div_print_1"
         >
           <table width="100%">
