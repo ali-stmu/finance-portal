@@ -11,5 +11,57 @@
       transform: rotate(360deg);
     }
   }
+
+  /* ShowCsv.css */
+/* Styling for the table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Style the table header */
+.table thead th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Alternate row background colors */
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect for rows */
+.table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style buttons */
+.btn {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-sm {
+  font-size: 12px;
+}
+
+/* Blurred effect for the popup */
+.blurred {
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+
   
   

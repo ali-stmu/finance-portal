@@ -20,7 +20,6 @@ const ShowCsv = () => {
   const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
-
   const pageSize = 12;
   const navigate = useNavigate();
   const fetchFields = async () => {
@@ -294,7 +293,7 @@ const ShowCsv = () => {
                       className="btn btn-primary"
                       onClick={() => handlePrintChallan(field)}
                     >
-                      Re-Generate Challan
+                      <i className="fas fa-print">Re-Generate Challan</i>{" "}
                     </button>
                   </td>
                 </tr>
@@ -392,7 +391,7 @@ const ShowCsv = () => {
               animation: "font-size 0.5s ease-out",
             }}
           >
-            Column updated successfully
+            Student updated successfully
           </h1>
         </div>
       )}
