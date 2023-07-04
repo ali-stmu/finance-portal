@@ -1,7 +1,9 @@
 import React from "react";
 import "../Styling/edit.css";
+import { BASE_URL } from "../baseUrl";
 
 const EditChallanPopup = ({
+  primaryKey,
   dueDate,
   studentID,
   studentName,
@@ -23,16 +25,33 @@ const EditChallanPopup = ({
   const handleSave = () => {
     // Create an object with the edited data
     const editedData = {
-      dueDate: editedDueDate,
-      studentID: editedStudentID,
-      studentName: editedStudentName,
-      totalAmount: editedTotalAmount,
-      tuitionFee: editedTuitionFee,
+      Due_Date: editedDueDate,
+      Student_ID: editedStudentID,
+      Student_Name: editedStudentName,
+      Total_Amount: editedTotalAmount,
+      Tuition_fee: editedTuitionFee,
       email: editedEmail,
     };
+    // Make the API call to update the data
+    fetch(`${BASE_URL}/api/update/${primaryKey}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the backend if needed
+        console.log(data);
 
-    // Pass the edited data to the onSave callback
-    onSave(editedData);
+        // Call the onSave callback if necessary
+        onSave(data);
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the API call
+        console.error(error);
+      });
   };
 
   // Handle email input change

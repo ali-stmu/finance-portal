@@ -122,4 +122,35 @@ class UploadController extends Controller
 
 
     }
+    public function update(Request $request, $primaryKey)
+    {
+        // Get the data from the request
+        $editedData = $request->all();
+
+
+        // Update the column in the database
+        try {
+            // Assuming you have a model called Challan and the column you want to update is 'column_name'
+            $challan = Upload::where('challan_generation_id', $primaryKey)->first();
+            if ($challan) {
+                $challan->Due_Date = $editedData['Due_Date'];
+                $challan->Student_ID = $editedData['Student_ID'];
+                $challan->Student_Name = $editedData['Student_Name'];
+                $challan->Total_Amount = $editedData['Total_Amount'];
+                $challan->Tuition_fee = $editedData['Tuition_fee'];
+                $challan->email = $editedData['email'];
+
+                $challan->save();
+                
+                // Return a success response
+                return response()->json(['message' => 'Column updated successfully']);
+            } else {
+                // Return an error response if the record is not found
+                return response()->json(['message' => 'Record not found'], 404);
+            }
+        } catch (\Exception $e) {
+            // Return an error response if an exception occurs
+            return response()->json(['message' => 'Error updating column'], 500);
+        }
+    }
 }

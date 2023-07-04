@@ -19,6 +19,8 @@ const ShowCsv = () => {
     useState("");
   const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+
   const pageSize = 12;
   const navigate = useNavigate();
   const fetchFields = async () => {
@@ -103,6 +105,9 @@ const ShowCsv = () => {
     // Perform any necessary save/update logic here
     console.log("Edited data:", editedData);
 
+    // Set the update success status to true
+    setUpdateSuccess(true);
+
     // Close the edit popup
     setShowEditPopup(false);
   };
@@ -110,7 +115,18 @@ const ShowCsv = () => {
   useEffect(() => {
     fetchFields();
     fetchFieldsGenerated();
-  }, []);
+    let timeoutId;
+
+    if (updateSuccess) {
+      timeoutId = setTimeout(() => {
+        setUpdateSuccess(false);
+      }, 2000); // Set the duration (in milliseconds) for how long the success message should be displayed
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [updateSuccess]);
 
   const handlePageChangeFields = (page) => {
     setCurrentPageFields(page);
@@ -322,6 +338,7 @@ const ShowCsv = () => {
           </div>
         </div>
       </div>
+
       {showEditPopup && (
         <div
           style={{
@@ -334,9 +351,12 @@ const ShowCsv = () => {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            animation: "fade-in 0.5s ease-out",
           }}
         >
           <EditChallanPopup
+            primaryKey={selectedFieldForEdit.challan_generation_id}
             dueDate={selectedFieldForEdit.Due_Date}
             studentID={selectedFieldForEdit.Student_ID}
             studentName={selectedFieldForEdit.Student_Name}
@@ -346,6 +366,34 @@ const ShowCsv = () => {
             onSave={handleSaveEditPopup}
             onClose={() => setShowEditPopup(false)}
           />
+        </div>
+      )}
+      {updateSuccess && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#dff0d8",
+            border: "1px solid #d0e9c6",
+            padding: "20px",
+            textAlign: "center",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            animation: "fade-in 0.5s ease-out",
+          }}
+        >
+          <h1
+            style={{
+              color: "green",
+              fontSize: "50px",
+              margin: "0",
+              animation: "font-size 0.5s ease-out",
+            }}
+          >
+            Column updated successfully
+          </h1>
         </div>
       )}
     </div>

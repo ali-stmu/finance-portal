@@ -1,4 +1,15 @@
 .blurred {
     filter: blur(3px);
   }
+  @keyframes font-size {
+    0% {
+      font-size: 0px;
+      transform: rotate(0deg);
+    }
+    100% {
+      font-size: 50px;
+      transform: rotate(360deg);
+    }
+  }
+  
   

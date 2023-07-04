@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/signup', [UserController::class, 'signup']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/uploadcsv', [UploadController::class, 'store']);
-
+Route::post('/update/{primaryKey}', [UploadController::class, 'update']);
 Route::post('/feeChallanData', [fetchForChallan::class, 'feeChallanData']);
 
 Route::post('/feeChallanGeneratedData', [fetchForChallan::class, 'feeChallanGeneratedData']);
