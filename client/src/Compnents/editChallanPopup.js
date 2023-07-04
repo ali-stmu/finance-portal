@@ -14,14 +14,7 @@ const EditChallanPopup = ({
   onClose,
 }) => {
   // Define local state for input fields
-  const [editedDueDate, setEditedDueDate] = React.useState(
-    new Date(dueDate).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
-  );
+  const [editedDueDate, setEditedDueDate] = React.useState(dueDate);
   const [editedStudentID, setEditedStudentID] = React.useState(studentID);
   const [editedStudentName, setEditedStudentName] = React.useState(studentName);
   const [editedTotalAmount, setEditedTotalAmount] = React.useState(totalAmount);
