@@ -39,16 +39,15 @@ const GenrateChallan = () => {
   const generatePDF = () => {
     const divToPrint = document.getElementById("main_div");
     setIsLoading(true);
-    //divToPrint.style.transform = "rotate(90deg)";
-    //divToPrint.style.width = "78%"; // Set the width of the div to 100% of the parent container
-    //divToPrint.style.height = "100%"; // Set the height of the div to 100% of the parent container
 
-    html2canvas(divToPrint, { scale: 5 })
+    html2canvas(divToPrint, {
+      scale: 1,
+      imageSmoothingEnabled: false,
+    })
       .then((canvas) => {
         const contentWidth = canvas.width;
         const contentHeight = canvas.height;
 
-        // Adjust page orientation to portrait
         const pdf = new jsPDF("landscape", "mm", "a4");
 
         const ratio = contentWidth / contentHeight;
@@ -74,13 +73,14 @@ const GenrateChallan = () => {
         console.log("An error occurred while generating PDF: ", error);
       });
   };
+
   const sendPdfToBackend = () => {
     const divToPrint = document.getElementById("main_div");
     setIsLoading(true);
     //divToPrint.style.width = "78%";
     //divToPrint.style.height = "100%";
 
-    html2canvas(divToPrint, { scale: 5 })
+    html2canvas(divToPrint, { scale: 2 })
       .then((canvas) => {
         const contentWidth = canvas.width;
         const contentHeight = canvas.height;
@@ -163,12 +163,7 @@ const GenrateChallan = () => {
       <div id="main_div" className="row">
         <div
           className="col-sm"
-          style={{
-            marginTop: "15px",
-            overflow: "scroll",
-            width: "920px",
-            textAlign: "center",
-          }}
+          style={{ marginTop: "15px", overflow: "scroll", width: "920px" }}
           id="div_print_1"
         >
           <table width="100%">
@@ -177,7 +172,7 @@ const GenrateChallan = () => {
                 <td>
                   <div
                     style={{
-                      width: "400px",
+                      width: "500px",
                       border: "solid 2px black",
                       padding: "0px",
                       textAlign: "center",
@@ -232,7 +227,7 @@ const GenrateChallan = () => {
                       className="mystyle"
                       style={{
                         fontFamily: "Arial",
-                        fontSize: "11px",
+                        fontSize: "15px",
                         borderCollapse: "collapse",
                       }}
                     >
@@ -251,8 +246,8 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="left"
                             style={{
-                              fontSize: "11px",
-                              fontWeight: "bold",
+                              fontSize: "15px",
+                              //fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
                             }}
@@ -273,7 +268,7 @@ const GenrateChallan = () => {
                           <td
                             align="right"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -293,7 +288,7 @@ const GenrateChallan = () => {
                           <td
                             align="right"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -316,7 +311,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -325,7 +320,7 @@ const GenrateChallan = () => {
                             {AccountTitle}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             width="30%"
                             style={{
@@ -339,7 +334,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -348,7 +343,7 @@ const GenrateChallan = () => {
                             <u>{bankAccountNumber}</u>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -361,7 +356,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -370,7 +365,7 @@ const GenrateChallan = () => {
                             {programName}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -383,7 +378,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -404,7 +399,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -424,7 +419,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -433,7 +428,7 @@ const GenrateChallan = () => {
                             {pyear}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -445,7 +440,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -465,7 +460,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -493,7 +488,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -502,7 +497,7 @@ const GenrateChallan = () => {
                             1
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -531,7 +526,7 @@ const GenrateChallan = () => {
                             <b>Total (PKR)</b>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -565,7 +560,7 @@ const GenrateChallan = () => {
                             <hr style={{ border: "1px solid black" }} />
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -604,7 +599,7 @@ const GenrateChallan = () => {
                             </p>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -633,7 +628,7 @@ const GenrateChallan = () => {
                         <tr>
                           <td colSpan="4" align="center">
                             <span
-                              style={{ fontSize: "11px", fontFamily: "Arial" }}
+                              style={{ fontSize: "15px", fontFamily: "Arial" }}
                             >
                               <b>
                                 Please deposit this challan to any branch of the
@@ -657,7 +652,7 @@ const GenrateChallan = () => {
                           </td>
                         </tr>
                         <br></br>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td>
                             <b>Bank's Teller</b>
                           </td>
@@ -684,12 +679,7 @@ const GenrateChallan = () => {
         </div>
         <div
           className="col-sm"
-          style={{
-            marginTop: "15px",
-            overflow: "scroll",
-            width: "920px",
-            textAlign: "center",
-          }}
+          style={{ marginTop: "15px", overflow: "scroll", width: "920px" }}
           id="div_print_1"
         >
           <table width="100%">
@@ -698,7 +688,7 @@ const GenrateChallan = () => {
                 <td>
                   <div
                     style={{
-                      width: "400px",
+                      width: "500px",
                       border: "solid 2px black",
                       padding: "0px",
                       textAlign: "center",
@@ -753,7 +743,7 @@ const GenrateChallan = () => {
                       className="mystyle"
                       style={{
                         fontFamily: "Arial",
-                        fontSize: "11px",
+                        fontSize: "15px",
                         borderCollapse: "collapse",
                       }}
                     >
@@ -772,8 +762,8 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="left"
                             style={{
-                              fontSize: "11px",
-                              fontWeight: "bold",
+                              fontSize: "15px",
+                              //fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
                             }}
@@ -794,7 +784,7 @@ const GenrateChallan = () => {
                           <td
                             align="right"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -814,7 +804,7 @@ const GenrateChallan = () => {
                           <td
                             align="right"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -837,7 +827,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -846,7 +836,7 @@ const GenrateChallan = () => {
                             {AccountTitle}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             width="30%"
                             style={{
@@ -860,7 +850,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -869,7 +859,7 @@ const GenrateChallan = () => {
                             <u>{bankAccountNumber}</u>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -882,7 +872,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -891,7 +881,7 @@ const GenrateChallan = () => {
                             {programName}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -904,7 +894,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -925,7 +915,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -945,7 +935,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -954,7 +944,7 @@ const GenrateChallan = () => {
                             {pyear}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -966,7 +956,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -986,7 +976,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1014,7 +1004,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1023,7 +1013,7 @@ const GenrateChallan = () => {
                             1
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1052,7 +1042,7 @@ const GenrateChallan = () => {
                             <b>Total (PKR)</b>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1086,7 +1076,7 @@ const GenrateChallan = () => {
                             <hr style={{ border: "1px solid black" }} />
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1125,7 +1115,7 @@ const GenrateChallan = () => {
                             </p>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1154,7 +1144,7 @@ const GenrateChallan = () => {
                         <tr>
                           <td colSpan="4" align="center">
                             <span
-                              style={{ fontSize: "11px", fontFamily: "Arial" }}
+                              style={{ fontSize: "15px", fontFamily: "Arial" }}
                             >
                               <b>
                                 Please deposit this challan to any branch of the
@@ -1178,7 +1168,7 @@ const GenrateChallan = () => {
                           </td>
                         </tr>
                         <br></br>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td>
                             <b>Bank's Teller</b>
                           </td>
@@ -1205,12 +1195,7 @@ const GenrateChallan = () => {
         </div>
         <div
           className="col-sm"
-          style={{
-            marginTop: "15px",
-            overflow: "scroll",
-            width: "920px",
-            textAlign: "center",
-          }}
+          style={{ marginTop: "15px", overflow: "scroll", width: "920px" }}
           id="div_print_1"
         >
           <table width="100%">
@@ -1219,7 +1204,7 @@ const GenrateChallan = () => {
                 <td>
                   <div
                     style={{
-                      width: "400px",
+                      width: "500px",
                       border: "solid 2px black",
                       padding: "0px",
                       textAlign: "center",
@@ -1274,7 +1259,7 @@ const GenrateChallan = () => {
                       className="mystyle"
                       style={{
                         fontFamily: "Arial",
-                        fontSize: "11px",
+                        fontSize: "15px",
                         borderCollapse: "collapse",
                       }}
                     >
@@ -1293,8 +1278,8 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="left"
                             style={{
-                              fontSize: "11px",
-                              fontWeight: "bold",
+                              fontSize: "15px",
+                              //fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
                             }}
@@ -1315,7 +1300,7 @@ const GenrateChallan = () => {
                           <td
                             align="right"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1335,7 +1320,7 @@ const GenrateChallan = () => {
                           <td
                             align="right"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1358,7 +1343,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1367,7 +1352,7 @@ const GenrateChallan = () => {
                             {AccountTitle}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             width="30%"
                             style={{
@@ -1381,7 +1366,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1390,7 +1375,7 @@ const GenrateChallan = () => {
                             <u>{bankAccountNumber}</u>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -1403,7 +1388,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1412,7 +1397,7 @@ const GenrateChallan = () => {
                             {programName}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -1425,7 +1410,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1446,7 +1431,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1466,7 +1451,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1475,7 +1460,7 @@ const GenrateChallan = () => {
                             {pyear}
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             style={{
                               border: "1px solid black",
@@ -1487,7 +1472,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1507,7 +1492,7 @@ const GenrateChallan = () => {
                           <td
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1535,7 +1520,7 @@ const GenrateChallan = () => {
                             colSpan="3"
                             align="center"
                             style={{
-                              fontSize: "11px",
+                              fontSize: "15px",
                               fontWeight: "bold",
                               border: "1px solid black",
                               padding: "5px",
@@ -1544,7 +1529,7 @@ const GenrateChallan = () => {
                             1
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1573,7 +1558,7 @@ const GenrateChallan = () => {
                             <b>Total (PKR)</b>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1607,7 +1592,7 @@ const GenrateChallan = () => {
                             <hr style={{ border: "1px solid black" }} />
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1646,7 +1631,7 @@ const GenrateChallan = () => {
                             </p>
                           </td>
                         </tr>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td
                             colSpan="2"
                             style={{
@@ -1675,7 +1660,7 @@ const GenrateChallan = () => {
                         <tr>
                           <td colSpan="4" align="center">
                             <span
-                              style={{ fontSize: "11px", fontFamily: "Arial" }}
+                              style={{ fontSize: "15px", fontFamily: "Arial" }}
                             >
                               <b>
                                 Please deposit this challan to any branch of the
@@ -1699,7 +1684,7 @@ const GenrateChallan = () => {
                           </td>
                         </tr>
                         <br></br>
-                        <tr align="left" style={{ fontSize: "11px" }}>
+                        <tr align="left" style={{ fontSize: "15px" }}>
                           <td>
                             <b>Bank's Teller</b>
                           </td>
