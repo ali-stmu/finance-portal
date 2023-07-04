@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import axios from "axios";
+import EditChallanPopup from "./editChallanPopup";
+import "../Styling/ShowCsv.css"; // Import CSS file for styling
 
 const ShowCsv = () => {
   const [fields, setFields] = useState([]);
@@ -15,7 +17,8 @@ const ShowCsv = () => {
   const [searchTextFields, setSearchTextFields] = useState("");
   const [searchTextGeneratedFields, setSearchTextGeneratedFields] =
     useState("");
-
+  const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
+  const [showEditPopup, setShowEditPopup] = useState(false);
   const pageSize = 12;
   const navigate = useNavigate();
   const fetchFields = async () => {
@@ -91,6 +94,19 @@ const ShowCsv = () => {
     navigate("/genratechallan");
   };
 
+  const handleEditChallan = async (field) => {
+    console.log(field);
+    setSelectedFieldForEdit(field);
+    setShowEditPopup(true);
+  };
+  const handleSaveEditPopup = (editedData) => {
+    // Perform any necessary save/update logic here
+    console.log("Edited data:", editedData);
+
+    // Close the edit popup
+    setShowEditPopup(false);
+  };
+
   useEffect(() => {
     fetchFields();
     fetchFieldsGenerated();
@@ -138,23 +154,25 @@ const ShowCsv = () => {
   );
 
   return (
-    <div class="row">
+    <div className="row">
       <div
-        class="col"
-        style={{ padding: "10px 30px 20px", borderRight: "1px solid black" }}
+        className={`col ${showEditPopup ? "blurred" : ""}`} // Apply the "blurred" class when the edit popup is shown
+        style={{
+          padding: "10px 30px 20px",
+        }}
       >
         <h1>Generate Challan</h1>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             placeholder="Search Students..."
             value={searchTextFields}
             onChange={handleSearchFields}
           />
         </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped">
+        <div className="table-responsive">
+          <table className="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>Sr. No</th>
@@ -172,10 +190,17 @@ const ShowCsv = () => {
                     <td>{field.Student_ID}</td>
                     <td>
                       <button
-                        class="btn btn-primary"
+                        className="btn btn-primary"
                         onClick={() => handlePrintChallan(field)}
                       >
-                        Print Challan
+                        <i className="fas fa-print">Print Challan</i>
+                      </button>
+                      {"  "}
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleEditChallan(field)}
+                      >
+                        <i className="fas fa-edit">Edit</i>
                       </button>
                     </td>
                   </tr>
@@ -184,23 +209,23 @@ const ShowCsv = () => {
             </tbody>
           </table>
         </div>
-        <div class="row">
-          <div class="col">
-            <div class="text-center">
+        <div className="row">
+          <div className="col">
+            <div className="text-center">
               <button
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 onClick={() => handlePageChangeFields(currentPageFields - 1)}
                 disabled={currentPageFields === 1}
               >
                 Previous
               </button>
-              <span class="page-number">
+              <span className="page-number">
                 <strong>
                   {currentPageFields} of {totalPagesFields}
                 </strong>
               </span>
               <button
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 onClick={() => handlePageChangeFields(currentPageFields + 1)}
                 disabled={currentPageFields === totalPagesFields}
               >
@@ -210,19 +235,25 @@ const ShowCsv = () => {
           </div>
         </div>
       </div>
-      <div class="col" style={{ padding: "10px 30px 20px" }}>
+      <div
+        className={`col ${showEditPopup ? "blurred" : ""}`} // Apply the "blurred" class when the edit popup is shown
+        style={{
+          padding: "10px 30px 20px",
+        }}
+      >
+        {" "}
         <h1>Generated Challan</h1>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             placeholder="Search Students..."
             value={searchTextGeneratedFields}
             onChange={handleSearchGeneratedFields}
           />
         </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped">
+        <div className="table-responsive">
+          <table className="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>Sr. No</th>
@@ -244,7 +275,7 @@ const ShowCsv = () => {
                   <td>{field.Student_ID}</td>
                   <td>
                     <button
-                      class="btn btn-primary"
+                      className="btn btn-primary"
                       onClick={() => handlePrintChallan(field)}
                     >
                       Re-Generate Challan
@@ -255,11 +286,11 @@ const ShowCsv = () => {
             </tbody>
           </table>
         </div>
-        <div class="row">
-          <div class="col">
-            <div class="text-center">
+        <div className="row">
+          <div className="col">
+            <div className="text-center">
               <button
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 onClick={() =>
                   handlePageChangeGeneratedFields(
                     currentPageGeneratedFields - 1
@@ -269,13 +300,13 @@ const ShowCsv = () => {
               >
                 Previous
               </button>
-              <span class="page-number">
+              <span className="page-number">
                 <strong>
                   {currentPageGeneratedFields} of {totalPagesGeneratedFields}
                 </strong>
               </span>
               <button
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 onClick={() =>
                   handlePageChangeGeneratedFields(
                     currentPageGeneratedFields + 1
@@ -291,6 +322,32 @@ const ShowCsv = () => {
           </div>
         </div>
       </div>
+      {showEditPopup && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <EditChallanPopup
+            dueDate={selectedFieldForEdit.Due_Date}
+            studentID={selectedFieldForEdit.Student_ID}
+            studentName={selectedFieldForEdit.Student_Name}
+            totalAmount={selectedFieldForEdit.Total_Amount}
+            tuitionFee={selectedFieldForEdit.Tuition_fee}
+            email={selectedFieldForEdit.email}
+            onSave={handleSaveEditPopup}
+            onClose={() => setShowEditPopup(false)}
+          />
+        </div>
+      )}
     </div>
   );
 };

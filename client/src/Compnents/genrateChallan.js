@@ -30,7 +30,7 @@ const GenrateChallan = () => {
   const TuitionFee = parsedValue.Tuition_fee;
   const TotalDiscount = parsedValue.Tuition_fee_Discount;
   // const totalAmount = parsedValue.Total_Amount;
-  const totalAmount = "59,625";
+  const totalAmount = parsedValue.Total_Amount;
   const parts = rollNo.split("-");
   const programName = parts[0];
   const email = parsedValue.email;
