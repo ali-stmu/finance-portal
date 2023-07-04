@@ -14,7 +14,14 @@ const EditChallanPopup = ({
   onClose,
 }) => {
   // Define local state for input fields
-  const [editedDueDate, setEditedDueDate] = React.useState(dueDate);
+  const [editedDueDate, setEditedDueDate] = React.useState(
+    new Date(dueDate).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  );
   const [editedStudentID, setEditedStudentID] = React.useState(studentID);
   const [editedStudentName, setEditedStudentName] = React.useState(studentName);
   const [editedTotalAmount, setEditedTotalAmount] = React.useState(totalAmount);
@@ -24,8 +31,17 @@ const EditChallanPopup = ({
   // Handle save button click
   const handleSave = () => {
     // Create an object with the edited data
+    const formattedDueDate = new Date(editedDueDate).toLocaleDateString(
+      "en-US",
+      {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }
+    );
     const editedData = {
-      Due_Date: editedDueDate,
+      Due_Date: formattedDueDate,
       Student_ID: editedStudentID,
       Student_Name: editedStudentName,
       Total_Amount: editedTotalAmount,
