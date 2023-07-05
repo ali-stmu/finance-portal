@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link, useNavigate } from "react-router-dom";
+import "../Styling/Navbar.css"; // Import custom CSS file for NavBar styles
 
 const NavBar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     sessionStorage.clear();
+    localStorage.clear();
     navigate("/login");
   };
+
   useEffect(() => {
     const handlePopState = () => {
       if (window.location.pathname !== "/login") {
@@ -22,6 +25,7 @@ const NavBar = () => {
       window.removeEventListener("popstate", handlePopState);
     };
   }, []);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
@@ -85,15 +89,15 @@ const NavBar = () => {
               Fee Verification
             </Link>
           </li>
-          <Link className="nav-item" to="/login" onClick={handleLogout}>
-            <button
+          <li className="nav-item">
+            <Link
               className="nav-link btn btn-link"
-              type="button"
+              to="/login"
               onClick={handleLogout}
             >
               Logout
-            </button>
-          </Link>
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

@@ -14,7 +14,6 @@ const GenrateChallan = () => {
   // console.log();
   const storedValue = localStorage.getItem("tempDataStudent");
   const parsedValue = JSON.parse(storedValue);
-  const [showLazyComponent, setShowLazyComponent] = useState(false);
   // Access other attributes as needed
   const collegeName = "Shifa Tameer-e-Millat University";
   const AccountTitle = "Shifa Tameer-e-Millat University, Islamabad";
@@ -185,7 +184,7 @@ const GenrateChallan = () => {
                           <td>
                             <img
                               src={UniLogo}
-                              alt="Bank Logo"
+                              alt="uni Logo"
                               style={{ width: "75px", height: "75px" }}
                             />
                           </td>

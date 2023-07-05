@@ -117,7 +117,7 @@ function UploadCsv() {
   if (!data) {
     // If no data is available, render the file upload section
     return (
-      <div style={{ justifyContent: "center" }}>
+      <div style={{ justifyContent: "center", textAlign: "center" }}>
         <h2 style={{ marginBottom: "20px" }}>
           Please Upload Excel in Provided Format
         </h2>

@@ -103,23 +103,23 @@ const EmailVerification = () => {
   );
 
   return (
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
+    <div className="container">
+      <div className="row">
+        <div className="col-12">
+          <div className="card">
+            <div className="card-body">
               <h1>Emailed Challan</h1>
-              <div class="form-group">
+              <div className="form-group">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Search Students..."
                   value={searchTextGeneratedFields}
                   onChange={handleSearchGeneratedFields}
                 />
               </div>
-              <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+              <div className="table-responsive">
+                <table className="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Sr. No</th>
@@ -143,7 +143,7 @@ const EmailVerification = () => {
                         <td>{field.Student_ID}</td>
                         <td>
                           <button
-                            class="btn btn-primary"
+                            className="btn btn-primary"
                             onClick={() => handlePrintChallan(field)}
                           >
                             Re-Generate Challan
@@ -154,11 +154,11 @@ const EmailVerification = () => {
                   </tbody>
                 </table>
               </div>
-              <div class="row">
-                <div class="col">
-                  <div class="text-center">
+              <div className="row">
+                <div className="col">
+                  <div className="text-center">
                     <button
-                      class="btn btn-secondary"
+                      className="btn btn-secondary"
                       onClick={() =>
                         handlePageChangeGeneratedFields(
                           currentPageGeneratedFields - 1
@@ -168,14 +168,14 @@ const EmailVerification = () => {
                     >
                       Previous
                     </button>
-                    <span class="page-number">
+                    <span className="page-number">
                       <strong>
                         {currentPageGeneratedFields} of{" "}
                         {totalPagesGeneratedFields}
                       </strong>
                     </span>
                     <button
-                      class="btn btn-secondary"
+                      className="btn btn-secondary"
                       onClick={() =>
                         handlePageChangeGeneratedFields(
                           currentPageGeneratedFields + 1
