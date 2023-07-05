@@ -295,6 +295,13 @@ const ShowCsv = () => {
                     >
                       <i className="fas fa-print">Re-Generate Challan</i>{" "}
                     </button>
+                    {"  "}
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleEditChallan(field)}
+                    >
+                      <i className="fas fa-edit">Edit</i>
+                    </button>
                   </td>
                 </tr>
               ))}
