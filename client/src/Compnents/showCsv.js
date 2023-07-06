@@ -256,9 +256,11 @@ const ShowCsv = () => {
         <div className="text-center total-student-count">
           <h4>Total Students: {fields.length}</h4>
         </div>
-        <div className="row">
-          <div className="col">
-            <div className="text-center">
+        <div className="text-center">
+          <div className="row">
+            <div className="col"></div>
+            <div className="col"></div>
+            <div className="col">
               <button
                 className="btn btn-secondary"
                 onClick={() => handlePageChangeFields(currentPageFields - 1)}
@@ -266,11 +268,16 @@ const ShowCsv = () => {
               >
                 Previous
               </button>
+            </div>
+            <div className="col">
+              {" "}
               <span className="page-number">
                 <strong>
                   {currentPageFields} of {totalPagesFields}
                 </strong>
               </span>
+            </div>
+            <div className="col">
               <button
                 className="btn btn-secondary"
                 onClick={() => handlePageChangeFields(currentPageFields + 1)}
@@ -279,6 +286,8 @@ const ShowCsv = () => {
                 Next
               </button>
             </div>
+            <div className="col"></div>
+            <div className="col"></div>
           </div>
         </div>
       </div>
@@ -357,9 +366,11 @@ const ShowCsv = () => {
         <div className="text-center total-student-count">
           <h4>Total Students: {generatedFields.length}</h4>
         </div>
-        <div className="row">
-          <div className="col">
-            <div className="text-center">
+        <div className="text-center">
+          <div className="row">
+            <div className="col"></div>
+            <div className="col"></div>
+            <div className="col">
               <button
                 className="btn btn-secondary"
                 onClick={() =>
@@ -371,11 +382,16 @@ const ShowCsv = () => {
               >
                 Previous
               </button>
+            </div>
+            <div className="col">
+              {" "}
               <span className="page-number">
                 <strong>
                   {currentPageGeneratedFields} of {totalPagesGeneratedFields}
                 </strong>
               </span>
+            </div>
+            <div className="col">
               <button
                 className="btn btn-secondary"
                 onClick={() =>
@@ -390,6 +406,8 @@ const ShowCsv = () => {
                 Next
               </button>
             </div>
+            <div className="col"></div>
+            <div className="col"></div>
           </div>
         </div>
       </div>
