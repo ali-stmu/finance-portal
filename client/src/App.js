@@ -14,6 +14,7 @@ import FeeVerification from "./Compnents/feeVerification";
 import GenrateChallan from "./Compnents/genrateChallan";
 import EmailVerification from "./Compnents/emailVerification";
 import NotFound from "./Compnents/notFound";
+import Footer from "./Compnents/footer";
 
 function App() {
   return (
@@ -39,24 +40,32 @@ function AppContent() {
   }
 
   return (
-    <div className="App">
+    <div className="App d-flex flex-column min-vh-100">
       {!isLoginRoute && !location.pathname.startsWith("/notfound") && (
-        <NavBar />
+        <>
+          <NavBar />
+        </>
       )}
-      {/* Render the navbar only if it's not the login route, not the notFound route, and the user is logged in */}
-
-      <Routes>
-        <Route path="/uploadcsv" element={<UploadCsv />} />
-        <Route path="/showcsv" element={<ShowCsv />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/feeverification" element={<FeeVerification />} />
-        <Route path="/genratechallan" element={<GenrateChallan />} />
-        <Route path="/emailverification" element={<EmailVerification />} />
-        <Route path="/" element={<UploadCsv />} />
-        <Route path="/notfound" element={<NotFound />} />
-        <Route path="*" element={<Navigate to="/notfound" />} />
-      </Routes>
+      <div className="flex-grow-1">
+        <Routes>
+          <Route path="/uploadcsv" element={<UploadCsv />} />
+          <Route path="/showcsv" element={<ShowCsv />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/feeverification" element={<FeeVerification />} />
+          <Route path="/genratechallan" element={<GenrateChallan />} />
+          <Route path="/emailverification" element={<EmailVerification />} />
+          <Route path="/" element={<UploadCsv />} />
+          <Route path="/notfound" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/notfound" />} />
+        </Routes>
+      </div>
+      {!isLoginRoute && !location.pathname.startsWith("/notfound") && (
+        <>
+          <Footer />
+        </>
+      )}
     </div>
   );
 }
+
 export default App;

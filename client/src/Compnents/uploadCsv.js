@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { saveAs } from "file-saver";
 import { Table, Button, Form, Alert } from "react-bootstrap";
 import { BASE_URL } from "../baseUrl";
+import BGIMAGE from "../images/calculator-closeup.jpg";
+
 function UploadCsv() {
   const [file, setFile] = useState(null); // State to store the uploaded file
   const [data, setData] = useState(null); // State to store the parsed Excel data
@@ -117,11 +119,27 @@ function UploadCsv() {
   if (!data) {
     // If no data is available, render the file upload section
     return (
-      <div style={{ justifyContent: "center", textAlign: "center" }}>
-        <h2 style={{ marginBottom: "20px" }}>
-          Please Upload Excel in Provided Format
-        </h2>
-        <input type="file" onChange={handleFileChange} accept=".xlsx,.csv" />
+      <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{
+          backgroundImage: `url(${BGIMAGE})`,
+          backgroundSize: "cover",
+          minHeight: "88vh",
+        }}
+      >
+        <div className="card">
+          <div className="card-body">
+            <h2 className="card-title">
+              Please Upload Excel in Provided Format
+            </h2>
+            <input
+              className="form-control"
+              type="file"
+              onChange={handleFileChange}
+              accept=".xlsx,.csv"
+            />
+          </div>
+        </div>
       </div>
     );
   }
