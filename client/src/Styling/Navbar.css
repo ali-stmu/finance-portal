@@ -1,52 +1,9 @@
-/* NavBar.css */
 
 .navbar {
-    border-radius: 0;
-  }
-  
-  .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .navbar-nav .nav-link {
-    font-size: 1rem;
-    color: #fff;
-    transition: color 0.3s;
-  }
-  
-  .navbar-nav .nav-link:hover {
-    color: #ccc;
-  }
-  
-  .navbar-toggler {
-    border: none;
-  }
-  
-  .navbar-toggler:focus {
-    box-shadow: none;
-  }
-  
-  .navbar-toggler-icon {
-    background-color: #fff;
-    width: 1.5em;
-    height: 1.5em;
-    display: inline-block;
-    vertical-align: middle;
-    border-radius: 2px;
-  }
-  
-  .collapse.navbar-collapse {
-    justify-content: flex-end;
-  }
-  
-  .nav-item:not(:last-child) {
-    margin-right: 1rem;
-  }
-  
-  @media (max-width: 575px) {
-    .navbar-nav .nav-link {
-      font-size: 0.9rem;
-    }
-  }
-  
+  background: linear-gradient(to left, #0073b1, #6ec9f7);
+}
+.nav-link {
+  font-size: 15px;
+  font-weight: bolder;
+  color: whitesmoke;
+}

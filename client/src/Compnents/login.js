@@ -1,8 +1,39 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
-import "../Styling/login.css";
+import { TextField, Button, Typography } from "@mui/material";
+import { styled } from "@mui/system";
+import { Form } from "react-bootstrap";
 import { BASE_URL } from "../baseUrl";
+import UniLogo from "../images/uni_logo.png";
+// Style the container
+const Container = styled("div")({
+  display: "flex",
+  flexDirection: "column", // Add this line to stack logo and card vertically
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  background: "linear-gradient(to top, #0073b1, #6ec9f7)",
+});
+
+// Style the form card
+const Card = styled("div")({
+  display: "flex",
+  flexDirection: "column", // Add this line to stack form fields vertically
+  padding: "32px",
+  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)",
+  borderRadius: "30px",
+  backgroundColor: "#ffffff",
+});
+const LogoImage = styled("img")({
+  marginBottom: "50px",
+  width: "200px",
+  alignSelf: "center", // Add this line to center the logo horizontally
+});
+
+// Style the form fields
+const StyledTextField = styled(TextField)({
+  marginBottom: "16px",
+});
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -17,7 +48,7 @@ function Login() {
       email: email,
       password: password,
     };
-    navigate("/uploadcsv");
+
     // Make the API call
     fetch(`${BASE_URL}/api/login`, {
       method: "POST",
@@ -46,39 +77,52 @@ function Login() {
       })
       .catch((error) => {
         console.error("Login failed:", error.message || "Invalid response");
-        setErrorMessage("Invalid Credetianls");
+        setErrorMessage("Invalid Credentials");
       });
   };
+
   return (
-    <div className="navbar navbar-expand-lg navbar-dark bg-dark login-container">
-      <div className="login-card">
-        <h2>Login</h2>
+    <Container>
+      <LogoImage src={UniLogo} alt="Uni Logo" />
+      <Card>
+        <Typography variant="h5" component="h2" align="center" gutterBottom>
+          Finance Portal Login
+        </Typography>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="username">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
+          <StyledTextField
+            id="username"
+            label="Email"
+            type="text"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+          />
+          <StyledTextField
+            id="password"
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+          />
+          <Button variant="contained" type="submit" fullWidth>
             Sign In
           </Button>
         </Form>
-        {errorMessage && <p style={{ color: "red" }}>Invalid Credentials</p>}
-      </div>
-    </div>
+        {errorMessage && (
+          <Typography
+            variant="body2"
+            color="error"
+            align="center"
+            marginTop="16px"
+          >
+            {errorMessage}
+          </Typography>
+        )}
+      </Card>
+    </Container>
   );
 }
 
