@@ -20,7 +20,9 @@ const ShowCsv = () => {
   const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
-  const pageSize = 12;
+  const [pageSize, setPageSize] = useState(10);
+  const [pageSizeGenerated, setPageSizeGenerated] = useState(10);
+
   const navigate = useNavigate();
   const fetchFields = async (email) => {
     try {
@@ -44,7 +46,13 @@ const ShowCsv = () => {
       console.error("Error:", error);
     }
   };
-
+  const totalStudentCount = fields.length + generatedFields.length;
+  const handlePageSizeChange = (event) => {
+    setPageSize(parseInt(event.target.value));
+  };
+  const handlePageSizeChangeGenerated = (event) => {
+    setPageSizeGenerated(parseInt(event.target.value));
+  };
   const fetchFieldsGenerated = async (email) => {
     try {
       const response = await axios.post(
@@ -59,7 +67,9 @@ const ShowCsv = () => {
       if (response.status === 200) {
         const data = response.data;
         setGeneratedFields(data.fields);
-        setTotalPagesGeneratedFields(Math.ceil(data.fields.length / pageSize));
+        setTotalPagesGeneratedFields(
+          Math.ceil(data.fields.length / pageSizeGenerated)
+        );
       } else {
         console.error("Error:", response.status);
       }
@@ -130,7 +140,7 @@ const ShowCsv = () => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [updateSuccess]);
+  }, [updateSuccess, pageSize, pageSizeGenerated]);
 
   const handlePageChangeFields = (page) => {
     setCurrentPageFields(page);
@@ -153,6 +163,11 @@ const ShowCsv = () => {
   const getPaginatedData = (data, currentPage) => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
+    return data.slice(startIndex, endIndex);
+  };
+  const getPaginatedDataGenerated = (data, currentPage) => {
+    const startIndex = (currentPage - 1) * pageSizeGenerated;
+    const endIndex = startIndex + pageSizeGenerated;
     return data.slice(startIndex, endIndex);
   };
 
@@ -228,6 +243,18 @@ const ShowCsv = () => {
               )}
             </tbody>
           </table>
+          <div className="form-group">
+            <label>Page Size:</label>
+            <select value={pageSize} onChange={handlePageSizeChange}>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+              <option value={25}>25</option>
+            </select>
+          </div>
+        </div>
+        <div className="text-center total-student-count">
+          <h4>Total Students: {fields.length}</h4>
         </div>
         <div className="row">
           <div className="col">
@@ -283,13 +310,15 @@ const ShowCsv = () => {
               </tr>
             </thead>
             <tbody>
-              {getPaginatedData(
+              {getPaginatedDataGenerated(
                 filteredGeneratedFields,
                 currentPageGeneratedFields
               ).map((field, index) => (
                 <tr key={index}>
                   <td>
-                    {(currentPageGeneratedFields - 1) * pageSize + index + 1}
+                    {(currentPageGeneratedFields - 1) * pageSizeGenerated +
+                      index +
+                      1}
                   </td>
                   <td>{field.Student_Name}</td>
                   <td>{field.Student_ID}</td>
@@ -312,6 +341,21 @@ const ShowCsv = () => {
               ))}
             </tbody>
           </table>
+          <div className="form-group">
+            <label>Page Size:</label>
+            <select
+              value={pageSizeGenerated}
+              onChange={handlePageSizeChangeGenerated}
+            >
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+              <option value={25}>25</option>
+            </select>
+          </div>
+        </div>
+        <div className="text-center total-student-count">
+          <h4>Total Students: {generatedFields.length}</h4>
         </div>
         <div className="row">
           <div className="col">
@@ -407,6 +451,10 @@ const ShowCsv = () => {
           </h1>
         </div>
       )}
+
+      <div className="text-center total-student-count">
+        <h3>Total Students: {totalStudentCount}</h3>
+      </div>
     </div>
   );
 };
