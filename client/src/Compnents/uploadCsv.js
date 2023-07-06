@@ -16,9 +16,9 @@ function UploadCsv() {
 
   useEffect(() => {
     let session = sessionStorage.getItem("user");
-    //if (!session) {
-    //navigate("/login"); // Redirect to login page if the user session is not found
-    // }
+    if (!session) {
+      navigate("/login"); // Redirect to login page if the user session is not found
+    }
   }, []);
 
   const rowsPerPage = 15; // Number of rows to display per page

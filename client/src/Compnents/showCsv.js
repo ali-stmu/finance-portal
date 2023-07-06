@@ -22,13 +22,16 @@ const ShowCsv = () => {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const pageSize = 12;
   const navigate = useNavigate();
-  const fetchFields = async () => {
+  const fetchFields = async (email) => {
     try {
-      const response = await axios.post(`${BASE_URL}/api/feeChallanData`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/feeChallanData/${email}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.status === 200) {
         const data = response.data;
@@ -42,10 +45,10 @@ const ShowCsv = () => {
     }
   };
 
-  const fetchFieldsGenerated = async () => {
+  const fetchFieldsGenerated = async (email) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/feeChallanGeneratedData`,
+        `${BASE_URL}/api/feeChallanGeneratedData/${email}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -112,8 +115,10 @@ const ShowCsv = () => {
   };
 
   useEffect(() => {
-    fetchFields();
-    fetchFieldsGenerated();
+    let user = JSON.parse(sessionStorage.getItem("user"));
+    let email = user.user.user_id;
+    fetchFields(email);
+    fetchFieldsGenerated(email);
     let timeoutId;
 
     if (updateSuccess) {

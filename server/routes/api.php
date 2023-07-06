@@ -25,10 +25,10 @@ Route::post('/signup', [UserController::class, 'signup']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/uploadcsv', [UploadController::class, 'store']);
 Route::post('/update/{primaryKey}', [UploadController::class, 'update']);
-Route::post('/feeChallanData', [fetchForChallan::class, 'feeChallanData']);
+Route::post('/feeChallanData/{email}', [fetchForChallan::class, 'feeChallanData']);
 
-Route::post('/feeChallanGeneratedData', [fetchForChallan::class, 'feeChallanGeneratedData']);
-Route::post('/feeChallanEmailedData', [fetchForChallan::class, 'feeChallanEmailedData']);
+Route::post('/feeChallanGeneratedData/{email}', [fetchForChallan::class, 'feeChallanGeneratedData']);
+Route::post('/feeChallanEmailedData/{email}', [fetchForChallan::class, 'feeChallanEmailedData']);
 
 Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan']);
 Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}', [fetchForChallan::class, 'sendEmail']);
