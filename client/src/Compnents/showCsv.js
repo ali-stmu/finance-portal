@@ -187,6 +187,34 @@ const ShowCsv = () => {
     generatedFields,
     searchTextGeneratedFields
   );
+  const renderPageNumbers = (currentPage, totalPages, handlePageChange) => {
+    const pageNumbers = [];
+    const maxVisiblePages = 5; // Maximum number of visible page numbers
+
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = startPage + maxVisiblePages - 1;
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          className={`btn ${
+            i === currentPage ? "btn-outline-primary" : "btn-outline-secondary"
+          }`}
+          onClick={() => handlePageChange(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    return pageNumbers;
+  };
 
   return (
     <div className="row">
@@ -250,6 +278,7 @@ const ShowCsv = () => {
               <option value={15}>15</option>
               <option value={20}>20</option>
               <option value={25}>25</option>
+              <option value={30}>30</option>
             </select>
           </div>
         </div>
@@ -258,8 +287,6 @@ const ShowCsv = () => {
         </div>
         <div className="text-center">
           <div className="row">
-            <div className="col"></div>
-            <div className="col"></div>
             <div className="col">
               <button
                 className="btn btn-secondary"
@@ -270,12 +297,11 @@ const ShowCsv = () => {
               </button>
             </div>
             <div className="col">
-              {" "}
-              <span className="page-number">
-                <strong>
-                  {currentPageFields} of {totalPagesFields}
-                </strong>
-              </span>
+              {renderPageNumbers(
+                currentPageFields,
+                totalPagesFields,
+                handlePageChangeFields
+              )}
             </div>
             <div className="col">
               <button
@@ -286,8 +312,13 @@ const ShowCsv = () => {
                 Next
               </button>
             </div>
-            <div className="col"></div>
-            <div className="col"></div>
+          </div>
+          <div className="col">
+            <span className="page-number">
+              <strong>
+                {currentPageFields} of {totalPagesFields}
+              </strong>
+            </span>
           </div>
         </div>
       </div>
@@ -360,6 +391,7 @@ const ShowCsv = () => {
               <option value={15}>15</option>
               <option value={20}>20</option>
               <option value={25}>25</option>
+              <option value={30}>30</option>
             </select>
           </div>
         </div>
@@ -368,8 +400,6 @@ const ShowCsv = () => {
         </div>
         <div className="text-center">
           <div className="row">
-            <div className="col"></div>
-            <div className="col"></div>
             <div className="col">
               <button
                 className="btn btn-secondary"
@@ -384,13 +414,13 @@ const ShowCsv = () => {
               </button>
             </div>
             <div className="col">
-              {" "}
-              <span className="page-number">
-                <strong>
-                  {currentPageGeneratedFields} of {totalPagesGeneratedFields}
-                </strong>
-              </span>
+              {renderPageNumbers(
+                currentPageGeneratedFields,
+                totalPagesGeneratedFields,
+                handlePageChangeGeneratedFields
+              )}
             </div>
+
             <div className="col">
               <button
                 className="btn btn-secondary"
@@ -406,8 +436,13 @@ const ShowCsv = () => {
                 Next
               </button>
             </div>
-            <div className="col"></div>
-            <div className="col"></div>
+          </div>
+          <div className="col">
+            <span className="page-number">
+              <strong>
+                {currentPageGeneratedFields} of {totalPagesGeneratedFields}
+              </strong>
+            </span>
           </div>
         </div>
       </div>

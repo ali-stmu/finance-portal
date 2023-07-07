@@ -7,7 +7,7 @@ import html2canvas from "html2canvas";
 import axios from "axios";
 import { BASE_URL } from "../baseUrl";
 import { lazy, Suspense } from "react";
-
+import "../Styling/generatechallan.css";
 const GenrateChallan = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -140,6 +140,7 @@ const GenrateChallan = () => {
       <div className="d-flex justify-content-center">
         {isLoading ? (
           <div className="loading">
+            <div className="spinner"></div>
             <h1>Loading.....</h1>
           </div>
         ) : (
@@ -159,6 +160,7 @@ const GenrateChallan = () => {
           </>
         )}
       </div>
+
       <div id="main_div" className="row">
         <div
           className="col-sm"

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import axios from "axios";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 const EmailVerification = () => {
   const [generatedFields, setGeneratedFields] = useState([]);
@@ -11,9 +13,10 @@ const EmailVerification = () => {
   const [totalPagesGeneratedFields, setTotalPagesGeneratedFields] = useState(1);
   const [searchTextGeneratedFields, setSearchTextGeneratedFields] =
     useState("");
-
   const pageSize = 12;
   const navigate = useNavigate();
+  const tableRef = useRef(null);
+
   const fetchFieldsGenerated = async (email) => {
     try {
       const response = await axios.post(
@@ -104,6 +107,14 @@ const EmailVerification = () => {
     searchTextGeneratedFields
   );
 
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    const table = tableRef.current;
+    doc.autoTable({ html: table });
+
+    doc.save("emailedChallan.pdf");
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -121,7 +132,10 @@ const EmailVerification = () => {
                 />
               </div>
               <div className="table-responsive">
-                <table className="table table-bordered table-striped">
+                <table
+                  className="table table-bordered table-striped"
+                  ref={tableRef}
+                >
                   <thead>
                     <tr>
                       <th>Sr. No</th>
@@ -158,6 +172,15 @@ const EmailVerification = () => {
               </div>
               <div className="row">
                 <div className="col">
+                  {" "}
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleDownloadPDF}
+                  >
+                    Download PDF
+                  </button>
+                </div>
+                <div>
                   <div className="text-center">
                     <button
                       className="btn btn-secondary"
