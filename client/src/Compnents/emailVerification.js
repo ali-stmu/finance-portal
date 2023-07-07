@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import axios from "axios";
@@ -15,7 +15,6 @@ const EmailVerification = () => {
     useState("");
   const pageSize = 12;
   const navigate = useNavigate();
-  const tableRef = useRef(null);
 
   const fetchFieldsGenerated = async (email) => {
     try {
@@ -109,8 +108,95 @@ const EmailVerification = () => {
 
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
-    const table = tableRef.current;
-    doc.autoTable({ html: table });
+
+    const header = "Shifa Tameer-e-Millat University";
+    const footer = "Page";
+
+    let currentPage = 1;
+
+    const totalPages = Math.ceil(generatedFields.length / pageSize);
+
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const contentHeight = pageHeight - 60; // Adjusted content height to leave space for header, footer, and table headings
+    const rowsPerPage = Math.floor(contentHeight / 10); // Assuming each row has a height of 10 (adjust as needed)
+
+    filteredGeneratedFields.forEach((field, index) => {
+      if (index > 0 && index % rowsPerPage === 0) {
+        doc.addPage();
+        currentPage++;
+
+        // Add header for the new page
+        doc.setFontSize(14);
+        doc.setTextColor("#007bff");
+        doc.setFont("helvetica", "bold");
+
+        const headerWidth = doc.getTextWidth(header);
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const xPos = (pageWidth - headerWidth) / 2;
+
+        doc.text(header, xPos, 15);
+        doc.setFontSize(12);
+        doc.setTextColor("#000000");
+        doc.setFont("helvetica", "normal");
+        doc.text(10, 30, "Sr. No");
+        doc.text(25, 30, "Student Name");
+        doc.text(90, 30, "Student ID");
+        doc.setLineWidth(0.5);
+        doc.line(10, 33, 200, 33);
+
+        // Add border to the page
+        doc.setDrawColor("#000000");
+        doc.setLineWidth(1);
+        doc.rect(5, 5, pageWidth - 10, pageHeight - 10, "S");
+      }
+
+      const rowPosition = 10 + ((index % rowsPerPage) + 1) * 10;
+      const spacing = 5;
+      doc.setTextColor("#000000");
+      doc.setFont("helvetica", "normal");
+      doc.text(10, rowPosition + spacing + 35, String(index + 1));
+      doc.text(25, rowPosition + spacing + 35, field.Student_Name);
+      doc.text(90, rowPosition + spacing + 35, field.Student_ID);
+    });
+
+    // Add footer to each page
+    for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setTextColor("#666666");
+      doc.text(
+        footer + " " + i + " of " + totalPages,
+        10,
+        doc.internal.pageSize.height - 10
+      );
+
+      // Add header to the first page
+      if (i === 1) {
+        doc.setFontSize(18);
+        doc.setTextColor("#007bff");
+        doc.setFont("helvetica", "bold");
+
+        const headerWidth = doc.getTextWidth(header);
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const xPos = (pageWidth - headerWidth) / 2;
+
+        doc.text(header, xPos, 20);
+        doc.setFontSize(12);
+        doc.setTextColor("#000000");
+        doc.setFont("helvetica", "normal");
+        doc.text(10, 30, "Sr. No");
+        doc.text(25, 30, "Student Name");
+        doc.text(90, 30, "Student ID");
+        doc.setLineWidth(0.5);
+        doc.line(10, 33, 200, 33);
+      }
+
+      // Add border to the page
+      const pageWidth = doc.internal.pageSize.getWidth();
+      doc.setDrawColor("#000000");
+      doc.setLineWidth(1);
+      doc.rect(5, 5, pageWidth - 10, pageHeight - 10, "S");
+    }
 
     doc.save("emailedChallan.pdf");
   };
@@ -132,10 +218,7 @@ const EmailVerification = () => {
                 />
               </div>
               <div className="table-responsive">
-                <table
-                  className="table table-bordered table-striped"
-                  ref={tableRef}
-                >
+                <table className="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Sr. No</th>
