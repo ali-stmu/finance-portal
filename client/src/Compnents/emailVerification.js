@@ -124,7 +124,6 @@ const EmailVerification = () => {
       if (index > 0 && index % rowsPerPage === 0) {
         doc.addPage();
         currentPage++;
-
         // Add header for the new page
         doc.setFontSize(14);
         doc.setTextColor("#007bff");

@@ -72,7 +72,9 @@ const GenrateChallan = () => {
         console.log("An error occurred while generating PDF: ", error);
       });
   };
-
+  const goBack = () => {
+    navigate("/showcsv");
+  };
   const sendPdfToBackend = () => {
     const divToPrint = document.getElementById("main_div");
     setIsLoading(true);
@@ -145,6 +147,12 @@ const GenrateChallan = () => {
           </div>
         ) : (
           <>
+            <button
+              className="btn btn-primary mx-auto d-block"
+              onClick={goBack}
+            >
+              Back
+            </button>
             <button
               className="btn btn-primary mx-auto d-block"
               onClick={generatePDF}
