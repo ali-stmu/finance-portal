@@ -5,6 +5,7 @@ import axios from "axios";
 import EditChallanPopup from "./editChallanPopup";
 import "../Styling/ShowCsv.css"; // Import CSS file for styling
 import Chart from "chart.js";
+import { FaExclamationTriangle } from "react-icons/fa"; // Assuming you're using react-icons for icons
 
 const ShowCsv = () => {
   const [fields, setFields] = useState([]);
@@ -154,7 +155,9 @@ const ShowCsv = () => {
   };
 
   const handleEditChallan = async (field) => {
+    console.log(field);
     setSelectedFieldForEdit(field);
+
     setShowEditPopup(true);
   };
   const handleSaveEditPopup = (editedData) => {
@@ -517,6 +520,7 @@ const ShowCsv = () => {
         >
           <EditChallanPopup
             primaryKey={selectedFieldForEdit.challan_generation_id}
+            userID={selectedFieldForEdit.user_id}
             dueDate={selectedFieldForEdit.Due_Date}
             studentID={selectedFieldForEdit.Student_ID}
             studentName={selectedFieldForEdit.Student_Name}
@@ -563,7 +567,7 @@ const ShowCsv = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            backgroundColor: "#FFCCCB",
+            backgroundColor: "#FF0000",
             border: "1px solid #d0e9c6",
             padding: "20px",
             textAlign: "center",
@@ -574,13 +578,14 @@ const ShowCsv = () => {
         >
           <h1
             style={{
-              color: "red",
+              color: "#000000",
               fontSize: "50px",
               margin: "0",
               animation: "font-size 0.5s ease-out",
             }}
           >
-            Student Deleted
+            <FaExclamationTriangle style={{ marginRight: "10px" }} /> Student
+            Deleted
           </h1>
         </div>
       )}

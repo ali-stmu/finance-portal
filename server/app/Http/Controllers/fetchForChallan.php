@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Upload;
 use App\Models\User;
+use App\Models\DepartmentMapping;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
 use Illuminate\Support\HtmlString;
@@ -18,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 class fetchForChallan extends Controller
 {
     public function feeChallanData($email){
-       // log::debug($email);
        $results = DB::table('user as u')
        ->join('department_mapping as dm', 'u.user_id', '=', 'dm.user_id')
        ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
@@ -28,7 +28,6 @@ class fetchForChallan extends Controller
        ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
        ->get();
 
-   log::debug( $results);
 
        
 
@@ -59,7 +58,6 @@ class fetchForChallan extends Controller
     
         }
         public function feeChallanEmailedData($email){
-            log::debug($email);
             $results = DB::table('user as u')
             ->join('department_mapping as dm', 'u.user_id', '=', 'dm.user_id')
             ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
@@ -75,6 +73,20 @@ class fetchForChallan extends Controller
         
         
             }
+            public function fetchProgramNames($userId){
+               // log::debug($userId);
+
+
+                //Log::debug($userId);
+
+            $programs = DepartmentMapping::where('user_id', $userId)->pluck('program_name');
+
+    // You can perform additional operations on the $programs variable if needed
+
+                 return $programs;
+
+            
+                }
         public function updateGenrateChallan(Request $request, $id)
         {
             // Perform any necessary validation or checks
@@ -82,7 +94,6 @@ class fetchForChallan extends Controller
             // Update the genratechallan logic for the specified $id
             // Example:
             $upload = Upload::find($id);
-            log::debug($upload);
             if ($upload) {
                 $upload->challan_status = 1; // Set challan_status to 1 (generated)
                 $upload->save();
@@ -102,9 +113,7 @@ class fetchForChallan extends Controller
     
             // Update the genratechallan logic for the specified $id
             // Example:
-            log::debug($id);
             $upload = Upload::find($id);
-            log::debug($upload);
             if ($upload) {
                 $upload->delete_status = 1; // Set challan_status to 1 (generated)
                 $upload->save();
@@ -121,7 +130,6 @@ class fetchForChallan extends Controller
 
         public function sendEmail(Request $request,$id,$email,$studentName,$programName){
 
-            log::debug($email.$studentName.$programName.$id);
 
             $explodedProgramName = explode("-", $programName);
             $explodedProgramName[0];
@@ -155,7 +163,7 @@ class fetchForChallan extends Controller
             // Save the PDF file to local storage
             $pdfFile = $request->file('pdfFile');
             $pdfFileName = $pdfFile->getClientOriginalName();
-            log::debug($pdfFile->storeAs('pdfs', $pdfFileName));
+            $pdfFile->storeAs('pdfs', $pdfFileName);
         
             // Process and send the email using the PDF file as an attachment
             // Your email sending logic goes here
@@ -237,7 +245,6 @@ class fetchForChallan extends Controller
                     ]);
             });
             $upload = Upload::find($id);
-            log::debug($upload);
             if ($upload) {
                 $upload->email_status = 1; // Set challan_status to 1 (generated)
                 $upload->save();

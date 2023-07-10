@@ -29,6 +29,8 @@ Route::post('/feeChallanData/{email}', [fetchForChallan::class, 'feeChallanData'
 
 Route::post('/feeChallanGeneratedData/{email}', [fetchForChallan::class, 'feeChallanGeneratedData']);
 Route::post('/feeChallanEmailedData/{email}', [fetchForChallan::class, 'feeChallanEmailedData']);
+Route::post('/dropdownfill/{userId}', [fetchForChallan::class, 'fetchProgramNames']);
+
 
 Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan']);
 Route::put('/deletechallan/{id}', [fetchForChallan::class, 'deletechallan']);
