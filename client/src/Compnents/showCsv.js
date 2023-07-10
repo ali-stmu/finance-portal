@@ -563,7 +563,7 @@ const ShowCsv = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            backgroundColor: "lightcoral",
+            backgroundColor: "#FFCCCB",
             border: "1px solid #d0e9c6",
             padding: "20px",
             textAlign: "center",
@@ -630,9 +630,9 @@ const ShowCsv = () => {
         </div>
       )}
 
-      <div className="progress">
+      <div className="progress" style={{ height: "20px" }}>
         <div
-          className="progress-bar bg-primary"
+          className="progress-bar progress-bar-striped progress-bar-animated"
           role="progressbar"
           style={{
             width: `${
@@ -651,7 +651,7 @@ const ShowCsv = () => {
           )}
         </div>
         <div
-          className="progress-bar bg-danger"
+          className="progress-bar progress-bar-striped progress-bar-animated bg-danger"
           role="progressbar"
           style={{ width: `${percentageGenerated}%` }}
           aria-valuenow={percentageGenerated}
