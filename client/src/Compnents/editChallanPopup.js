@@ -15,15 +15,18 @@ const EditChallanPopup = ({
   onClose,
 }) => {
   // Define local state for input fields
-  const [editedDueDate, setEditedDueDate] = React.useState(dueDate);
-  const [editedStudentID, setEditedStudentID] = React.useState(studentID);
-  const [dropDownStudentID, setDropDownStudentID] = React.useState("");
-  const [editedStudentName, setEditedStudentName] = React.useState(studentName);
-  const [editedTotalAmount, setEditedTotalAmount] = React.useState(totalAmount);
-  const [editedTuitionFee, setEditedTuitionFee] = React.useState(tuitionFee);
-  const [editedEmail, setEditedEmail] = React.useState(email);
+  const [editedDueDate, setEditedDueDate] = useState(dueDate);
+  const [splittedStudentID, setsplittedStudentID] = useState([]);
+  const [editedStudentID, setEditedStudentID] = useState("");
+  const [dropDownStudentID, setDropDownStudentID] = useState("");
+  const [editedStudentName, setEditedStudentName] = useState(studentName);
+  const [editedTotalAmount, setEditedTotalAmount] = useState(totalAmount);
+  const [editedTuitionFee, setEditedTuitionFee] = useState(tuitionFee);
+  const [editedEmail, setEditedEmail] = useState(email);
   const [dropdownValues, setDropdownValues] = useState([]);
-  React.useEffect(() => {
+  const [conatinate, setConcatinate] = useState("");
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`${BASE_URL}/api/dropdownfill/${userID}`, {
@@ -37,12 +40,17 @@ const EditChallanPopup = ({
       }
     };
 
+    setsplittedStudentID(studentID.split("-"));
     fetchData();
-    const splittedStudentID = studentID.split("-");
+  }, [studentID, userID]);
+
+  useEffect(() => {
     if (splittedStudentID.length >= 2) {
       setEditedStudentID(splittedStudentID[1]);
+      setDropDownStudentID(splittedStudentID[0]);
     }
-  }, []);
+  }, [splittedStudentID]);
+
   // Handle save button click
   const handleSave = () => {
     // Create an object with the edited data
@@ -57,7 +65,7 @@ const EditChallanPopup = ({
     );
     const editedData = {
       Due_Date: formattedDueDate,
-      Student_ID: editedStudentID,
+      Student_ID: conatinate,
       Student_Name: editedStudentName,
       Total_Amount: editedTotalAmount,
       Tuition_fee: editedTuitionFee,
@@ -90,6 +98,7 @@ const EditChallanPopup = ({
   };
   const handleStudentIdText = (e) => {
     setEditedStudentID(e);
+    setConcatinate(dropDownStudentID + "-" + editedStudentID);
   };
   // Handle email input change
   const handleEmailChange = (e) => {
@@ -146,7 +155,10 @@ const EditChallanPopup = ({
                 />
               </td>
               <td>
-                <select onChange={(e) => handleStudentID(e.target.value)}>
+                <select
+                  onChange={(e) => handleStudentID(e.target.value)}
+                  value={dropDownStudentID || splittedStudentID[0]}
+                >
                   {dropdownValues.map((value, index) => (
                     <option key={index} value={value}>
                       {value}
