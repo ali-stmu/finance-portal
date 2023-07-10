@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import axios from "axios";
 import EditChallanPopup from "./editChallanPopup";
 import "../Styling/ShowCsv.css"; // Import CSS file for styling
+import Chart from "chart.js";
 
 const ShowCsv = () => {
   const [fields, setFields] = useState([]);
@@ -20,8 +21,17 @@ const ShowCsv = () => {
   const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [pageSizeGenerated, setPageSizeGenerated] = useState(10);
+  const generatedStudents = generatedFields.length;
+  const generateStudents = fields.length;
+  const totalStudentCount = fields.length + generatedFields.length;
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [selectedFieldToDelete, setSelectedFieldToDelete] = useState(null);
+
+  const percentageGenerated = (generatedStudents / totalStudentCount) * 100;
+  const percentageGenerate = (generateStudents / totalStudentCount) * 100;
 
   const navigate = useNavigate();
   const fetchFields = async (email) => {
@@ -46,7 +56,6 @@ const ShowCsv = () => {
       console.error("Error:", error);
     }
   };
-  const totalStudentCount = fields.length + generatedFields.length;
   const handlePageSizeChange = (event) => {
     setPageSize(parseInt(event.target.value));
   };
@@ -107,9 +116,44 @@ const ShowCsv = () => {
 
     navigate("/genratechallan");
   };
+  const handleDeleteChallan = (field) => {
+    setSelectedFieldToDelete(field);
+    setShowDeletePopup(true);
+  };
+  const handleDeleteConfirmation = async () => {
+    if (selectedFieldToDelete) {
+      console.log(selectedFieldToDelete);
+      // Perform the delete action
+      try {
+        const response = await axios.put(
+          `${BASE_URL}/api/deletechallan/${selectedFieldToDelete.challan_generation_id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Challan deleted successfully.");
+          setDeleteSuccess(true);
+
+          // Perform any additional actions upon successful deletion of challan
+        } else {
+          console.error("Error:", response.status);
+          // Handle the error case
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        // Handle the error case
+      }
+    }
+
+    // Close the delete popup
+    setShowDeletePopup(false);
+  };
 
   const handleEditChallan = async (field) => {
-    console.log(field);
     setSelectedFieldForEdit(field);
     setShowEditPopup(true);
   };
@@ -131,16 +175,17 @@ const ShowCsv = () => {
     fetchFieldsGenerated(email);
     let timeoutId;
 
-    if (updateSuccess) {
+    if (updateSuccess || deleteSuccess) {
       timeoutId = setTimeout(() => {
         setUpdateSuccess(false);
+        setDeleteSuccess(false);
       }, 2000); // Set the duration (in milliseconds) for how long the success message should be displayed
     }
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [updateSuccess, pageSize, pageSizeGenerated]);
+  }, [updateSuccess, deleteSuccess, pageSize, pageSizeGenerated]);
 
   const handlePageChangeFields = (page) => {
     setCurrentPageFields(page);
@@ -260,10 +305,17 @@ const ShowCsv = () => {
                       </button>
                       {"  "}
                       <button
-                        className="btn btn-danger"
+                        className="btn btn-warning"
                         onClick={() => handleEditChallan(field)}
                       >
                         <i className="fas fa-edit">Edit</i>
+                      </button>
+                      {"  "}
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDeleteChallan(field)}
+                      >
+                        <i className="fas fa-edit">Delete</i>
                       </button>
                     </td>
                   </tr>
@@ -283,7 +335,7 @@ const ShowCsv = () => {
           </div>
         </div>
         <div className="text-center total-student-count">
-          <h4>Total Students: {fields.length}</h4>
+          <br></br>{" "}
         </div>
         <div className="text-center">
           <div className="row">
@@ -371,7 +423,7 @@ const ShowCsv = () => {
                     </button>
                     {"  "}
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-warning"
                       onClick={() => handleEditChallan(field)}
                     >
                       <i className="fas fa-edit">Edit</i>
@@ -396,7 +448,7 @@ const ShowCsv = () => {
           </div>
         </div>
         <div className="text-center total-student-count">
-          <h4>Total Students: {generatedFields.length}</h4>
+          <br></br>{" "}
         </div>
         <div className="text-center">
           <div className="row">
@@ -504,9 +556,166 @@ const ShowCsv = () => {
           </h1>
         </div>
       )}
+      {deleteSuccess && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "lightcoral",
+            border: "1px solid #d0e9c6",
+            padding: "20px",
+            textAlign: "center",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            animation: "fade-in 0.5s ease-out, shake 0.5s ease-in-out",
+          }}
+        >
+          <h1
+            style={{
+              color: "red",
+              fontSize: "50px",
+              margin: "0",
+              animation: "font-size 0.5s ease-out",
+            }}
+          >
+            Student Deleted
+          </h1>
+        </div>
+      )}
+
+      {showDeletePopup && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            animation: "fade-in 0.5s ease-out",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "8px",
+              animation: "heartbeat 1s ease-in-out infinite",
+              transformOrigin: "center",
+            }}
+          >
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to delete the challan?</p>
+            <div style={{ textAlign: "center" }}>
+              <button
+                className="btn btn-danger"
+                onClick={handleDeleteConfirmation}
+              >
+                OK
+              </button>{" "}
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowDeletePopup(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="progress">
+        <div
+          className="progress-bar bg-primary"
+          role="progressbar"
+          style={{
+            width: `${
+              ((totalStudentCount - generatedStudents) / totalStudentCount) *
+              100
+            }%`,
+          }}
+          aria-valuenow={totalStudentCount - generatedStudents}
+          aria-valuemin="0"
+          aria-valuemax={totalStudentCount}
+        >
+          {totalStudentCount - generatedStudents > 0 ? (
+            <>{totalStudentCount - generatedStudents}</>
+          ) : (
+            "Yet to Generate Challans"
+          )}
+        </div>
+        <div
+          className="progress-bar bg-danger"
+          role="progressbar"
+          style={{ width: `${percentageGenerated}%` }}
+          aria-valuenow={percentageGenerated}
+          aria-valuemin="0"
+          aria-valuemax={totalStudentCount}
+        >
+          {generatedStudents > 0 ? (
+            <> {generatedStudents}</>
+          ) : (
+            "Already Generated Challans"
+          )}
+        </div>
+      </div>
+      <div
+        className="text-center total-student-count"
+        style={{ marginTop: "10px" }}
+      >
+        <span
+          className="round-indicator"
+          style={{
+            backgroundColor: "blue",
+            display: "inline-block",
+            width: "10px",
+            height: "10px",
+            borderRadius: "50%",
+            marginRight: "5px",
+          }}
+        ></span>
+        <label
+          style={{
+            color: "black",
+            display: "inline-block",
+            marginRight: "10px",
+          }}
+        >
+          Generate Challans
+        </label>
+        <span
+          className="round-indicator"
+          style={{
+            backgroundColor: "red",
+            display: "inline-block",
+            width: "10px",
+            height: "10px",
+            borderRadius: "50%",
+            marginRight: "5px",
+          }}
+        ></span>
+        <label style={{ color: "black", display: "inline-block" }}>
+          Generated Challans
+        </label>
+      </div>
 
       <div className="text-center total-student-count">
-        <h3>Total Students: {totalStudentCount}</h3>
+        <h5
+          style={{
+            padding: "10px",
+            fontFamily: "Arial, sans-serif",
+            fontWeight: "bold",
+            fontSize: "18px",
+          }}
+        >
+          Total Number of Students: {totalStudentCount}
+        </h5>
       </div>
     </div>
   );

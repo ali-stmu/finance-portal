@@ -23,6 +23,7 @@ class fetchForChallan extends Controller
        ->join('department_mapping as dm', 'u.user_id', '=', 'dm.user_id')
        ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
        ->where('se.challan_status', '=', 0)
+       ->where('se.delete_status', '=', 0)
        ->where('u.user_id', '=', $email)
        ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
        ->get();
@@ -46,6 +47,7 @@ class fetchForChallan extends Controller
        ->join('department_mapping as dm', 'u.user_id', '=', 'dm.user_id')
        ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
        ->where('se.challan_status', '=', 1)
+       ->where('se.delete_status', '=', 0)
        ->where('u.user_id', '=', $email)
        ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
        ->get();
@@ -62,6 +64,7 @@ class fetchForChallan extends Controller
             ->join('department_mapping as dm', 'u.user_id', '=', 'dm.user_id')
             ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
             ->where('se.email_status', '=', 1)
+            ->where('se.delete_status', '=', 0)
             ->where('u.user_id', '=', $email)
             ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
             ->get();
@@ -91,6 +94,28 @@ class fetchForChallan extends Controller
     
             return response()->json([
                 'message' => 'Genratechallan updated successfully.'
+            ]);
+        }
+        public function deletechallan(Request $request, $id)
+        {
+            // Perform any necessary validation or checks
+    
+            // Update the genratechallan logic for the specified $id
+            // Example:
+            log::debug($id);
+            $upload = Upload::find($id);
+            log::debug($upload);
+            if ($upload) {
+                $upload->delete_status = 1; // Set challan_status to 1 (generated)
+                $upload->save();
+    
+                // Additional logic if needed
+            } else {
+                // Handle case when upload with $id is not found
+            }
+    
+            return response()->json([
+                'message' => 'Challan Deleted successfully.'
             ]);
         }
 

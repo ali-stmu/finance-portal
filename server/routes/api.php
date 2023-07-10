@@ -31,4 +31,6 @@ Route::post('/feeChallanGeneratedData/{email}', [fetchForChallan::class, 'feeCha
 Route::post('/feeChallanEmailedData/{email}', [fetchForChallan::class, 'feeChallanEmailedData']);
 
 Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan']);
+Route::put('/deletechallan/{id}', [fetchForChallan::class, 'deletechallan']);
+
 Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}', [fetchForChallan::class, 'sendEmail']);
