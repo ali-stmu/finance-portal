@@ -503,6 +503,7 @@ const ShowCsv = () => {
 
       {showEditPopup && (
         <div
+          className="fade-in"
           style={{
             position: "fixed",
             top: 0,
@@ -514,7 +515,6 @@ const ShowCsv = () => {
             justifyContent: "center",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-            animation: "fade-in 0.5s ease-out",
           }}
         >
           <EditChallanPopup
@@ -531,6 +531,7 @@ const ShowCsv = () => {
           />
         </div>
       )}
+
       {updateSuccess && (
         <div
           style={{
