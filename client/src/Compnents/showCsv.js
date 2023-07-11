@@ -583,8 +583,7 @@ const ShowCsv = () => {
               animation: "font-size 0.5s ease-out",
             }}
           >
-            <FaExclamationTriangle style={{ marginRight: "10px" }} /> Student
-            Deleted
+            Student Deleted
           </h1>
         </div>
       )}
@@ -614,8 +613,10 @@ const ShowCsv = () => {
               transformOrigin: "center",
             }}
           >
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete the challan?</p>
+            <h2>
+              Confirm Delete <FaExclamationTriangle />
+            </h2>
+            <p>Are you sure you want to delete the challan? </p>
             <div style={{ textAlign: "center" }}>
               <button
                 className="btn btn-danger"

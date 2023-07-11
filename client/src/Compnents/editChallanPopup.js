@@ -51,6 +51,10 @@ const EditChallanPopup = ({
     }
   }, [splittedStudentID]);
 
+  useEffect(() => {
+    setConcatinate(dropDownStudentID + "-" + editedStudentID);
+  }, [dropDownStudentID, editedStudentID]);
+
   // Handle save button click
   const handleSave = () => {
     // Create an object with the edited data
@@ -98,7 +102,6 @@ const EditChallanPopup = ({
   };
   const handleStudentIdText = (e) => {
     setEditedStudentID(e);
-    setConcatinate(dropDownStudentID + "-" + editedStudentID);
   };
   // Handle email input change
   const handleEmailChange = (e) => {
