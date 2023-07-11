@@ -12,6 +12,7 @@ import {
   FaUserEdit,
   FaPrint,
 } from "react-icons/fa"; // Assuming you're using react-icons for icons
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const ShowCsv = () => {
   const [fields, setFields] = useState([]);
@@ -305,32 +306,47 @@ const ShowCsv = () => {
                     <td>{field.Student_Name}</td>
                     <td>{field.Student_ID}</td>
                     <td>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => handlePrintChallan(field)}
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Print</Tooltip>}
                       >
-                        <i className="fas fa-print">
-                          <FaPrint />
-                        </i>
-                      </button>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handlePrintChallan(field)}
+                        >
+                          <i className="fas fa-print">
+                            <FaPrint />
+                          </i>
+                        </button>
+                      </OverlayTrigger>
                       {"  "}
-                      <button
-                        className="btn btn-warning"
-                        onClick={() => handleEditChallan(field)}
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Edit</Tooltip>}
                       >
-                        <i className="fas fa-edit">
-                          <FaUserEdit />
-                        </i>
-                      </button>
+                        <button
+                          className="btn btn-warning"
+                          onClick={() => handleEditChallan(field)}
+                        >
+                          <i className="fas fa-edit">
+                            <FaUserEdit />
+                          </i>
+                        </button>
+                      </OverlayTrigger>
                       {"  "}
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleDeleteChallan(field)}
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Delete</Tooltip>}
                       >
-                        <i className="fas fa-edit">
-                          <FaTrashAlt />
-                        </i>
-                      </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleDeleteChallan(field)}
+                        >
+                          <i className="fas fa-edit">
+                            <FaTrashAlt />
+                          </i>
+                        </button>
+                      </OverlayTrigger>
                     </td>
                   </tr>
                 )
@@ -429,24 +445,34 @@ const ShowCsv = () => {
                   <td>{field.Student_Name}</td>
                   <td>{field.Student_ID}</td>
                   <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handlePrintChallan(field)}
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip>Print</Tooltip>}
                     >
-                      <i className="fas fa-print">
-                        {" "}
-                        <FaPrint />
-                      </i>{" "}
-                    </button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => handlePrintChallan(field)}
+                      >
+                        <i className="fas fa-print">
+                          {" "}
+                          <FaPrint />
+                        </i>{" "}
+                      </button>
+                    </OverlayTrigger>
                     {"  "}
-                    <button
-                      className="btn btn-warning"
-                      onClick={() => handleEditChallan(field)}
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip>Edit</Tooltip>}
                     >
-                      <i className="fas fa-edit">
-                        <FaUserEdit />
-                      </i>
-                    </button>
+                      <button
+                        className="btn btn-warning"
+                        onClick={() => handleEditChallan(field)}
+                      >
+                        <i className="fas fa-edit">
+                          <FaUserEdit />
+                        </i>
+                      </button>
+                    </OverlayTrigger>
                   </td>
                 </tr>
               ))}
