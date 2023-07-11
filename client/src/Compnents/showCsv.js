@@ -278,7 +278,7 @@ const ShowCsv = () => {
           padding: "10px 30px 20px",
         }}
       >
-        <h1>Generate Challan</h1>
+        <h1>Pending Challan</h1>
         <div className="form-group">
           <input
             type="text"
@@ -739,7 +739,7 @@ const ShowCsv = () => {
             marginRight: "10px",
           }}
         >
-          Generate Challans
+          Pending Challans
         </label>
         <span
           className="round-indicator"
