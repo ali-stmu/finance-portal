@@ -4,6 +4,7 @@ import { BASE_URL } from "../baseUrl";
 import axios from "axios";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import { FaPrint } from "react-icons/fa";
 
 const EmailVerification = () => {
   const [generatedFields, setGeneratedFields] = useState([]);
@@ -244,7 +245,7 @@ const EmailVerification = () => {
                             className="btn btn-primary"
                             onClick={() => handlePrintChallan(field)}
                           >
-                            Re-Generate Challan
+                            <FaPrint />
                           </button>
                         </td>
                       </tr>

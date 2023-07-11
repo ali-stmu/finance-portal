@@ -5,7 +5,13 @@ import axios from "axios";
 import EditChallanPopup from "./editChallanPopup";
 import "../Styling/ShowCsv.css"; // Import CSS file for styling
 import Chart from "chart.js";
-import { FaExclamationTriangle } from "react-icons/fa"; // Assuming you're using react-icons for icons
+import {
+  FaExclamationTriangle,
+  FaCheckCircle,
+  FaTrashAlt,
+  FaUserEdit,
+  FaPrint,
+} from "react-icons/fa"; // Assuming you're using react-icons for icons
 
 const ShowCsv = () => {
   const [fields, setFields] = useState([]);
@@ -303,21 +309,27 @@ const ShowCsv = () => {
                         className="btn btn-primary"
                         onClick={() => handlePrintChallan(field)}
                       >
-                        <i className="fas fa-print">Print Challan</i>
+                        <i className="fas fa-print">
+                          <FaPrint />
+                        </i>
                       </button>
                       {"  "}
                       <button
                         className="btn btn-warning"
                         onClick={() => handleEditChallan(field)}
                       >
-                        <i className="fas fa-edit">Edit</i>
+                        <i className="fas fa-edit">
+                          <FaUserEdit />
+                        </i>
                       </button>
                       {"  "}
                       <button
                         className="btn btn-danger"
                         onClick={() => handleDeleteChallan(field)}
                       >
-                        <i className="fas fa-edit">Delete</i>
+                        <i className="fas fa-edit">
+                          <FaTrashAlt />
+                        </i>
                       </button>
                     </td>
                   </tr>
@@ -421,14 +433,19 @@ const ShowCsv = () => {
                       className="btn btn-primary"
                       onClick={() => handlePrintChallan(field)}
                     >
-                      <i className="fas fa-print">Re-Generate Challan</i>{" "}
+                      <i className="fas fa-print">
+                        {" "}
+                        <FaPrint />
+                      </i>{" "}
                     </button>
                     {"  "}
                     <button
                       className="btn btn-warning"
                       onClick={() => handleEditChallan(field)}
                     >
-                      <i className="fas fa-edit">Edit</i>
+                      <i className="fas fa-edit">
+                        <FaUserEdit />
+                      </i>
                     </button>
                   </td>
                 </tr>
@@ -556,7 +573,7 @@ const ShowCsv = () => {
               animation: "font-size 0.5s ease-out",
             }}
           >
-            Student updated successfully
+            Student updated successfully <FaCheckCircle />
           </h1>
         </div>
       )}
@@ -573,7 +590,6 @@ const ShowCsv = () => {
             textAlign: "center",
             borderRadius: "8px",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-            animation: "fade-in 0.5s ease-out, shake 0.5s ease-in-out",
           }}
         >
           <h1
@@ -609,14 +625,18 @@ const ShowCsv = () => {
             style={{
               backgroundColor: "white",
               padding: "20px",
-              borderRadius: "8px",
+              borderRadius: "16px",
               animation: "heartbeat 1s ease-in-out infinite",
               transformOrigin: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <h2>
-              Confirm Delete <FaExclamationTriangle />
-            </h2>
+            <h1 style={{ fontSize: "48px" }}>
+              <FaExclamationTriangle />
+            </h1>
+            <h2>Confirm Delete</h2>
             <p>Are you sure you want to delete the challan? </p>
             <div style={{ textAlign: "center" }}>
               <button
