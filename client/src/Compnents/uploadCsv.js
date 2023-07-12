@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";
 import { saveAs } from "file-saver";
-import { Table, Button, Form, Alert } from "react-bootstrap";
+import { Table, Button, Form, Alert, Modal } from "react-bootstrap";
 import { BASE_URL } from "../baseUrl";
 import BGIMAGE from "../images/calculator-closeup.jpg";
+import context from "react-bootstrap/esm/AccordionContext";
 
 function UploadCsv() {
   const [file, setFile] = useState(null); // State to store the uploaded file
@@ -13,6 +14,7 @@ function UploadCsv() {
   const [searchTerm, setSearchTerm] = useState(""); // State to store the search term
   const navigate = useNavigate(); // React Router navigation hook
   const [apiResponse, setApiResponse] = useState(null); // State to store the API response
+  const [showModal, setShowModal] = useState(false); // State to control the visibility of the modal
   const delay = 5000;
 
   useEffect(() => {
@@ -44,6 +46,7 @@ function UploadCsv() {
 
     reader.readAsBinaryString(selectedFile);
   };
+
   const handleUpload = () => {
     const formData = new FormData();
     const headers = data[0]; // First row as headers
@@ -78,9 +81,20 @@ function UploadCsv() {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data.insert);
+        console.log(data.duplicate);
         // Handle the response from the API
-        setApiResponse(data.message); // Set the success message in the state
-        setTimeout(navigateToShowCSV, delay);
+        if (data.duplicate > 0) {
+          setApiResponse(data.message); // Set the error message in the state
+          setShowModal(true); // Show the modal
+        } else {
+          setApiResponse(data.message); // Set the success message in the state
+          setShowModal(true); // Show the modal
+          setTimeout(() => {
+            setShowModal(false); // Hide the modal after a delay
+            navigateToShowCSV();
+          }, delay);
+        }
       })
       .catch((error) => {
         // Handle any errors that occurred during the API call
@@ -88,6 +102,7 @@ function UploadCsv() {
         setApiResponse(null); // Clear the API response if an error occurred
       });
   };
+
   const navigateToShowCSV = () => {
     navigate("/showcsv");
   };
@@ -207,7 +222,24 @@ function UploadCsv() {
   return (
     <div>
       <Button onClick={handleUpload}>Upload Excel</Button>
-      {apiResponse && <Alert variant="success">{apiResponse}</Alert>}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        animation={true}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Response</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {apiResponse && data.duplicate > 0 ? (
+            <Alert variant="success">{apiResponse}</Alert>
+          ) : (
+            <Alert variant="danger">{apiResponse}</Alert>
+          )}
+        </Modal.Body>
+      </Modal>
+
       <div>
         <h2>Excel Sheet is here</h2>
         <Form.Group>

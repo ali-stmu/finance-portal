@@ -128,7 +128,8 @@ class UploadController extends Controller
         // For example, you can store them in a database, perform calculations, or print them
   
       }
-      return response()->json(['message' => $insert.' Records inserted ' . $count . ' Duplicate Records Found']);
+      return response()->json(['message' => $insert.' Records inserted ' . $count . ' Duplicate Records Found','duplicate' => $count,
+      'insert' => $insert]);
 
 
     }
