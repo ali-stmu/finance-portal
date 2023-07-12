@@ -71,9 +71,14 @@ const EmailVerification = () => {
   };
 
   useEffect(() => {
-    let user = JSON.parse(sessionStorage.getItem("user"));
-    let email = user.user.user_id;
-    fetchFieldsGenerated(email);
+    let session = sessionStorage.getItem("user");
+    if (!session) {
+      navigate("/login"); // Redirect to login page if the user session is not found
+    } else {
+      let user = JSON.parse(session);
+      let email = user.user.user_id;
+      fetchFieldsGenerated(email);
+    }
   }, []);
 
   const handlePageChangeGeneratedFields = (page) => {

@@ -195,6 +195,12 @@ const ShowCsv = () => {
       clearTimeout(timeoutId);
     };
   }, [updateSuccess, deleteSuccess, pageSize, pageSizeGenerated]);
+  useEffect(() => {
+    let session = sessionStorage.getItem("user");
+    if (!session) {
+      navigate("/login"); // Redirect to login page if the user session is not found
+    }
+  }, []);
 
   const handlePageChangeFields = (page) => {
     setCurrentPageFields(page);

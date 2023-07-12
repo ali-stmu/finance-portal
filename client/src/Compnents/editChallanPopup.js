@@ -140,7 +140,9 @@ const EditChallanPopup = ({
         <table className="table">
           <thead>
             <tr>
-              <th>Due Date</th>
+              <th>
+                Due Date<p>{editedDueDate}</p>
+              </th>
               <th>Student ID</th>
               <th>Student Name</th>
               <th>Total Amount</th>
