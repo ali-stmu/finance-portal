@@ -61,7 +61,13 @@ class UploadController extends Controller
       $email = $item['Email'] ?? null;
       $session = $item['Session'] ?? null;
         // ... assign other variables as needed
-      
+        $existingUpload = Upload::where('Email', $email)
+        ->where('Semester', $semester)
+        ->first();
+    
+    if ($existingUpload) {
+        continue; // Skip inserting duplicate records
+    }
 
         $upload = new Upload([
             'Challan_No' => $challanNo,
