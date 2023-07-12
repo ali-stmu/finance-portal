@@ -13,6 +13,8 @@ class UploadController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $count = 0;
+        $insert = 0;
        // Log::debug($data);
        foreach ($data as $item) {
      // log::debug(  $challanNo = $item['Challan_No.'] ?? null);
@@ -63,9 +65,11 @@ class UploadController extends Controller
         // ... assign other variables as needed
         $existingUpload = Upload::where('Email', $email)
         ->where('Semester', $semester)
+        ->where('Student_ID', $studentId)
         ->first();
     
     if ($existingUpload) {
+        $count++;
         continue; // Skip inserting duplicate records
     }
 
@@ -115,8 +119,8 @@ class UploadController extends Controller
             'inst_due_date' => $inst_due_date,
             'session' => $session,
         ]);
-        
         $upload->save();
+        $insert++;
 
 
 
@@ -124,7 +128,7 @@ class UploadController extends Controller
         // For example, you can store them in a database, perform calculations, or print them
   
       }
-      return response()->json(['message' => 'Data inserted successfully']);
+      return response()->json(['message' => $insert.' Records inserted ' . $count . ' Duplicate Records Found']);
 
 
     }

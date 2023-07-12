@@ -13,6 +13,7 @@ function UploadCsv() {
   const [searchTerm, setSearchTerm] = useState(""); // State to store the search term
   const navigate = useNavigate(); // React Router navigation hook
   const [apiResponse, setApiResponse] = useState(null); // State to store the API response
+  const delay = 5000;
 
   useEffect(() => {
     let session = sessionStorage.getItem("user");
@@ -78,13 +79,17 @@ function UploadCsv() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response from the API
-        setApiResponse("Upload successful!"); // Set the success message in the state
+        setApiResponse(data.message); // Set the success message in the state
+        setTimeout(navigateToShowCSV, delay);
       })
       .catch((error) => {
         // Handle any errors that occurred during the API call
         console.error("Error uploading CSV:", error);
         setApiResponse(null); // Clear the API response if an error occurred
       });
+  };
+  const navigateToShowCSV = () => {
+    navigate("/showcsv");
   };
 
   const handleDownload = () => {
