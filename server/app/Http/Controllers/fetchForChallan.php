@@ -132,7 +132,7 @@ class fetchForChallan extends Controller
             ]);
         }
 
-        public function sendEmail(Request $request,$id,$email,$studentName,$programName){
+        public function sendEmail(Request $request,$id,$email,$studentName,$programName,$dueDate){
 
 
             $explodedProgramName = explode("-", $programName);
@@ -197,7 +197,7 @@ class fetchForChallan extends Controller
         <p>Reference: Your application regarding admission in Bachelor of Science in '.$pname.' program in Fall 2023 was evaluated. Based on your academic record and entry test held at Department of Computing.</p>
         <ol>
             <li>We are pleased to offer you provisional admission in Bachelor of Science '.$pname.'. This admission is being offered based on your attained HSSC-I result. Please note that if the combined result of HSSC remains below the required eligibility (i.e. <50% marks), the admission will stand cancelled.</li>
-            <li>Your registration with the University will, however, be confirmed after the receiving of following documents latest by July 7, 2023:
+            <li>Your registration with the University will, however, be confirmed after the receiving of following documents latest by '.$dueDate.':
         
         <ol type="a">
             <li>Attested photocopies of SSC/Equivalent and HSSC/Equivalent documents as per attached checklist.</li>

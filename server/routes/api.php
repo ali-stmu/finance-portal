@@ -35,4 +35,4 @@ Route::post('/dropdownfill/{userId}', [fetchForChallan::class, 'fetchProgramName
 Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan']);
 Route::put('/deletechallan/{id}', [fetchForChallan::class, 'deletechallan']);
 
-Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}', [fetchForChallan::class, 'sendEmail']);
+Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}/{dueDate}', [fetchForChallan::class, 'sendEmail']);

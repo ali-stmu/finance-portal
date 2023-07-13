@@ -22,8 +22,8 @@ class UploadController extends Controller
       $studentId = $item['Student_I.D'] ?? null;
       $studentName = $item['Student_Name'] ?? null;
       $semester = $item['Semester'] ?? null;
-     $tuitionFee = $item['Tuition_fee'] ?? null;
-    $tuitionFeeDiscount = $item['Tuition_fee_Discount'] ?? null;
+      $tuitionFee = $item['Tuition_fee'] ?? null;
+      $tuitionFeeDiscount = $item['Tuition_fee_Discount'] ?? null;
       $admissionFee = $item['Admission_fee'] ?? null;
       $universityRegFee = $item['University_Reg.fee'] ?? null;
       $securityDeposit = $item['Security_Deposit_(Refundable)'] ?? null;
@@ -66,6 +66,7 @@ class UploadController extends Controller
         $existingUpload = Upload::where('Email', $email)
         ->where('Semester', $semester)
         ->where('Student_ID', $studentId)
+        ->where('delete_status', 0)
         ->first();
     
     if ($existingUpload) {
@@ -121,12 +122,9 @@ class UploadController extends Controller
         ]);
         $upload->save();
         $insert++;
-
-
-
         // Use the variables however you like
         // For example, you can store them in a database, perform calculations, or print them
-  
+
       }
       return response()->json(['message' => $insert.' Records inserted ' . $count . ' Duplicate Records Found','duplicate' => $count,
       'insert' => $insert]);

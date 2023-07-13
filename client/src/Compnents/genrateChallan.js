@@ -111,7 +111,7 @@ const GenrateChallan = () => {
 
         // Make an HTTP POST request to your Laravel backend API endpoint
         fetch(
-          `${BASE_URL}/api/sendEmail/${voucherID}/${email}/${studentName}/${rollNo}`,
+          `${BASE_URL}/api/sendEmail/${voucherID}/${email}/${studentName}/${rollNo}/${dueDate}`,
           {
             method: "POST",
             body: formData,

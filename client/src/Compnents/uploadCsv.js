@@ -15,7 +15,7 @@ function UploadCsv() {
   const navigate = useNavigate(); // React Router navigation hook
   const [apiResponse, setApiResponse] = useState(null); // State to store the API response
   const [showModal, setShowModal] = useState(false); // State to control the visibility of the modal
-  const delay = 5000;
+  const delay = 3000;
 
   useEffect(() => {
     let session = sessionStorage.getItem("user");
@@ -84,17 +84,12 @@ function UploadCsv() {
         console.log(data.insert);
         console.log(data.duplicate);
         // Handle the response from the API
-        if (data.duplicate > 0) {
-          setApiResponse(data.message); // Set the error message in the state
-          setShowModal(true); // Show the modal
-        } else {
-          setApiResponse(data.message); // Set the success message in the state
-          setShowModal(true); // Show the modal
-          setTimeout(() => {
-            setShowModal(false); // Hide the modal after a delay
-            navigateToShowCSV();
-          }, delay);
-        }
+        setApiResponse(data.message); // Set the success message in the state
+        setShowModal(true); // Show the success modal
+        setTimeout(() => {
+          setShowModal(false); // Hide the modal after a delay
+          navigateToShowCSV();
+        }, delay);
       })
       .catch((error) => {
         // Handle any errors that occurred during the API call
@@ -233,9 +228,9 @@ function UploadCsv() {
         </Modal.Header>
         <Modal.Body>
           {apiResponse && data.duplicate > 0 ? (
-            <Alert variant="success">{apiResponse}</Alert>
-          ) : (
             <Alert variant="danger">{apiResponse}</Alert>
+          ) : (
+            <Alert variant="success">{apiResponse}</Alert>
           )}
         </Modal.Body>
       </Modal>
