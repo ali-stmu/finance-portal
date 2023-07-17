@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styling/Navbar.css"; // Import custom CSS file for NavBar styles
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
+  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -37,13 +40,16 @@ const NavBar = () => {
         data-toggle="collapse"
         data-target="#navbarNav"
         aria-controls="navbarNav"
-        aria-expanded="false"
+        aria-expanded={!isNavCollapsed ? true : false}
         aria-label="Toggle navigation"
+        onClick={handleNavCollapse}
       >
         <span className="navbar-toggler-icon"></span>
       </button>
       <div
-        className="collapse navbar-collapse justify-content-end"
+        className={`${
+          isNavCollapsed ? "collapse" : ""
+        } navbar-collapse justify-content-end`}
         id="navbarNav"
       >
         <ul className="navbar-nav">
