@@ -66,15 +66,59 @@ class UploadController extends Controller
         $existingUpload = Upload::where('Email', $email)
         ->where('Semester', $semester)
         ->where('Student_ID', $studentId)
+        ->where('Department', $department)
         ->where('delete_status', 0)
         ->first();
     
     if ($existingUpload) {
-        $count++;
-        continue; // Skip inserting duplicate records
-    }
+        $existingUpload->update([
+            'Challan_No' => $challanNo,
+            'Student_Name' => $studentName,
+            'Student_ID' => $studentId,
+            'Tuition_fee' => $tuitionFee,
+            'Tuition_fee_Discount' => $tuitionFeeDiscount,
+            'Admission_fee' => $admissionFee,
+            'University_Reg_fee' => $universityRegFee,
+            'Security_Deposit_Refundable' => $securityDeposit,
+            'Medical_Checkup' => $medicalCheckup,
+            'Semester_Enrollment_Fee' => $semesterEnrollmentFee,
+            'Examination_Fee' => $examinationFee,
+            'Co_Curricular_activities_fee' => $coCurricularActivitiesFee,
+            'Hostel_Fee' => $hostelFee,
+            'PMC_Registration' => $pmcRegistration,
+            'Pharmacy_Council_Reg_Fee' => $pharmacyCouncilRegFee,
+            'Clinical_Charges' => $clinicalCharges,
+            'Library_Fee' => $libraryFee,
+            'Migration_Fee' => $migrationFee,
+            'Document_Verification_Fee' => $documentVerificationFee,
+            'Application_Prospectus_Fee' => $applicationProspectusFee,
+            'Degree_and_Convocation_Fee' => $degreeConvocationFee,
+            'Advance_Tax' => $advanceTax,
+            'Others_Specify' => $othersSpecify,
+            'Late_fee' => $lateFee,
+            'Transport_Charges' => $transportCharges,
+            'Special_Discount' => $specialDiscount,
+            'Department' => $department,
+            'Due_Date' => $dueDate,
+            'Others_Narration' => $othersNarration,
+            'Campus_Development_Charges' => $campusDevelopmentCharges,
+            'Total_Amount' => $totalAmount,
+            'Hostel_Fee_Month' => $hostelFeeMonth,
+            'Fine_Per_Day' => $finePerDay,
+            'Cut_Off_Date' => $cutOffDate,
+            'Fine_Narration' => $fineNarration,
+            'Document_Verification_Narration' => $documentVerificationNarration,
+            'GL_Narration' => $glNarration,
+            'email' => $email,
+            'issue_date' => $issue_date,
+            'installment' => $installment,
+            'inst_issue_date' => $inst_issue_date,
+            'inst_due_date' => $inst_due_date,
+            'session' => $session,]);   
+            $count++;
+            }else{
 
-        $upload = new Upload([
+            $upload = new Upload([
             'Challan_No' => $challanNo,
             'Student_ID' => $studentId,
             'Student_Name' => $studentName,
@@ -119,14 +163,17 @@ class UploadController extends Controller
             'inst_issue_date' => $inst_issue_date,
             'inst_due_date' => $inst_due_date,
             'session' => $session,
+           
         ]);
-        $upload->save();
         $insert++;
+       
+        $upload->save();
         // Use the variables however you like
         // For example, you can store them in a database, perform calculations, or print them
-
+    }
+   
       }
-      return response()->json(['message' => $insert.' Records inserted ' . $count . ' Duplicate Records Found','duplicate' => $count,
+      return response()->json(['message' => $insert.' Records inserted/updated ' . $count . ' Duplicate Records Found','duplicate' => $count,
       'insert' => $insert]);
 
 
