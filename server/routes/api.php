@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\fetchForChallan;
-
+use App\Http\Controllers\bankFetchDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +36,5 @@ Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan
 Route::put('/deletechallan/{id}', [fetchForChallan::class, 'deletechallan']);
 
 Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}/{dueDate}', [fetchForChallan::class, 'sendEmail']);
+
+Route::post('/bankFetchDataController', [bankFetchDataController::class, 'getVoucherDetail']);
