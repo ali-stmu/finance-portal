@@ -57,16 +57,18 @@ class UploadController extends Controller
       $documentVerificationNarration = $item['Document_Verification_Narration'] ?? null;
       $glNarration = $item['GL_Narration'] ?? null;
       $issue_date = $item['issue_date'] ?? null;
-      $installment = $item['Installment(yes/no)'] ?? null;
+      $installment = $item['Installment'] ?? null;
       $inst_due_date = $item['inst_due_date'] ?? null;
       $inst_issue_date = $item['inst_issue_date'] ?? null;
       $email = $item['Email'] ?? null;
       $session = $item['Session'] ?? null;
         // ... assign other variables as needed
-        $existingUpload = Upload::where('Email', $email)
+        $existingUpload =
+         Upload::where('Email', $email)
         ->where('Semester', $semester)
         ->where('Student_ID', $studentId)
         ->where('Department', $department)
+        //->where('installment'$installment)
         ->where('delete_status', 0)
         ->first();
     
