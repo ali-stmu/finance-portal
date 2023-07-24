@@ -20,6 +20,9 @@ class BankVoucherInfo extends Model
         'instrumentNo',
         'amount',
         'net_amount',
-        'paid_status'
+        'paid_status',
+        'customer_id',
+        'gateway',
+        'fine',
     ];
 }
