@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class bankFetchDataController extends Controller
 {
-    //
+    //php =
     public function getVoucherDetail(Request $request){
 
         //log::debug($request->all());

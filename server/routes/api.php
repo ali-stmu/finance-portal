@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\fetchForChallan;
 use App\Http\Controllers\bankFetchDataController;
+use App\Http\Controllers\ReceiveVoucherCallController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,6 @@ Route::put('/deletechallan/{id}', [fetchForChallan::class, 'deletechallan']);
 
 Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}/{dueDate}', [fetchForChallan::class, 'sendEmail']);
 
-Route::post('/bankFetchDataController', [bankFetchDataController::class, 'getVoucherDetail']);
+Route::post('/getVoucherDetail', [bankFetchDataController::class, 'getVoucherDetail']);
+
+Route::post('/ReceiveFeeVoucher', [ReceiveVoucherCallController::class, 'ReceiveFeeVoucher']);
