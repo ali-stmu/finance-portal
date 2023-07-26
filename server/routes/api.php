@@ -27,17 +27,12 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/uploadcsv', [UploadController::class, 'store']);
 Route::post('/update/{primaryKey}', [UploadController::class, 'update']);
 Route::post('/feeChallanData/{email}', [fetchForChallan::class, 'feeChallanData']);
-
 Route::post('/feeChallanGeneratedData/{email}', [fetchForChallan::class, 'feeChallanGeneratedData']);
 Route::post('/feeChallanEmailedData/{email}', [fetchForChallan::class, 'feeChallanEmailedData']);
 Route::post('/dropdownfill/{userId}', [fetchForChallan::class, 'fetchProgramNames']);
-
-
 Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan']);
 Route::put('/deletechallan/{id}', [fetchForChallan::class, 'deletechallan']);
-
 Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}/{dueDate}', [fetchForChallan::class, 'sendEmail']);
 
 Route::post('/getVoucherDetail', [bankFetchDataController::class, 'getVoucherDetail']);
-
 Route::post('/ReceiveFeeVoucher', [ReceiveVoucherCallController::class, 'ReceiveFeeVoucher']);
