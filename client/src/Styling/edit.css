@@ -31,4 +31,12 @@
     color: #333;
     cursor: pointer;
   }
-  
+  /* Add this to your edit.css file or any other CSS file */
+.invalid-email {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}

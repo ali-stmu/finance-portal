@@ -25,6 +25,9 @@ const EditChallanPopup = ({
   const [editedEmail, setEditedEmail] = useState(email);
   const [dropdownValues, setDropdownValues] = useState([]);
   const [conatinate, setConcatinate] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true); // Track email validity
+  const [showEmailError, setShowEmailError] = useState(false); // Track whether to show the email error
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false); // Track if Save button should be disabled
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +60,17 @@ const EditChallanPopup = ({
 
   // Handle save button click
   const handleSave = () => {
+    // Validate the email format using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(editedEmail) || editedEmail === "";
+
+    if (!isEmailValid) {
+      // Show error message if the email is not valid
+      setShowEmailError(true);
+      setIsSaveDisabled(true);
+      return;
+    }
+
     // Create an object with the edited data
     const formattedDueDate = new Date(editedDueDate).toLocaleDateString(
       "en-US",
@@ -75,7 +89,7 @@ const EditChallanPopup = ({
       Tuition_fee: editedTuitionFee,
       email: editedEmail,
     };
-    console.log(editedData);
+
     // Make the API call to update the data
     fetch(`${BASE_URL}/api/update/${primaryKey}`, {
       method: "POST",
@@ -96,21 +110,32 @@ const EditChallanPopup = ({
         // Handle any errors that occur during the API call
         console.error(error);
       });
+    setIsSaveDisabled(false);
   };
+
   const handleStudentID = (e) => {
     setDropDownStudentID(e);
   };
+
   const handleStudentIdText = (e) => {
     setEditedStudentID(e);
   };
+
   // Handle email input change
   const handleEmailChange = (e) => {
-    const value = e.target.value;
+    setEditedEmail(e.target.value);
+  };
+
+  // Handle email input blur event
+  const handleEmailBlur = () => {
     // Validate the email format using a regular expression
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailRegex.test(value) || value === "") {
-      setEditedEmail(value);
-    }
+    const isEmailValid = emailRegex.test(editedEmail) || editedEmail === "";
+
+    // Set the appropriate states to show the error message and disable/enable Save button
+    setShowEmailError(!isEmailValid);
+    setIsEmailValid(isEmailValid);
+    setIsSaveDisabled(!isEmailValid);
   };
 
   // Handle total amount input change
@@ -203,7 +228,14 @@ const EditChallanPopup = ({
                   type="text"
                   value={editedEmail}
                   onChange={handleEmailChange}
+                  onBlur={handleEmailBlur}
+                  className={
+                    showEmailError && !isEmailValid ? "invalid-email" : ""
+                  }
                 />
+                {showEmailError && !isEmailValid && (
+                  <span className="error-message">Email is not valid</span>
+                )}
               </td>
             </tr>
           </tbody>
@@ -215,7 +247,11 @@ const EditChallanPopup = ({
             marginTop: "20px",
           }}
         >
-          <button className="btn btn-primary" onClick={handleSave}>
+          <button
+            className="btn btn-primary"
+            onClick={handleSave}
+            disabled={isSaveDisabled}
+          >
             Save
           </button>
         </div>
