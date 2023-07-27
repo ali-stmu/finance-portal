@@ -6,6 +6,7 @@ import { Table, Button, Form, Alert, Modal } from "react-bootstrap";
 import { BASE_URL } from "../baseUrl";
 import BGIMAGE from "../images/calculator-closeup.jpg";
 import context from "react-bootstrap/esm/AccordionContext";
+import BGVIDEO from "../images/Background_video(1).mp4";
 
 function UploadCsv() {
   const [file, setFile] = useState(null); // State to store the uploaded file
@@ -137,11 +138,30 @@ function UploadCsv() {
       <div
         className="d-flex flex-column justify-content-center align-items-center"
         style={{
-          backgroundImage: `url(${BGIMAGE})`,
           backgroundSize: "cover",
           minHeight: "88vh",
+          position: "relative", // Add position relative to allow absolute positioning of the video
         }}
       >
+        {/* Video element for the background */}
+        <video
+          autoPlay
+          loop
+          muted
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: 0,
+            objectFit: "cover",
+            zIndex: -1, // Set z-index to -1 to position the video behind other content
+          }}
+        >
+          <source src={BGVIDEO} type="video/mp4" />
+          {/* Add more source elements for different video formats, if necessary */}
+        </video>
+
         <div className="card">
           <div className="card-body">
             <h2 className="card-title">
