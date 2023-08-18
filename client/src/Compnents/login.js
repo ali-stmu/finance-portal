@@ -69,7 +69,7 @@ function Login() {
           // Save user data in sessionStorage
           sessionStorage.setItem("user", JSON.stringify(data));
           if (data.user.role === "Finance") {
-            navigate("/feeverification");
+            navigate("/verifychallan");
           } else {
             // Navigate to the home page
             navigate("/uploadcsv");
