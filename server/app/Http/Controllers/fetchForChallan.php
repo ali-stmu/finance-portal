@@ -24,15 +24,32 @@ class fetchForChallan extends Controller
         ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
         ->where('se.challan_status', '=', 0)
         ->where('se.delete_status', '=', 0)
+        ->where('se.accounts_status', '=', 1)
         ->where('u.user_id', '=', $email)
         ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
         ->orderByDesc('se.created_at')
         ->get();
+   // $fields = Upload::select('challan_generation_id','Challan_No', 'issue_date', 'inst_issue_date', 'inst_due_date', 'challan_status', 'Due_Date', 'installment', 'Student_ID', 'Admission_fee', 'Tuition_fee', 'Tuition_fee_Discount', 'Total_Amount', 'Student_Name', 'Semester', 'session','email')
+    //->where('challan_status', 0)
+    //->get();
+
+    return response()->json([
+        'fields' => $results
+    ]);
+    }
+
     
-
-
-       
-
+    public function AccountsChallan($email){
+        $results = DB::table('user as u')
+        ->join('department_mapping as dm', 'u.user_id', '=', 'dm.user_id')
+        ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
+        ->where('se.challan_status', '=', 0)
+        ->where('se.delete_status', '=', 0)
+        ->where('se.accounts_status', '=', 0)
+        ->where('u.user_id', '=', $email)
+        ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
+        ->orderByDesc('se.created_at')
+        ->get();
    // $fields = Upload::select('challan_generation_id','Challan_No', 'issue_date', 'inst_issue_date', 'inst_due_date', 'challan_status', 'Due_Date', 'installment', 'Student_ID', 'Admission_fee', 'Tuition_fee', 'Tuition_fee_Discount', 'Total_Amount', 'Student_Name', 'Semester', 'session','email')
     //->where('challan_status', 0)
     //->get();
@@ -49,6 +66,8 @@ class fetchForChallan extends Controller
        ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
        ->where('se.challan_status', '=', 1)
        ->where('se.delete_status', '=', 0)
+       ->where('se.accounts_status', '=', 1)
+       //it is not email it user-ID for Department Mapping
        ->where('u.user_id', '=', $email)
        ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
        ->orderByDesc('se.created_at')
@@ -66,6 +85,7 @@ class fetchForChallan extends Controller
             ->join('student_excel as se', 'dm.program_name', '=', 'se.Department')
             ->where('se.email_status', '=', 1)
             ->where('se.delete_status', '=', 0)
+            ->where('se.accounts_status', '=', 1)
             ->where('u.user_id', '=', $email)
             ->select('u.email', 'u.role', 'dm.program_name', 'dm.user_id', 'se.challan_generation_id', 'se.challan_generation_id','se.Challan_No','se.issue_date','se.inst_issue_date','se.inst_due_date','se.challan_status','se.Due_Date','se.installment','se.Student_ID','se.Admission_fee','se.Tuition_fee','se.Tuition_fee_Discount','se.Total_Amount','se.Student_Name','se.Semester','se.session','se.email')
             ->orderByDesc('se.created_at')

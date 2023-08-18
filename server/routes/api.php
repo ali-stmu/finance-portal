@@ -36,3 +36,7 @@ Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}/{dueDate}', [fe
 
 Route::post('/getVoucherDetail', [bankFetchDataController::class, 'getVoucherDetail']);
 Route::post('/ReceiveFeeVoucher', [ReceiveVoucherCallController::class, 'ReceiveFeeVoucher']);
+
+
+//For Accounts
+Route::post('/accountsChallan/{email}', [fetchForChallan::class, 'AccountsChallan']);
