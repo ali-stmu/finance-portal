@@ -40,3 +40,6 @@ Route::post('/ReceiveFeeVoucher', [ReceiveVoucherCallController::class, 'Receive
 
 //For Accounts
 Route::post('/accountsChallan/{email}', [fetchForChallan::class, 'AccountsChallan']);
+Route::put('/verifychallan/{id}', [fetchForChallan::class, 'VerifyChallan']);
+Route::put('/rejectchallan/{id}', [fetchForChallan::class, 'rejectchallan']);
+

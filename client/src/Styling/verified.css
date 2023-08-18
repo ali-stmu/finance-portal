@@ -1,0 +1,90 @@
+.blurred {
+    filter: blur(3px);
+  }
+  @keyframes font-size {
+    0% {
+      font-size: 0px;
+      transform: rotate(0deg);
+    }
+    100% {
+      font-size: 50px;
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ShowCsv.css */
+/* Styling for the table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Style the table header */
+.table thead th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Alternate row background colors */
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect for rows */
+.table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style buttons */
+.btn {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-sm {
+  font-size: 12px;
+}
+
+/* Blurred effect for the popup */
+.blurred {
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+  

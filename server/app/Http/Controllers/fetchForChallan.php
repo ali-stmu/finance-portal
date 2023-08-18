@@ -131,6 +131,26 @@ class fetchForChallan extends Controller
                 'message' => 'Genratechallan updated successfully.'
             ]);
         }
+        public function VerifyChallan(Request $request, $id)
+        {
+            // Perform any necessary validation or checks
+    
+            // Update the genratechallan logic for the specified $id
+            // Example:
+            $upload = Upload::find($id);
+            if ($upload) {
+                $upload->accounts_status = 1; // Set account_status to 1 (generated)
+                $upload->save();
+    
+                // Additional logic if needed
+            } else {
+                // Handle case when upload with $id is not found
+            }
+    
+            return response()->json([
+                'message' => 'Challan Verified successfully.'
+            ]);
+        }
         public function deletechallan(Request $request, $id)
         {
             // Perform any necessary validation or checks
@@ -140,6 +160,28 @@ class fetchForChallan extends Controller
             $upload = Upload::find($id);
             if ($upload) {
                 $upload->delete_status = 1; // Set challan_status to 1 (generated)
+                $upload->save();
+    
+                // Additional logic if needed
+            } else {
+                // Handle case when upload with $id is not found
+            }
+    
+            return response()->json([
+                'message' => 'Challan Deleted successfully.'
+            ]);
+        }
+        public function rejectchallan(Request $request, $id)
+        {
+            // Perform any necessary validation or checks
+    
+            // Update the genratechallan logic for the specified $id
+            // Example:
+            $upload = Upload::findOrFail($id);
+            if ($upload) {
+                $remarks = $request->input('remarks');
+                $upload->reject_remarks = $remarks;
+                $upload->accounts_status = 2; // Set challan_status to 1 (generated)
                 $upload->save();
     
                 // Additional logic if needed

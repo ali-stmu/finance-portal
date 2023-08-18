@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import axios from "axios";
 import EditChallanPopup from "../Compnents/editChallanPopup";
-import "../Styling/ShowCsv.css"; // Import CSS file for styling
+import "../Styling/verified.css"; // Import CSS file for styling
 import Chart from "chart.js";
 import {
   FaExclamationTriangle,
@@ -26,7 +26,7 @@ const ShowCsv = () => {
   const [searchTextFields, setSearchTextFields] = useState("");
   const [searchTextGeneratedFields, setSearchTextGeneratedFields] =
     useState("");
-  const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
+  //const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -37,6 +37,7 @@ const ShowCsv = () => {
   const totalStudentCount = fields.length + generatedFields.length;
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedFieldToDelete, setSelectedFieldToDelete] = useState(null);
+  const [rejectRemarks, setRejectRemarks] = useState("");
 
   const percentageGenerated = (generatedStudents / totalStudentCount) * 100;
   const percentageGenerate = (generateStudents / totalStudentCount) * 100;
@@ -94,7 +95,27 @@ const ShowCsv = () => {
       console.error("Error:", error);
     }
   };
+  const handleVerifyChallan = async (field) => {
+    setSelectedField(field);
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/verifychallan/${field.challan_generation_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
+      if (response.status === 200) {
+        console.log("Challan generated successfully.");
+      } else {
+        console.error("Error:", response.status);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   // const handlePrintChallan = async (field) => {
   //   setSelectedField(field);
   //   const jsonData = JSON.stringify(field);
@@ -128,13 +149,15 @@ const ShowCsv = () => {
     setSelectedFieldToDelete(field);
     setShowDeletePopup(true);
   };
-  const handleDeleteConfirmation = async () => {
+  const handleRejectConfirmation = async () => {
     if (selectedFieldToDelete) {
-      console.log(selectedFieldToDelete);
       // Perform the delete action
       try {
         const response = await axios.put(
-          `${BASE_URL}/api/deletechallan/${selectedFieldToDelete.challan_generation_id}`,
+          `${BASE_URL}/api/rejectchallan/${selectedFieldToDelete.challan_generation_id}`,
+          {
+            remarks: rejectRemarks, // Include the rejectRemarks in the payload
+          },
           {
             headers: {
               "Content-Type": "application/json",
@@ -194,7 +217,13 @@ const ShowCsv = () => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [updateSuccess, deleteSuccess, pageSize, pageSizeGenerated]);
+  }, [
+    updateSuccess,
+    deleteSuccess,
+    pageSize,
+    pageSizeGenerated,
+    selectedField,
+  ]);
   useEffect(() => {
     let session = sessionStorage.getItem("user");
     if (!session) {
@@ -318,7 +347,7 @@ const ShowCsv = () => {
                       >
                         <button
                           className="btn btn-primary"
-                          // onClick={() => handlePrintChallan(field)}
+                          onClick={() => handleVerifyChallan(field)}
                         >
                           <i className="fas fa-print">
                             <FaCheckCircle />
@@ -549,7 +578,7 @@ const ShowCsv = () => {
         </div>
       </div>
 
-      {showEditPopup && (
+      {/* {showEditPopup && (
         <div
           className="fade-in"
           style={{
@@ -578,9 +607,9 @@ const ShowCsv = () => {
             onClose={() => setShowEditPopup(false)}
           />
         </div>
-      )}
+      )} */}
 
-      {updateSuccess && (
+      {/* {updateSuccess && (
         <div
           style={{
             position: "fixed",
@@ -607,7 +636,7 @@ const ShowCsv = () => {
             Student updated successfully <FaCheckCircle />
           </h1>
         </div>
-      )}
+      )} */}
       {deleteSuccess && (
         <div
           style={{
@@ -667,12 +696,21 @@ const ShowCsv = () => {
             <h1 style={{ fontSize: "48px" }}>
               <FaExclamationTriangle />
             </h1>
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete the challan? </p>
+            <h2>Confirm Reject</h2>
+            <p>Please Enter Remarks for Rejecting Challan</p>
             <div style={{ textAlign: "center" }}>
+              <input
+                type="text"
+                value={rejectRemarks}
+                onChange={(e) => setRejectRemarks(e.target.value)}
+              />
+            </div>
+            <br />
+
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
               <button
                 className="btn btn-danger"
-                onClick={handleDeleteConfirmation}
+                onClick={handleRejectConfirmation}
               >
                 OK
               </button>{" "}
