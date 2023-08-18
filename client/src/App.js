@@ -15,6 +15,7 @@ import GenrateChallan from "./Compnents/genrateChallan";
 import EmailVerification from "./Compnents/emailVerification";
 import NotFound from "./Compnents/notFound";
 import Footer from "./Compnents/footer";
+import VerifyChallan from "./Finance/verifyChallan";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function AppContent() {
       )}
       <div className="flex-grow-1">
         <Routes>
+          <Route path="/verifychallan" element={<VerifyChallan />} />
           <Route path="/uploadcsv" element={<UploadCsv />} />
           <Route path="/showcsv" element={<ShowCsv />} />
           <Route path="/login" element={<Login />} />
