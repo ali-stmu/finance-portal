@@ -5,6 +5,7 @@ import axios from "axios";
 import EditChallanPopup from "../Compnents/editChallanPopup";
 import "../Styling/verified.css"; // Import CSS file for styling
 import Chart from "chart.js";
+import StudentDetailsPopup from "../Compnents/studentDetailPopup";
 import {
   FaExclamationTriangle,
   FaCheckCircle,
@@ -38,6 +39,7 @@ const ShowCsv = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedFieldToDelete, setSelectedFieldToDelete] = useState(null);
   const [rejectRemarks, setRejectRemarks] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   const percentageGenerated = (generatedStudents / totalStudentCount) * 100;
   const percentageGenerate = (generateStudents / totalStudentCount) * 100;
@@ -94,6 +96,13 @@ const ShowCsv = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+  const handleStudentClick = (student) => {
+    console.log("Student Clicked");
+    setSelectedStudent(student);
+  };
+  const handleStudentDetailsClose = () => {
+    setSelectedStudent(null);
   };
   const handleVerifyChallan = async (field) => {
     setSelectedField(field);
@@ -343,7 +352,14 @@ const ShowCsv = () => {
                 (field, index) => (
                   <tr key={index}>
                     <td>{(currentPageFields - 1) * pageSize + index + 1}</td>
-                    <td>{field.Student_Name}</td>
+                    <td>
+                      <button
+                        className="btn btn-outline-dark"
+                        onClick={() => handleStudentClick(field)}
+                      >
+                        {field.Student_Name}
+                      </button>
+                    </td>{" "}
                     <td>{field.Student_ID}</td>
                     <td>
                       <OverlayTrigger
@@ -817,6 +833,37 @@ const ShowCsv = () => {
           Total Number of Students: {totalStudentCount}
         </h5>
       </div>
+      {selectedStudent && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            animation: "fade-in 0.5s ease-out",
+          }}
+          className="student-details-container"
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "10px",
+            }}
+          >
+            <StudentDetailsPopup
+              student={selectedStudent}
+              onClose={handleStudentDetailsClose}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

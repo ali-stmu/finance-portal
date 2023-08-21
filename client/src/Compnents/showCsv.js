@@ -327,7 +327,7 @@ const ShowCsv = () => {
                     <td>{(currentPageFields - 1) * pageSize + index + 1}</td>
                     <td>
                       <button
-                        className="btn btn-link"
+                        className="btn btn-outline-dark"
                         onClick={() => handleStudentClick(field)}
                       >
                         {field.Student_Name}
