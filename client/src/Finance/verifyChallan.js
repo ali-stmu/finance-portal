@@ -182,6 +182,11 @@ const ShowCsv = () => {
 
     // Close the delete popup
     setShowDeletePopup(false);
+    setRejectRemarks("");
+  };
+  const handleRejectCanelletion = async () => {
+    setShowDeletePopup(false);
+    setRejectRemarks("");
   };
 
   // const handleEditChallan = async (field) => {
@@ -660,7 +665,7 @@ const ShowCsv = () => {
               animation: "font-size 0.5s ease-out",
             }}
           >
-            Student Deleted
+            Student Rejected
           </h1>
         </div>
       )}
@@ -716,7 +721,7 @@ const ShowCsv = () => {
               </button>{" "}
               <button
                 className="btn btn-secondary"
-                onClick={() => setShowDeletePopup(false)}
+                onClick={handleRejectCanelletion}
               >
                 Cancel
               </button>
