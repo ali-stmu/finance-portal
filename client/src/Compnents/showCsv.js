@@ -13,6 +13,7 @@ import {
   FaPrint,
 } from "react-icons/fa"; // Assuming you're using react-icons for icons
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import StudentDetailsPopup from "./studentDetailPopup";
 
 const ShowCsv = () => {
   const [fields, setFields] = useState([]);
@@ -37,7 +38,7 @@ const ShowCsv = () => {
   const totalStudentCount = fields.length + generatedFields.length;
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedFieldToDelete, setSelectedFieldToDelete] = useState(null);
-
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const percentageGenerated = (generatedStudents / totalStudentCount) * 100;
   const percentageGenerate = (generateStudents / totalStudentCount) * 100;
 
@@ -63,6 +64,9 @@ const ShowCsv = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+  const handleStudentDetailsClose = () => {
+    setSelectedStudent(null);
   };
   const handlePageSizeChange = (event) => {
     setPageSize(parseInt(event.target.value));
@@ -95,6 +99,10 @@ const ShowCsv = () => {
     }
   };
 
+  const handleStudentClick = (student) => {
+    console.log("Student Clicked");
+    setSelectedStudent(student);
+  };
   const handlePrintChallan = async (field) => {
     setSelectedField(field);
     const jsonData = JSON.stringify(field);
@@ -312,12 +320,19 @@ const ShowCsv = () => {
                     key={index}
                     className={
                       field.accounts_status === 2 && field.reject_remarks
-                        ? "highlight-row"
+                        ? "table-warning"
                         : ""
                     }
                   >
                     <td>{(currentPageFields - 1) * pageSize + index + 1}</td>
-                    <td>{field.Student_Name}</td>
+                    <td>
+                      <button
+                        className="btn btn-link"
+                        onClick={() => handleStudentClick(field)}
+                      >
+                        {field.Student_Name}
+                      </button>
+                    </td>{" "}
                     <td>{field.Student_ID}</td>
                     <td>{field.reject_remarks}</td>
                     <td>
@@ -792,6 +807,37 @@ const ShowCsv = () => {
           Total Number of Students: {totalStudentCount}
         </h5>
       </div>
+      {selectedStudent && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            animation: "fade-in 0.5s ease-out",
+          }}
+          className="student-details-container"
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "10px",
+            }}
+          >
+            <StudentDetailsPopup
+              student={selectedStudent}
+              onClose={handleStudentDetailsClose}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
