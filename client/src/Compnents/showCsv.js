@@ -301,16 +301,25 @@ const ShowCsv = () => {
                 <th>Sr. No</th>
                 <th>Student Name</th>
                 <th>Student ID</th>
+                <th>Reject Remarks</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {getPaginatedData(filteredFields, currentPageFields).map(
                 (field, index) => (
-                  <tr key={index}>
+                  <tr
+                    key={index}
+                    className={
+                      field.accounts_status === 2 && field.reject_remarks
+                        ? "highlight-row"
+                        : ""
+                    }
+                  >
                     <td>{(currentPageFields - 1) * pageSize + index + 1}</td>
                     <td>{field.Student_Name}</td>
                     <td>{field.Student_ID}</td>
+                    <td>{field.reject_remarks}</td>
                     <td>
                       <OverlayTrigger
                         placement="top"
@@ -319,13 +328,15 @@ const ShowCsv = () => {
                         <button
                           className="btn btn-primary"
                           onClick={() => handlePrintChallan(field)}
+                          disabled={
+                            field.accounts_status === 2 && field.reject_remarks
+                          }
                         >
                           <i className="fas fa-print">
                             <FaPrint />
                           </i>
                         </button>
-                      </OverlayTrigger>
-                      {"  "}
+                      </OverlayTrigger>{" "}
                       <OverlayTrigger
                         placement="top"
                         overlay={<Tooltip>Edit</Tooltip>}
@@ -333,13 +344,15 @@ const ShowCsv = () => {
                         <button
                           className="btn btn-warning"
                           onClick={() => handleEditChallan(field)}
+                          disabled={
+                            field.accounts_status === 2 && field.reject_remarks
+                          }
                         >
                           <i className="fas fa-edit">
                             <FaUserEdit />
                           </i>
                         </button>
-                      </OverlayTrigger>
-                      {"  "}
+                      </OverlayTrigger>{" "}
                       <OverlayTrigger
                         placement="top"
                         overlay={<Tooltip>Delete</Tooltip>}
@@ -347,6 +360,9 @@ const ShowCsv = () => {
                         <button
                           className="btn btn-danger"
                           onClick={() => handleDeleteChallan(field)}
+                          disabled={
+                            field.accounts_status === 2 && field.reject_remarks
+                          }
                         >
                           <i className="fas fa-edit">
                             <FaTrashAlt />
@@ -370,6 +386,7 @@ const ShowCsv = () => {
             </select>
           </div>
         </div>
+
         <div className="text-center total-student-count">
           <br></br>{" "}
         </div>
