@@ -17,7 +17,7 @@ class ReceiveVoucherCallController extends Controller
             $voucher = $student_info_in_bank_voucher_table->first(); // Retrieve the first model instance from the collection
         
             if ($voucher['paid_status'] == 1) {
-                return response()->json(['Code:2 Message' => 'Voucher is already Paid!'], 500);
+                return response()->json(['Code:2 Message' => 'Voucher is already Paid!'], 400);
             }
         
             if ($voucher['paid_status'] == 0 && $voucher['challan_generation_id'] == $request->voucher_id) {
@@ -33,22 +33,17 @@ class ReceiveVoucherCallController extends Controller
         
                         $voucher->save();
         
-                        return response()->json(['Code:1 Message' => 'Voucher paid successfully!'], 500);
+                        return response()->json(['Code:1 Message' => 'Voucher paid successfully!'], 201);
                     } else {
-                        return response()->json(['Code:3 Message' => 'Invalid Customer Id'], 500);
+                        return response()->json(['Code:3 Message' => 'Invalid Customer Id'], 401);
                     }
                 } else {
-                    return response()->json(['Code:4 Message' => 'Please Enter Correct Amounts Like Amount, Fine, and Net Amount'], 500);
+                    return response()->json(['Code:4 Message' => 'Please Enter Correct Amounts Like Amount, Fine, and Net Amount'], 400);
                 }
             }
         } else {
-            return response()->json(['Code:5 Message' => 'Invalid Voucher Number which you processed'], 500);
+            return response()->json(['Code:5 Message' => 'Invalid Voucher Number which you processed'], 400);
         }
         
-
-
-
-
-
     }
 }
