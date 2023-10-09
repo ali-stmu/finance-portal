@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import axios from "axios";
-import EditChallanPopup from "./editChallanPopup";
-import "../Styling/ShowCsv.css"; // Import CSS file for styling
+import EditChallanPopup from "../Compnents/editChallanPopup";
+import "../Styling/verified.css"; // Import CSS file for styling
 import Chart from "chart.js";
+import StudentDetailsPopup from "../Compnents/studentDetailPopup";
 import {
   FaExclamationTriangle,
   FaCheckCircle,
@@ -13,7 +14,6 @@ import {
   FaPrint,
 } from "react-icons/fa"; // Assuming you're using react-icons for icons
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import StudentDetailsPopup from "./studentDetailPopup";
 
 const ShowCsv = () => {
   const [fields, setFields] = useState([]);
@@ -27,7 +27,7 @@ const ShowCsv = () => {
   const [searchTextFields, setSearchTextFields] = useState("");
   const [searchTextGeneratedFields, setSearchTextGeneratedFields] =
     useState("");
-  const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
+  //const [selectedFieldForEdit, setSelectedFieldForEdit] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -38,7 +38,9 @@ const ShowCsv = () => {
   const totalStudentCount = fields.length + generatedFields.length;
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedFieldToDelete, setSelectedFieldToDelete] = useState(null);
+  const [rejectRemarks, setRejectRemarks] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null);
+
   const percentageGenerated = (generatedStudents / totalStudentCount) * 100;
   const percentageGenerate = (generateStudents / totalStudentCount) * 100;
 
@@ -46,7 +48,7 @@ const ShowCsv = () => {
   const fetchFields = async (email) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/feeChallanData/${email}`,
+        `${BASE_URL}/api/accountsChallan/${email}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -65,9 +67,6 @@ const ShowCsv = () => {
       console.error("Error:", error);
     }
   };
-  const handleStudentDetailsClose = () => {
-    setSelectedStudent(null);
-  };
   const handlePageSizeChange = (event) => {
     setPageSize(parseInt(event.target.value));
   };
@@ -77,7 +76,7 @@ const ShowCsv = () => {
   const fetchFieldsGenerated = async (email) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/feeChallanGeneratedData/${email}`,
+        `${BASE_URL}/api/feeChallanData/${email}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -98,19 +97,18 @@ const ShowCsv = () => {
       console.error("Error:", error);
     }
   };
-
   const handleStudentClick = (student) => {
     console.log("Student Clicked");
     setSelectedStudent(student);
   };
-  const handlePrintChallan = async (field) => {
+  const handleStudentDetailsClose = () => {
+    setSelectedStudent(null);
+  };
+  const handleVerifyChallan = async (field) => {
     setSelectedField(field);
-    const jsonData = JSON.stringify(field);
-    localStorage.setItem("tempDataStudent", jsonData);
-
     try {
       const response = await axios.put(
-        `${BASE_URL}/api/updatechallan/${field.challan_generation_id}`,
+        `${BASE_URL}/api/verifychallan/${field.challan_generation_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -120,29 +118,55 @@ const ShowCsv = () => {
 
       if (response.status === 200) {
         console.log("Challan generated successfully.");
-        // Perform any additional actions upon successful generation of challan
       } else {
         console.error("Error:", response.status);
-        // Handle the error case
       }
     } catch (error) {
       console.error("Error:", error);
-      // Handle the error case
     }
-
-    navigate("/genratechallan");
   };
+  // const handlePrintChallan = async (field) => {
+  //   setSelectedField(field);
+  //   const jsonData = JSON.stringify(field);
+  //   localStorage.setItem("tempDataStudent", jsonData);
+
+  //   try {
+  //     const response = await axios.put(
+  //       `${BASE_URL}/api/updatechallan/${field.challan_generation_id}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       console.log("Challan generated successfully.");
+  //       // Perform any additional actions upon successful generation of challan
+  //     } else {
+  //       console.error("Error:", response.status);
+  //       // Handle the error case
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     // Handle the error case
+  //   }
+
+  //   navigate("/genratechallan");
+  // };
   const handleDeleteChallan = (field) => {
     setSelectedFieldToDelete(field);
     setShowDeletePopup(true);
   };
-  const handleDeleteConfirmation = async () => {
+  const handleRejectConfirmation = async () => {
     if (selectedFieldToDelete) {
-      console.log(selectedFieldToDelete);
       // Perform the delete action
       try {
         const response = await axios.put(
-          `${BASE_URL}/api/deletechallan/${selectedFieldToDelete.challan_generation_id}`,
+          `${BASE_URL}/api/rejectchallan/${selectedFieldToDelete.challan_generation_id}`,
+          {
+            remarks: rejectRemarks, // Include the rejectRemarks in the payload
+          },
           {
             headers: {
               "Content-Type": "application/json",
@@ -167,13 +191,18 @@ const ShowCsv = () => {
 
     // Close the delete popup
     setShowDeletePopup(false);
+    setRejectRemarks("");
+  };
+  const handleRejectCanelletion = async () => {
+    setShowDeletePopup(false);
+    setRejectRemarks("");
   };
 
-  const handleEditChallan = async (field) => {
-    console.log(field);
-    setSelectedFieldForEdit(field);
-    setShowEditPopup(true);
-  };
+  // const handleEditChallan = async (field) => {
+  //   console.log(field);
+  //   setSelectedFieldForEdit(field);
+  //   setShowEditPopup(true);
+  // };
   const handleSaveEditPopup = (editedData) => {
     // Perform any necessary save/update logic here
     console.log("Edited data:", editedData);
@@ -202,7 +231,13 @@ const ShowCsv = () => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [updateSuccess, deleteSuccess, pageSize, pageSizeGenerated]);
+  }, [
+    updateSuccess,
+    deleteSuccess,
+    pageSize,
+    pageSizeGenerated,
+    selectedField,
+  ]);
   useEffect(() => {
     let session = sessionStorage.getItem("user");
     if (!session) {
@@ -309,21 +344,13 @@ const ShowCsv = () => {
                 <th>Sr. No</th>
                 <th>Student Name</th>
                 <th>Student ID</th>
-                <th>Reject Remarks</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {getPaginatedData(filteredFields, currentPageFields).map(
                 (field, index) => (
-                  <tr
-                    key={index}
-                    className={
-                      field.accounts_status === 2 && field.reject_remarks
-                        ? "table-warning"
-                        : ""
-                    }
-                  >
+                  <tr key={index}>
                     <td>{(currentPageFields - 1) * pageSize + index + 1}</td>
                     <td>
                       <button
@@ -334,54 +361,44 @@ const ShowCsv = () => {
                       </button>
                     </td>{" "}
                     <td>{field.Student_ID}</td>
-                    <td>{field.reject_remarks}</td>
                     <td>
                       <OverlayTrigger
                         placement="top"
-                        overlay={<Tooltip>Print</Tooltip>}
+                        overlay={<Tooltip>Approve</Tooltip>}
                       >
                         <button
                           className="btn btn-primary"
-                          onClick={() => handlePrintChallan(field)}
-                          disabled={
-                            field.accounts_status === 2 && field.reject_remarks
-                          }
+                          onClick={() => handleVerifyChallan(field)}
                         >
                           <i className="fas fa-print">
-                            <FaPrint />
+                            <FaCheckCircle />
                           </i>
                         </button>
-                      </OverlayTrigger>{" "}
-                      <OverlayTrigger
+                      </OverlayTrigger>
+                      {"  "}
+                      {/* <OverlayTrigger
                         placement="top"
                         overlay={<Tooltip>Edit</Tooltip>}
                       >
                         <button
                           className="btn btn-warning"
                           onClick={() => handleEditChallan(field)}
-                          disabled={
-                            field.accounts_status === 2 && field.reject_remarks
-                          }
                         >
                           <i className="fas fa-edit">
                             <FaUserEdit />
                           </i>
                         </button>
-                      </OverlayTrigger>{" "}
+                      </OverlayTrigger> */}
+                      {"  "}
                       <OverlayTrigger
                         placement="top"
-                        overlay={<Tooltip>Delete</Tooltip>}
+                        overlay={<Tooltip>Reject</Tooltip>}
                       >
                         <button
                           className="btn btn-danger"
                           onClick={() => handleDeleteChallan(field)}
-                          disabled={
-                            field.accounts_status === 2 && field.reject_remarks
-                          }
                         >
-                          <i className="fas fa-edit">
-                            <FaTrashAlt />
-                          </i>
+                          <i className="fas fa-edit">X</i>
                         </button>
                       </OverlayTrigger>
                     </td>
@@ -401,7 +418,6 @@ const ShowCsv = () => {
             </select>
           </div>
         </div>
-
         <div className="text-center total-student-count">
           <br></br>{" "}
         </div>
@@ -449,7 +465,7 @@ const ShowCsv = () => {
         }}
       >
         {" "}
-        <h1>Generated Challan</h1>
+        <h1>Verified Challan</h1>
         <div className="form-group">
           <input
             type="text"
@@ -466,7 +482,7 @@ const ShowCsv = () => {
                 <th>Sr. No</th>
                 <th>Student Name</th>
                 <th>Student ID</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -482,7 +498,8 @@ const ShowCsv = () => {
                   </td>
                   <td>{field.Student_Name}</td>
                   <td>{field.Student_ID}</td>
-                  <td>
+
+                  {/* <td>
                     <OverlayTrigger
                       placement="top"
                       overlay={<Tooltip>Print</Tooltip>}
@@ -511,7 +528,7 @@ const ShowCsv = () => {
                         </i>
                       </button>
                     </OverlayTrigger>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
@@ -582,7 +599,7 @@ const ShowCsv = () => {
         </div>
       </div>
 
-      {showEditPopup && (
+      {/* {showEditPopup && (
         <div
           className="fade-in"
           style={{
@@ -611,9 +628,9 @@ const ShowCsv = () => {
             onClose={() => setShowEditPopup(false)}
           />
         </div>
-      )}
+      )} */}
 
-      {updateSuccess && (
+      {/* {updateSuccess && (
         <div
           style={{
             position: "fixed",
@@ -640,7 +657,7 @@ const ShowCsv = () => {
             Student updated successfully <FaCheckCircle />
           </h1>
         </div>
-      )}
+      )} */}
       {deleteSuccess && (
         <div
           style={{
@@ -664,7 +681,7 @@ const ShowCsv = () => {
               animation: "font-size 0.5s ease-out",
             }}
           >
-            Student Deleted
+            Student Rejected
           </h1>
         </div>
       )}
@@ -700,18 +717,27 @@ const ShowCsv = () => {
             <h1 style={{ fontSize: "48px" }}>
               <FaExclamationTriangle />
             </h1>
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete the challan? </p>
+            <h2>Confirm Reject</h2>
+            <p>Please Enter Remarks for Rejecting Challan</p>
             <div style={{ textAlign: "center" }}>
+              <input
+                type="text"
+                value={rejectRemarks}
+                onChange={(e) => setRejectRemarks(e.target.value)}
+              />
+            </div>
+            <br />
+
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
               <button
                 className="btn btn-danger"
-                onClick={handleDeleteConfirmation}
+                onClick={handleRejectConfirmation}
               >
                 OK
               </button>{" "}
               <button
                 className="btn btn-secondary"
-                onClick={() => setShowDeletePopup(false)}
+                onClick={handleRejectCanelletion}
               >
                 Cancel
               </button>
@@ -751,7 +777,7 @@ const ShowCsv = () => {
           {generatedStudents > 0 ? (
             <> {generatedStudents}</>
           ) : (
-            "Already Generated Challans"
+            "Already Verified Challans"
           )}
         </div>
       </div>
@@ -791,7 +817,7 @@ const ShowCsv = () => {
           }}
         ></span>
         <label style={{ color: "black", display: "inline-block" }}>
-          Generated Challans
+          Verified Challans
         </label>
       </div>
 

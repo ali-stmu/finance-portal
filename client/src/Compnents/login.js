@@ -68,9 +68,12 @@ function Login() {
         if (data) {
           // Save user data in sessionStorage
           sessionStorage.setItem("user", JSON.stringify(data));
-
-          // Navigate to the home page
-          navigate("/uploadcsv");
+          if (data.user.role === "Finance") {
+            navigate("/verifychallan");
+          } else {
+            // Navigate to the home page
+            navigate("/uploadcsv");
+          }
         } else {
           throw new Error("Invalid response");
         }

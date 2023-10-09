@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link, useNavigate } from "react-router-dom";
-import "../Styling/Navbar.css"; // Import custom CSS file for NavBar styles
+import "../Styling/Navbar.css";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -14,6 +14,9 @@ const NavBar = () => {
     localStorage.clear();
     navigate("/login");
   };
+
+  let user = sessionStorage.getItem("user");
+  let userJson = JSON.parse(user);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -40,70 +43,63 @@ const NavBar = () => {
         data-toggle="collapse"
         data-target="#navbarNav"
         aria-controls="navbarNav"
-        aria-expanded={!isNavCollapsed ? true : false}
+        aria-expanded={!isNavCollapsed}
         aria-label="Toggle navigation"
         onClick={handleNavCollapse}
       >
         <span className="navbar-toggler-icon"></span>
       </button>
       <div
-        className={`${
-          isNavCollapsed ? "collapse" : ""
+        className={`collapse ${
+          isNavCollapsed ? "" : "show"
         } navbar-collapse justify-content-end`}
         id="navbarNav"
       >
         <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link
-              className="nav-link btn btn-link"
-              to="/uploadcsv"
-              data-toggle="modal"
-              data-target="#uploadModal"
-            >
-              Upload CSV Table
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              className="nav-link btn btn-link"
-              to="/showcsv"
-              data-toggle="modal"
-              data-target="#viewModal"
-            >
-              Challans
-            </Link>
-          </li>
-          {
-            <li className="nav-item">
-              <Link
-                className="nav-link btn btn-link"
-                to="/emailverification"
-                data-toggle="modal"
-                data-target="#viewModal"
-              >
-                Email Verification
-              </Link>
-            </li>
-          }
-          <li className="nav-item">
-            <Link
-              className="nav-link btn btn-link"
-              to="/feeverification"
-              data-toggle="modal"
-              data-target="#viewModal"
-            >
-              Fee Verification
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              className="nav-link btn btn-link"
-              to="/login"
-              onClick={handleLogout}
-            >
-              Logout
-            </Link>
-          </li>
+          {userJson.user.role === "Finance" && (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/verifychallan">
+                  Verify Challan
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login" onClick={handleLogout}>
+                  Logout
+                </Link>
+              </li>
+            </>
+          )}
+
+          {userJson.user.role !== "Finance" && (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/uploadcsv">
+                  Upload CSV Table
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/showcsv">
+                  Challans
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/emailverification">
+                  Email Verification
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/feeverification">
+                  Fee Verification
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login" onClick={handleLogout}>
+                  Logout
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>
