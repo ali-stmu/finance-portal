@@ -33,7 +33,7 @@ class bankFetchDataController extends Controller
         if (isset($student_info_in_bank_voucher_table->first()->paid_status) && $student_info_in_bank_voucher_table->first()->paid_status == 1) {
 
          log::debug( $student_info_in_bank_voucher_table->first()->inquiry_date);
-          return response()->json(['Code:3 Message' => 'Voucher is already Paid!'], 500);
+          return response()->json(['Code:3 Message' => 'Voucher is already Paid!'], 200);
       }
       
 
@@ -119,7 +119,7 @@ class bankFetchDataController extends Controller
 
         }
         else {
-            return response()->json(['Code:4 Message' => 'Voucher is Invalid!'], 500);
+            return response()->json(['Code:4 Message' => 'Voucher is Invalid!'], 200);
          
         }
        
@@ -132,7 +132,7 @@ class bankFetchDataController extends Controller
       }
       else {
 
-      return response()->json(['Code:2 Message' => 'Voucher is already processed! on '. $student_info_in_bank_voucher_table->first()->inquiry_date] , 500);
+      return response()->json(['Code:2 Message' => 'Voucher is already processed! on '. $student_info_in_bank_voucher_table->first()->inquiry_date] , 200);
       }
 
     }
