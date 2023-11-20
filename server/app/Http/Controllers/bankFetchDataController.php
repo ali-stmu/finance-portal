@@ -33,7 +33,7 @@ class bankFetchDataController extends Controller
         if (isset($student_info_in_bank_voucher_table->first()->paid_status) && $student_info_in_bank_voucher_table->first()->paid_status == 1) {
 
          log::debug( $student_info_in_bank_voucher_table->first()->inquiry_date);
-          return response()->json(['Code:3 Message' => 'Voucher is already Paid!'], 500);
+          return response()->json(['Code:3 Message' => 'Voucher is already Paid!'], 200);
       }
       
 
@@ -119,7 +119,7 @@ class bankFetchDataController extends Controller
 
         }
         else {
-            return response()->json(['Code:4 Message' => 'Voucher is Invalid!'], 500);
+            return response()->json(['Code:4 Message' => 'Voucher is Invalid!'], 200);
          
         }
        
@@ -132,7 +132,7 @@ class bankFetchDataController extends Controller
       }
       else {
 
-      return response()->json(['Code:2 Message' => 'Voucher is already processed! on '. $student_info_in_bank_voucher_table->first()->inquiry_date] , 500);
+      return response()->json(['Code:2 Message' => 'Voucher is already processed! on '. $student_info_in_bank_voucher_table->first()->inquiry_date] , 200);
       }
 
     }
@@ -149,12 +149,17 @@ class bankFetchDataController extends Controller
         $bankVoucherInfoData = BankVoucherInfo::where('challan_generation_id', $request->voucher_id)->get();
 
         // Check if bankVoucherInfoData is empty
-        if ($bankVoucherInfoData->isEmpty()) {
+        if ($bankVoucherInfoData->isEmpty() && $uploadData->isEmpty()) {
+          return response()->json([
+              'message' => 'Voucher Does Not Exist',
+          ], 200);
+      } 
+       else if ($bankVoucherInfoData->isEmpty()) {
             return response()->json([
                 'message' => 'Fees not paid',
                 'customerData' => $uploadData,
-                'feeClaimed' => $bankVoucherInfoData,
-            ]);
+                //'feeClaimed' => $bankVoucherInfoData,
+            ], 200);
 
         } else {
             // Check if there is any record with paid_status 1
@@ -165,7 +170,7 @@ class bankFetchDataController extends Controller
                     'message' => 'Fee is paid',
                     'customerData' => $uploadData,
                     'feeClaimed' => $bankVoucherInfoData,
-                ]);
+                ], 200);
 
             } else {
                 // If no record with paid_status 1, assume it's in process
@@ -173,7 +178,7 @@ class bankFetchDataController extends Controller
                     'message' => 'Fee is in process',
                     'customerData' => $uploadData,
                     'feeClaimed' => $bankVoucherInfoData,
-                ]);
+                ], 200);
             }
         }
 
