@@ -149,12 +149,17 @@ class bankFetchDataController extends Controller
         $bankVoucherInfoData = BankVoucherInfo::where('challan_generation_id', $request->voucher_id)->get();
 
         // Check if bankVoucherInfoData is empty
-        if ($bankVoucherInfoData->isEmpty()) {
+        if ($bankVoucherInfoData->isEmpty() && $uploadData->isEmpty()) {
+          return response()->json([
+              'message' => 'Voucher Does Not Exist',
+          ], 200);
+      } 
+       else if ($bankVoucherInfoData->isEmpty()) {
             return response()->json([
                 'message' => 'Fees not paid',
                 'customerData' => $uploadData,
-                'feeClaimed' => $bankVoucherInfoData,
-            ]);
+                //'feeClaimed' => $bankVoucherInfoData,
+            ], 200);
 
         } else {
             // Check if there is any record with paid_status 1
@@ -165,7 +170,7 @@ class bankFetchDataController extends Controller
                     'message' => 'Fee is paid',
                     'customerData' => $uploadData,
                     'feeClaimed' => $bankVoucherInfoData,
-                ]);
+                ], 200);
 
             } else {
                 // If no record with paid_status 1, assume it's in process
@@ -173,7 +178,7 @@ class bankFetchDataController extends Controller
                     'message' => 'Fee is in process',
                     'customerData' => $uploadData,
                     'feeClaimed' => $bankVoucherInfoData,
-                ]);
+                ], 200);
             }
         }
 
