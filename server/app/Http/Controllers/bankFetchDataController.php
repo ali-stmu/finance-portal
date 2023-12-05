@@ -10,6 +10,15 @@ use Carbon\Carbon;
 
 class bankFetchDataController extends Controller
 {
+// Helper function to calculate net amount
+private function calculateNetAmount($uploadData)
+{
+    // Implement your logic to calculate net amount here based on the data in $uploadData
+    // Example logic: Sum of Amount and Fine
+    $netAmount = $uploadData->sum('Amount') + $uploadData->sum('Fine');
+
+    return $netAmount;
+}
     //php =
     public function getVoucherDetail(Request $request)
     {
@@ -138,61 +147,66 @@ class bankFetchDataController extends Controller
     }
 
     public function fetchVoucherDetail(Request $request)
-{
-    try {
-        // Retrieve records from Upload model where challan_generation_id matches voucher_id
-        $uploadData = Upload::where('challan_generation_id', $request->voucher_id)
-            ->select('Challan_No', 'Student_ID', 'Student_Name', 'Tuition_fee', 'Department', 'Due_Date', 'Fine_Per_Day', 'issue_date')
-            ->get();
-
-        // Retrieve records from BankVoucherInfo model where voucher_id matches challan_generation_id
-        $bankVoucherInfoData = BankVoucherInfo::where('challan_generation_id', $request->voucher_id)->get();
-
-        // Check if bankVoucherInfoData is empty
-        if ($bankVoucherInfoData->isEmpty() && $uploadData->isEmpty()) {
-          return response()->json([
-              'message' => 'Voucher Does Not Exist',
-          ], 200);
-      } 
-       else if ($bankVoucherInfoData->isEmpty()) {
-            return response()->json([
-                'message' => 'Fees not paid',
-                'customerData' => $uploadData,
-                //'feeClaimed' => $bankVoucherInfoData,
-            ], 200);
-
-        } else {
-            // Check if there is any record with paid_status 1
-            $hasPaidStatus1 = $bankVoucherInfoData->contains('paid_status', 1);
-
-            if ($hasPaidStatus1) {
+    {
+        try {
+            // Retrieve records from Upload model where challan_generation_id matches voucher_id
+            $uploadData = Upload::where('challan_generation_id', $request->voucher_id)
+                ->select('Challan_No as FeeVoucherId', 'Student_ID as RegNo', 'Student_Name as StudentName', 'Tuition_fee as Amount', 'Fine_Per_Day as Fine', 'Department', 'Due_Date', 'issue_date')
+                ->get();
+    
+            // Retrieve records from BankVoucherInfo model where voucher_id matches challan_generation_id
+            $bankVoucherInfoData = BankVoucherInfo::where('challan_generation_id', $request->voucher_id)->get();
+    
+            // Check if bankVoucherInfoData is empty
+            if ($bankVoucherInfoData->isEmpty() && $uploadData->isEmpty()) {
                 return response()->json([
-                    'message' => 'Fee is paid',
-                    'customerData' => $uploadData,
-                    'feeClaimed' => $bankVoucherInfoData,
+                    'message' => 'Voucher Does Not Exist',
                 ], 200);
-
+            } elseif ($bankVoucherInfoData->isEmpty()) {
+                // Calculate net amount here if bankVoucherInfoData is empty
+                $netAmount = $this->calculateNetAmount($uploadData);
+    
+                return response()->json([
+                    'message' => 'Fees not paid',
+                    'customerData' => $uploadData,
+                    'netAmount' => $netAmount,
+                ], 200);
             } else {
-                // If no record with paid_status 1, assume it's in process
-                return response()->json([
-                    'message' => 'Fee is in process',
-                    'customerData' => $uploadData,
-                    'feeClaimed' => $bankVoucherInfoData,
-                ], 200);
+                // Check if there is any record with paid_status 1
+                $hasPaidStatus1 = $bankVoucherInfoData->contains('paid_status', 1);
+    
+                if ($hasPaidStatus1) {
+                    return response()->json([
+                        'message' => 'Fee is paid',
+                        'customerData' => $uploadData,
+                        'feeClaimed' => $bankVoucherInfoData,
+                    ], 200);
+                } else {
+                    // If no record with paid_status 1, assume it's in process
+    
+                    // Calculate net amount here if fee is in process
+                    $netAmount = $this->calculateNetAmount($uploadData);
+    
+                    return response()->json([
+                        'message' => 'Fee is in process',
+                        'customerData' => $uploadData,
+                        'feeClaimed' => $bankVoucherInfoData,
+                        'netAmount' => $netAmount,
+                    ], 200);
+                }
             }
+    
+        } catch (ModelNotFoundException $e) {
+            // Handle the case where the model is not found (e.g., no records match the given criteria)
+            Log::error('Model not found: ' . $e->getMessage());
+            return response()->json(['error' => 'Model not found'], 404);
+    
+        } catch (\Exception $e) {
+            // Handle other exceptions
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred'], 500);
         }
-
-    } catch (ModelNotFoundException $e) {
-        // Handle the case where the model is not found (e.g., no records match the given criteria)
-        Log::error('Model not found: ' . $e->getMessage());
-        return response()->json(['error' => 'Model not found'], 404);
-
-    } catch (\Exception $e) {
-        // Handle other exceptions
-        Log::error('An error occurred: ' . $e->getMessage());
-        return response()->json(['error' => 'An error occurred'], 500);
     }
-}
 
 
 }
