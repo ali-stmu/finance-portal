@@ -34,9 +34,10 @@ Route::put('/updatechallan/{id}', [fetchForChallan::class, 'updateGenrateChallan
 Route::put('/deletechallan/{id}', [fetchForChallan::class, 'deletechallan']);
 Route::post('/sendEmail/{id}/{email}/{studentName}/{programName}/{dueDate}', [fetchForChallan::class, 'sendEmail']);
 
+//For bank
+
 Route::post('/getVoucherDetail', [bankFetchDataController::class, 'getVoucherDetail']);
 Route::get('/fetchVoucherDetail', [bankFetchDataController::class, 'fetchVoucherDetail']);
-
 Route::post('/ReceiveFeeVoucher', [ReceiveVoucherCallController::class, 'ReceiveFeeVoucher']);
 
 
