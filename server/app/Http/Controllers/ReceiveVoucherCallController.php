@@ -35,6 +35,8 @@ class ReceiveVoucherCallController extends Controller
                     $bankVoucher->paid_status = 1;
                     $bankVoucher->instrumentNo = $request->instrument_no;
                     $bankVoucher->receipt_date = $request->receipt_date;
+                    $bankVoucher->accountCode = $request->account_code;
+
 
                     $bankVoucher->save();
 
