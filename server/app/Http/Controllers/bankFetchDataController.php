@@ -46,9 +46,7 @@ private function calculateNetAmount($uploadData)
       }
       
 
-        if($student_info_in_bank_voucher_table->isEmpty()){
-
-        
+        if($student_info_in_bank_voucher_table->isEmpty() || $student_info_in_bank_voucher_table->first()->receipt_code == NULL){
 
         $student_info = Upload::where('challan_generation_id', $request->voucher_id)->get();
         $All_info = json_decode($student_info, true);
@@ -140,6 +138,7 @@ private function calculateNetAmount($uploadData)
 
       }
       else {
+        
 
       return response()->json(['Code:2 Message' => 'Voucher is already processed! on '. $student_info_in_bank_voucher_table->first()->inquiry_date] , 200);
       }
