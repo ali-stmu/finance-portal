@@ -14,7 +14,7 @@ class ReceiveVoucherCallController extends Controller
         $uploadedVoucher = Upload::where('challan_generation_id', $request->voucher_id)->first();
 
         if (!$uploadedVoucher) {
-            return response()->json(['Code:5 Message' => 'Invalid Voucher Number'], 400);
+            return response()->json(['code' => 5, 'message' => 'Invalid Voucher Number'], 400);
         }
 
         // Check if the voucher has been paid
@@ -22,7 +22,12 @@ class ReceiveVoucherCallController extends Controller
 
         if ($bankVoucher) {
             if ($bankVoucher['paid_status'] == 1) {
-                return response()->json(['Code:2 Message' => 'Voucher is already Paid!'], 400);
+                return response()->json([
+                    'code' => 2,
+                    'message' => 'Voucher is already Paid!',
+                    'status' => 'P',
+                    'voucher_info' => $bankVoucher, // Include voucher information here
+                ], 400);
             }
 
             // Compare other fields to ensure correctness
@@ -40,15 +45,15 @@ class ReceiveVoucherCallController extends Controller
 
                     $bankVoucher->save();
 
-                    return response()->json(['Code:1 Message' => 'Voucher paid successfully!'], 201);
+                    return response()->json(['code' => 1, 'message' => 'Voucher paid successfully!'], 201);
                 } else {
-                    return response()->json(['Code:3 Message' => 'Invalid Customer Id'], 401);
+                    return response()->json(['code' => 3, 'message' => 'Invalid Customer Id'], 401);
                 }
             } else {
-                return response()->json(['Code:4 Message' => 'Please Enter Correct Amounts Like Amount, Fine, and Net Amount'], 400);
+                return response()->json(['code' => 4, 'message' => 'Please Enter Correct Amounts Like Amount, Fine, and Net Amount'], 400);
             }
         } else {
-            return response()->json(['Code:5 Message' => 'Fee Not paid yet'], 400);
+            return response()->json(['code' => 5, 'message' => 'Fee Not paid yet'], 400);
         }
     }
 }

@@ -42,8 +42,8 @@ private function calculateNetAmount($uploadData)
         if (isset($student_info_in_bank_voucher_table->first()->paid_status) && $student_info_in_bank_voucher_table->first()->paid_status == 1) {
 
          log::debug( $student_info_in_bank_voucher_table->first()->inquiry_date);
-          return response()->json(['Code:3 Message' => 'Voucher is already Paid!'], 200);
-      }
+         return response()->json(['status' => 'P', 'Code' => 3, 'Message' => 'Voucher is already Paid!', 'data' => $student_info_in_bank_voucher_table->toArray()], 200);     
+         }
       
 
         if($student_info_in_bank_voucher_table->isEmpty() || $student_info_in_bank_voucher_table->first()->receipt_code == NULL){
@@ -64,6 +64,7 @@ private function calculateNetAmount($uploadData)
           $inqueryDate=$request->Inquiry_Date;
           $customer_id=$request->customer_id;
           $gateway=$request->gateway;
+          
 
           $dueDateObj = Carbon::createFromFormat('l, F d, Y', $dueDate);
           $inquiryDateObj = Carbon::createFromFormat('d/M/Y', $inqueryDate);
@@ -99,6 +100,7 @@ private function calculateNetAmount($uploadData)
             'customer_id' => $request->customer_id,
             'gateway' => $request->gateway,
             'fine' =>  abs($fineAmount),
+            'status' => 'U'
         ];
         // Save the data into the table
       BankVoucherInfo::create($data);
@@ -110,7 +112,8 @@ private function calculateNetAmount($uploadData)
         'TotalAmount' => $All_info[0]['Tuition_fee'],
         'Fine' =>  abs($fineAmount),
         'NetAmount' =>  $netAmount,
-        'DueDate' => $dueDateObj,       
+        'DueDate' => $dueDateObj,  
+        'status' => 'U'     
 
       ];
 
@@ -126,7 +129,7 @@ private function calculateNetAmount($uploadData)
 
         }
         else {
-            return response()->json(['Code:4 Message' => 'Voucher is Invalid!'], 200);
+            return response()->json(['Code' =>'4' ,'Message' => 'Voucher is Invalid!'], 200);
          
         }
        
@@ -140,7 +143,7 @@ private function calculateNetAmount($uploadData)
       else {
         
 
-      return response()->json(['Code:2 Message' => 'Voucher is already processed! on '. $student_info_in_bank_voucher_table->first()->inquiry_date] , 200);
+      return response()->json(['Code'=>'2', 'Message' => 'Voucher is already processed! on '. $student_info_in_bank_voucher_table->first()->inquiry_date] , 200);
       }
 
     }
