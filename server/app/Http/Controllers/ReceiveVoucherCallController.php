@@ -5,11 +5,24 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\BankVoucherInfo;
 use App\Models\Upload;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class ReceiveVoucherCallController extends Controller
 {
     public function ReceiveFeeVoucher(Request $request)
     {
+
+        $user_id = $request->user_id;
+        $password = $request->password;
+        $user = User::where('email', $user_id)->first();
+      
+    
+        if (!$user || !password_verify($password, $user->password) || $user->role != 'bank') {
+            // Invalid credentials or unauthorized access
+            return response()->json(['code' => '12', 'message' => 'Invalid credentials or unauthorized access'], 200);
+        }
         // Check if the voucher ID exists in the upload table
         $uploadedVoucher = Upload::where('challan_generation_id', $request->voucher_id)->first();
     
