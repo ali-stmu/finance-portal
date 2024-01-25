@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class bankFetchDataController extends Controller
 {
@@ -22,6 +25,19 @@ private function calculateNetAmount($uploadData)
     //php =
     public function getVoucherDetail(Request $request)
     {
+        $user_id = $request->user_id;
+        $password = $request->password;
+    
+        // Validate user credentials
+        $user = User::where('email', $user_id)->first();
+    
+        if (!$user || !password_verify($password, $user->password) || $user->role != 'bank') {
+            // Invalid credentials or unauthorized access
+            return response()->json(['Code' => '12', 'Message' => 'Invalid credentials or unauthorized access'], 200);
+        }
+            // Invalid credentials or unauthorized access
+         
+    
 
         //log::debug($request->all());
        // log::debug($request->voucher_id);
