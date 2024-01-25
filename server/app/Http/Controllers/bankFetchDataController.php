@@ -28,6 +28,7 @@ private function calculateNetAmount($uploadData)
         //log::debug($request->Inquiry_Date);
         $netAmount=0;
         $fineInPositive=0;;
+        $fineAmount = 0;
 
       //  $students_status = BankVoucherInfo::where('challan_generation_id', $challanGenerationId)
         //                   ->where('paid_status', 0)
@@ -40,10 +41,28 @@ private function calculateNetAmount($uploadData)
       
         //log::debug($student_info_in_bank_voucher_table->first()->paid_status);
         if (isset($student_info_in_bank_voucher_table->first()->paid_status) && $student_info_in_bank_voucher_table->first()->paid_status == 1) {
-
-         log::debug( $student_info_in_bank_voucher_table->first()->inquiry_date);
-         return response()->json(['status' => 'P', 'Code' => 3, 'Message' => 'Voucher is already Paid!', 'data' => $student_info_in_bank_voucher_table->toArray()], 200);     
-         }
+            $responseData = [
+                'Code' => 3,
+                'Message' => 'Voucher is already Paid!',
+                'data' => [
+                    'voucher_id' => $student_info_in_bank_voucher_table->first()->challan_generation_id,
+                    'inquiry_date' => $student_info_in_bank_voucher_table->first()->inquiry_date,
+                    'receipt_date' => $student_info_in_bank_voucher_table->first()->receipt_date,
+                    'accountCode' => $student_info_in_bank_voucher_table->first()->accountCode,
+                    'instrumentNo' => $student_info_in_bank_voucher_table->first()->instrumentNo,
+                    'amount' => $student_info_in_bank_voucher_table->first()->amount,
+                    'net_amount' => $student_info_in_bank_voucher_table->first()->net_amount,
+                    'status' => 'P',
+                    'fine' => $student_info_in_bank_voucher_table->first()->fine,
+                    'customer_id' => $student_info_in_bank_voucher_table->first()->customer_id,
+                    'gateway' => $student_info_in_bank_voucher_table->first()->gateway,
+                ]
+            ];
+        
+            log::debug($student_info_in_bank_voucher_table->first()->inquiry_date);
+            return response()->json($responseData, 200);
+        }
+        
       
 
         if($student_info_in_bank_voucher_table->isEmpty() || $student_info_in_bank_voucher_table->first()->receipt_code == NULL){
@@ -88,7 +107,24 @@ private function calculateNetAmount($uploadData)
               $netAmount=$totalAmount;
              // log::debug($netAmount);
 
+          }else{
+            $netAmount = $totalAmount + abs($fineAmount);
           }
+          $existingRecord = BankVoucherInfo::where('challan_generation_id', $All_info[0]['challan_generation_id'])->first();
+          if ($existingRecord) {
+            // Update the existing record
+            $existingRecord->update([
+                'inquiry_date' => $request->Inquiry_Date,
+                'amount' => $All_info[0]['Total_Amount'],
+                'net_amount' => $netAmount,
+                'customer_id' => $request->customer_id,
+                'gateway' => $request->gateway,
+                'fine' => abs($fineAmount),
+                'status' => 'U',
+            ]);
+        }else{
+
+          //here is the issue
           $data = [
             'challan_generation_id' => $All_info[0]['challan_generation_id'],
             'inquiry_date' => $request->Inquiry_Date,
@@ -104,6 +140,7 @@ private function calculateNetAmount($uploadData)
         ];
         // Save the data into the table
       BankVoucherInfo::create($data);
+    }
 
       $preparing_data_to_send=[
         'FeeVoucherId' => $All_info[0]['challan_generation_id'],
